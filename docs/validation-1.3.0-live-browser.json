@@ -1,0 +1,26 @@
+{
+  "url": "https://jordangeach.com/krillion/",
+  "version": "1.3.0",
+  "dictionary": {
+    "input": "Photocopying",
+    "prompt": "Name an English word containing “ph”.",
+    "score": 15,
+    "source": "instant bundled dictionary"
+  },
+  "unlimited": {
+    "startedDiveFirstPrompts": [
+      "Name a scientific measuring instrument.",
+      "Name a musical instrument.",
+      "Name a species of marsupial.",
+      "Name a type of cloud or atmospheric cloud formation."
+    ],
+    "distinctCount": 4,
+    "reloadedAfterSecondAbandonedDive": true
+  },
+  "promptCount": 105,
+  "restoredSettings": {
+    "mode": "unlimited",
+    "timer": 25,
+    "seedInput": ""
+  }
+}

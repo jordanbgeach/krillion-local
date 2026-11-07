@@ -111,6 +111,7 @@ try {
     check(json_decode($body1, true)['body']['status'] === 'accepted' && json_decode($body2, true)['body']['status'] === 'accepted', 'Both duplicate visitors receive accepted result.');
     require __DIR__ . '/word-rules.php';
     require __DIR__ . '/retry.php';
+    require __DIR__ . '/dictionary.php';
     echo 'PASS: ' . $tests . " backend assertions; no network or real credential used.\n";
 } finally {
     foreach ($roots as $root) remove_test($root);

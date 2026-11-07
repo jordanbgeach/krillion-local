@@ -34,11 +34,22 @@ import {
   randomSeed,
   scoreColor,
   scoreLabel,
+  drawFreshPrompts,
   selectPrompts,
   validateCustomPrompts,
   validateSave,
 } from "../lib/engine";
 import { mergeCustomPrompts, validateSession } from "../lib/session";
+import {
+  ROTATION_KEY,
+  readPromptRotation,
+  rememberPromptDraw,
+  rotationCategoryKey,
+  encodeDrawSeed,
+  decodeDrawSeed,
+} from "../lib/rotation";
+import type { PromptRotation } from "../lib/rotation";
+import { matchDictionaryAnswer } from "../lib/lexicon";
 import {
   createAIClient,
   describeAIError,
@@ -188,6 +199,11 @@ export default function Home() {
   const [categories, setCategories] = useState<Category[]>(CATEGORIES);
   const [seedInput, setSeedInput] = useState("");
   const [history, setHistory] = useState<DiveRecord[]>([]);
+  const [rotation, setRotation] = useState<PromptRotation>({
+    version: 1,
+    seenByCategories: {},
+    recentPromptIds: [],
+  });
   const [customPrompts, setCustomPrompts] = useState<Prompt[]>([]);
   const [session, setSession] = useState<Session | null>(null);
   const [guess, setGuess] = useState("");
@@ -256,6 +272,7 @@ export default function Home() {
 
   useEffect(() => {
     let storedCustom: Prompt[] = [];
+    let storedHistory: DiveRecord[] = [];
     try {
       const learned = localStorage.getItem(LEARNED_BANK_KEY);
       if (learned) {
@@ -281,6 +298,7 @@ export default function Home() {
         try {
           const saved = validateSave(JSON.parse(raw));
           setHistory(saved.history);
+          storedHistory = saved.history;
           storedCustom = saved.customPrompts;
           setCustomPrompts(storedCustom);
         } catch {
@@ -338,6 +356,24 @@ export default function Home() {
       setToast(
         "Browser storage is unavailable. You can play and export a backup from Settings.",
       );
+    }
+    const availableIds = new Set(
+      [...builtInPrompts, ...storedCustom].map((prompt) => prompt.id),
+    );
+    const historyIds = storedHistory.flatMap((dive) =>
+      dive.results.map((result) => result.promptId),
+    );
+    try {
+      const raw = localStorage.getItem(ROTATION_KEY);
+      setRotation(
+        readPromptRotation(
+          raw ? JSON.parse(raw) : null,
+          availableIds,
+          historyIds,
+        ),
+      );
+    } catch {
+      setRotation(readPromptRotation(null, availableIds, historyIds));
     }
     setReady(true);
   }, []);
@@ -574,34 +610,53 @@ export default function Home() {
         : nextMode === "practice"
           ? 0
           : (options?.timer ?? timer);
+    const explicitSeed =
+      options?.seed ?? (nextMode === "daily" ? undefined : seedInput.trim());
     let seed =
       options?.seed ??
       (nextMode === "daily"
         ? `daily-${localDateKey()}`
         : seedInput.trim() || randomSeed());
     const pool = nextMode === "daily" ? builtInPrompts : allPrompts;
-    let selected =
-      options?.promptIds
-        ?.map((id) => promptMap.get(id))
-        .filter((p): p is Prompt => !!p) ??
-      selectPrompts(pool, nextCategories, seed);
-    // Reroll the random seed to avoid immediate repetition, while keeping replay
-    // deterministic: the final seed alone always reconstructs the chosen dive.
-    if (
-      !options?.seed &&
-      !seedInput.trim() &&
-      nextMode !== "daily" &&
-      !options?.promptIds
-    ) {
-      const last = new Set(history[0]?.results.map((r) => r.promptId) ?? []);
-      for (
-        let tries = 0;
-        tries < 12 && selected.filter((p) => last.has(p.id)).length > 1;
-        tries++
-      ) {
-        seed = randomSeed();
-        selected = selectPrompts(pool, nextCategories, seed);
+    const eligible = pool.filter((prompt) =>
+      nextCategories.includes(prompt.category),
+    );
+    let selected: Prompt[];
+    let nextRotation: PromptRotation | undefined;
+    try {
+      if (options?.promptIds) {
+        selected = options.promptIds
+          .map((id) => promptMap.get(id))
+          .filter((prompt): prompt is Prompt => !!prompt);
+      } else if (nextMode === "daily" || explicitSeed) {
+        selected =
+          decodeDrawSeed(seed, eligible) ??
+          selectPrompts(pool, nextCategories, seed);
+      } else {
+        const draw = drawFreshPrompts(pool, nextCategories, seed, {
+          seenPromptIds:
+            rotation.seenByCategories[rotationCategoryKey(nextCategories)] ??
+            rotation.recentPromptIds,
+          recentPromptIds: rotation.recentPromptIds,
+        });
+        selected = draw.prompts;
+        if (selected.length === 7) {
+          seed = encodeDrawSeed(eligible, selected);
+          nextRotation = rememberPromptDraw(
+            rotation,
+            nextCategories,
+            selected.map((prompt) => prompt.id),
+            draw.seenPromptIds,
+          );
+        }
       }
+    } catch (failure) {
+      setToast(
+        failure instanceof Error
+          ? failure.message
+          : "This replay could not be loaded.",
+      );
+      return;
     }
     if (selected.length !== 7) {
       setToast(
@@ -610,6 +665,24 @@ export default function Home() {
       return;
     }
     cancelPendingCheck();
+    nextRotation ??= rememberPromptDraw(
+      rotation,
+      nextCategories,
+      selected.map((prompt) => prompt.id),
+      [
+        ...(rotation.seenByCategories[rotationCategoryKey(nextCategories)] ??
+          rotation.recentPromptIds),
+        ...selected.map((prompt) => prompt.id),
+      ],
+    );
+    setRotation(nextRotation);
+    try {
+      localStorage.setItem(ROTATION_KEY, JSON.stringify(nextRotation));
+    } catch {
+      /* In-memory rotation still prevents repeats for this visit. */
+    }
+    // A replay code is consumed once. Dive Again starts a fresh random expedition.
+    setSeedInput("");
     const next: Session = {
       id: randomSeed(),
       date: new Date().toISOString(),
@@ -682,6 +755,21 @@ export default function Home() {
           timedOut: false,
           corrected: false,
           ...(isLearnedAnswer(original, exact.name) ? { ai: true } : {}),
+        },
+        expected,
+      );
+      return;
+    }
+    const dictionary = matchDictionaryAnswer(currentPrompt, input);
+    if (dictionary) {
+      landAnswer(
+        {
+          promptId: currentPrompt.id,
+          input,
+          answer: dictionary.name,
+          score: dictionary.score,
+          timedOut: false,
+          corrected: false,
         },
         expected,
       );
@@ -1173,7 +1261,7 @@ export default function Home() {
                   </h2>
                   <p>
                     {mode === "unlimited"
-                      ? "Seven shuffled prompts. One answer each. As many dives as you like."
+                      ? "Fresh prompts before repeats. Seven questions per dive. As many dives as you like."
                       : mode === "daily"
                         ? `${ready ? new Date().toLocaleDateString(undefined, { month: "long", day: "numeric" }) : "Today"} · Seven fixed prompts from the original local bank. Replay freely.`
                         : "No clock. No rush. Explore a category and learn something new."}
@@ -1330,7 +1418,9 @@ export default function Home() {
                 <span>
                   {session.timer
                     ? `${session.timer} SECOND DIVE`
-                    : "UNTIMED PRACTICE"}
+                    : session.mode === "practice"
+                      ? "UNTIMED PRACTICE"
+                      : "UNTIMED DIVE"}
                 </span>
               </div>
               <h1 className="question-title">{currentPrompt.prompt}</h1>
@@ -1410,9 +1500,10 @@ export default function Home() {
                     </p>
                   ) : (
                     <p className="answer-tip" id="answer-tip">
-                      Known answers are instant. Jev checks other submitted
-                      answers. Your spelling is never changed automatically.{" "}
-                      Press <kbd>Enter ↵</kbd> to lock it in.
+                      Known answers and dictionary words score instantly. Jev
+                      checks other submitted answers. Your spelling is never
+                      changed automatically. Press <kbd>Enter ↵</kbd> to lock it
+                      in.
                     </p>
                   )}
                   {!aiWaiting && error && corrections.length > 0 && (

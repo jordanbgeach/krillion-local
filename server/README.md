@@ -42,3 +42,9 @@ When PHP is not installed locally, the official image can run the same tests:
 ```sh
 docker run --rm --platform linux/amd64 -v "$PWD:/app:ro" -w /app php:7.2-cli php server/tests/run.php
 ```
+
+## Bundled dictionary evidence
+
+The seven pure English spelling prompts also use [the bundled SCOWL dictionary subset](dictionary/README.md): 17,705 exact word forms, including standard inflections and US/UK spellings. Those matches are deterministic, bypass API quotas, and still work if Jev is unavailable. They return `source: "bank"`; existing curated scores retain priority. Unknown words still reach Jev, and semantic prompts are not accepted merely because a string is a dictionary word.
+
+Ship `server/dictionary/word-evidence.json` as `dictionary/words.json` beside the PHP API and include `dictionary/SCOWL-LICENSE.txt`. The browser and backend should use the same canonical JSON for consistent estimates. The score bands are documented familiarity estimates based on SCOWL inclusion levels, not live popularity statistics.

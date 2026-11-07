@@ -4,15 +4,15 @@ An unofficial, independently built local recreation of [Krillion](https://krilli
 
 **Play online:** [jordangeach.com/krillion](https://jordangeach.com/krillion/).
 
-![Krillion live on jordangeach.com](docs/krillion-1.2.0-live.jpg)
+![Krillion live on jordangeach.com](docs/krillion-1.3.0-live.jpg)
 
 Players can run this recreation with no ads, account, or per-run limits. The bundled game works offline; optional Jev AI checking uses the website owner’s server-side TypeSafe key. Its artwork, interface, and curated question bank were built independently. It does not connect to the official game's servers or unlock paid content.
 
 Source repository: [jordanbgeach/krillion-local](https://github.com/jordanbgeach/krillion-local).
 
-51 bundled prompts • 2,127 accepted answers • 6 categories • Unlimited runs
+105 bundled prompts • 3,014 curated canonical answers • 6 categories • Unlimited runs
 
-The 1.2.0 update adds submitted-answer AI checks, explicit spelling choices, and a moving ocean descent. See the [1.2.0 release notes](docs/release-notes-1.2.0.md).
+**Version 1.3.0 is live.** It adds 54 prompts, saved prompt rotation, and 17,705 dictionary forms for seven word prompts. See the [1.3.0 release notes](docs/release-notes-1.3.0.md).
 
 ## Run locally
 
@@ -47,14 +47,14 @@ The development address is [http://127.0.0.1:5173](http://127.0.0.1:5173). Devel
 
 ## Play
 
-- **Unlimited:** start as many shuffled seven-round dives as you like. Random dives reroll to reduce overlap with your previous dive when possible, with a mix of your selected categories.
+- **Unlimited:** start as many seven-round dives as you like. Saved shuffle bags use fresh prompts before repeats, then reshuffle the next cycle into new groups. Each category combination has its own rotation.
 - **Daily:** a deterministic dive based on your computer's local date.
 - **Practice:** play without time pressure and learn from the accepted-answer list.
-- Choose categories, adjust the timer, or replay a seed. A shared seed reproduces a dive when the question bank and settings match.
+- Choose categories, adjust the timer, or replay a seed. Compact `d2-` codes record the chosen seven prompts and replay them with the same bank and category selection. The replay input is consumed once; **Dive again** in Unlimited or Practice starts a fresh draw.
 - Review your dives in the logbook, and export your saves before moving computers or clearing browser storage.
 - Extend the game with custom questions and scores through the custom-bank tools.
 
-The default timed format is seven prompts with 25 seconds each. Type one answer and submit it before time runs out. Exact accepted names and aliases score immediately. Other submitted answers are checked against the prompt by Jev when the backend is available; they do not have to appear in the bundled list. The game never replaces your answer with a nearby spelling automatically. If it offers spelling suggestions, select one and submit it yourself.
+The default timed format is seven prompts with 25 seconds each. Type one answer and submit it before time runs out. Exact curated names, aliases, and matching dictionary forms score immediately. Other submitted answers are checked against the prompt by Jev when the backend is available; they do not have to appear in the bundled list. The game never replaces your answer with a nearby spelling automatically. If it offers spelling suggestions, select one and submit it yourself.
 
 After an accepted answer, the depth counter and ruler move while the ocean camera descends past the surface, fish, landmarks, and deeper water. **Keep descending** becomes available when that movement finishes. The reduced-motion setting and your system’s reduced-motion preference snap directly to the new depth. After the reveal, inspect the answer bank to see what else you could have named.
 
@@ -71,11 +71,19 @@ The highest possible seven-round score is 700 points, or 7,000 metres.
 
 ## What unlimited means
 
-There is no play counter, paywall, or daily restriction on Unlimited mode. The bundled question bank is finite, so prompts eventually repeat; shuffling and category selection create different runs. You can add your own prompts to keep expanding it.
+There is no play counter, paywall, or daily restriction on Unlimited mode. For random dives, a saved cycle bag uses every eligible prompt before drawing from the next cycle. The draw also avoids the previous seven prompts when alternatives remain and balances the available categories. Rotation is saved when a dive starts, so seeded, daily, and abandoned starts are remembered across reloads. Each category combination keeps a separate cycle bag. Explicit replays reproduce the requested seven prompts.
 
-The bundled scores are **manually curated familiarity estimates**; learned Jev scores are **AI familiarity estimates**. Neither is measured player popularity or Krillion’s official ranking. With AI available, unlisted answers can be checked against the actual prompt and added to the learned bank. Without AI, the bundled and previously learned answers remain available locally. Prompt notes explain the scope. Exact matching accepts normalized names and aliases, including accents, spacing, and punctuation differences where the prompt allows them. Nearby spellings are suggestions only.
+The 105-prompt bank is finite, so prompts eventually repeat. The next cycle reshuffles its groups, and custom prompts can expand the pool.
 
-Word-form prompts also enforce their stated structural rules before scoring: required prefixes or suffixes, adjacent letters, palindromes, single-word restrictions, or letter counts. For example, `colorless` fits a word ending in `less`, while `carelessness` does not. Passing a spelling rule does not by itself establish that an answer is a real word or fits the category. Old learned entries that violate these rules are excluded.
+The curated scores are **manually estimated familiarity bands**, dictionary scores use **SCOWL inclusion bands**, and learned Jev scores are **AI familiarity estimates**. None is measured player popularity or Krillion’s official ranking. Curated scores take priority over dictionary or AI estimates. With AI available, unlisted answers can be checked against the actual prompt and added to the learned bank. Without AI, curated answers, matching dictionary forms, and previously learned answers remain available locally. Prompt notes explain the scope. Exact matching accepts normalized names and aliases, including accents, spacing, and punctuation differences where the prompt allows them. Nearby spellings are suggestions only.
+
+Word-form prompts also enforce their stated structural rules before scoring: required prefixes or suffixes, adjacent letters, palindromes, single-word restrictions, or letter counts. Five-letter animal answers include ordinary plural names that meet the visible five-letter rule; single-word palindromes include `A` and `I`. For example, `colorless` fits a word ending in `less`, while `carelessness` does not. Passing a spelling rule does not by itself establish that an answer is a real word or fits the category. Old learned entries that violate these rules are excluded.
+
+## Dictionary-backed word prompts
+
+Seven pure letter prompts use 17,705 exact forms compiled from SCOWL: words beginning with `qu` or `z`, ending in `less`, containing adjacent `oo`, `ee`, or `ph`, and single-word palindromes. Membership and the prompt’s literal rule are both checked. These matches run instantly in the browser, work offline, and are mirrored on the PHP server without consuming inference quota. Curated answers retain their original scores. For example, `Catastrophically` is a dictionary-backed `ph` answer worth 30 points.
+
+This is a finite dictionary subset, not an exhaustive list of every valid English word. Unknown words and answers needing semantic knowledge can still reach Jev. Dictionary membership does not establish an animal’s identity, a scientific field, or a silent initial letter. See the [dictionary provenance, scoring, and regeneration instructions](server/dictionary/README.md) and [SCOWL license](server/dictionary/SCOWL-LICENSE.txt).
 
 ## Custom question format
 
@@ -101,7 +109,7 @@ Keep the answer sets accurate and include common alternatives. Imported banks ar
 
 ## Saves and privacy
 
-Progress, preferences, custom questions, and a copy of learned answers stay in your browser’s local storage. The game includes no analytics or advertising scripts. Only after you submit an unlisted answer are the current prompt and candidate sent through the game’s backend to TypeSafe; typing does not trigger judgment requests. The backend caches judgments and shares accepted answers; your dive history is not sent. The local Python launcher listens only on your computer’s loopback address.
+Progress, preferences, prompt rotation, custom questions, and a copy of learned answers stay in your browser’s local storage. The game includes no analytics or advertising scripts. Only after you submit an answer that needs AI judging are the current prompt and candidate sent through the game’s backend to TypeSafe; typing and local dictionary matches do not trigger judgment requests. The backend caches judgments and shares accepted answers; your dive history is not sent. The local Python launcher listens only on your computer’s loopback address.
 
 Browser storage is tied to the browser profile and exact local address. Keep using `http://127.0.0.1:4173` for the same save. Export your data before changing browsers, clearing site data, or switching machines. The export includes your custom questions, dive history, and learned answers.
 
@@ -126,7 +134,7 @@ Hosted browser saves belong to the `https://jordangeach.com` origin and are sepa
 
 The server calls [TypeSafe’s System One API](https://docs.typesafe.ai/api/system-one) with one validity question and one rarity-tier question together. Jev is a decision model: it evaluates answers supplied by players instead of generating new trivia questions or word lists. Accepted candidates grow a cached, shared answer bank, with a local copy for fast repeat checks.
 
-Exact known answers are checked immediately in the browser. Each submitted unlisted answer gets one deduplicated check; no judgment requests are made while you type. The availability badge is advisory, so a stale status result cannot prevent a submitted answer from reaching the backend. Structural word-rule failures are handled before AI inference.
+Exact curated names, aliases, and eligible dictionary forms are checked immediately in the browser. Other submitted answers get one deduplicated check; no judgment requests are made while you type. The availability badge is advisory, so a stale status result cannot prevent a submitted answer from reaching the backend. Structural word-rule failures are handled before AI inference.
 
 A submitted AI check briefly pauses the prompt timer while the answer is locked. Rejected, uncertain, or unavailable checks preserve your unused time so you can try another answer. Uncertain and service-error results offer an explicit retry; rate-limit errors show a waiting period. Service failures are never treated as proof that the answer is invalid. Jev can still make factual mistakes, and its rarity scores remain estimates. First-check timing depends on Hostinger, the network, and TypeSafe.
 
@@ -138,9 +146,11 @@ For a local build to use your own hosted endpoint, create an ignored `.env.local
 VITE_KRILLION_AI_ENDPOINT=https://your-domain.example/krillion/api.php
 ```
 
-Then rebuild with `npm run build:local`. Without an endpoint override, local play stays local and continues with the bundled bank if no PHP service is present. API request limits apply to new server judgments; cached and bundled answers do not spend inference requests. Repeated runs themselves remain unlimited.
+Then rebuild with `npm run build:local`. Without an endpoint override, local play stays local and continues with the bundled bank if no PHP service is present. API request limits apply to new server judgments; cached, curated, and dictionary-backed answers do not spend inference requests. Repeated runs themselves remain unlimited.
 
-## Recorded AI verification
+## Recorded verification
+
+Version 1.3.0 passed 40 Node tests, 107 PHP 7.2 assertions, both production builds, and 23 live answer checks. The published assets, 105-prompt bank, and dictionary match the built files. Browser checks verified four distinct abandoned starts on the live site across a reload, immediate scoring of `Photocopying`, an exact seven-prompt encoded replay in the local preview, and a fresh **Dive again**. See the [deployment validation](docs/validation-1.3.0.json). AI validity and familiarity remain model judgments.
 
 Version 1.2.0 passed 12 live regression checks after deployment, including unchanged acceptance of `Gambia` and `Powerless`, valid derived words, literal word-rule failures, and an invented word. A complete seven-round browser dive reached 7,000m with animated descent; the next timed round began with its full 25 seconds. Reduced motion and a 390px phone layout were also checked. See the [1.2.0 validation record](docs/validation-1.2.0.json).
 
@@ -160,7 +170,7 @@ npm run typecheck
 npm run build:local
 ```
 
-The standalone browser entry is `local-main.tsx`; the UI lives in `app/page.tsx` and `app/globals.css`. The ocean scene and depth-animation hook live in `components/ocean.tsx`. Exact matching, structural rules, scoring, seeded selection, and import validation live in `lib/engine.ts`. The AI client and learned-bank validation live in `lib/ai.ts`. Original question banks live in `lib/data/`.
+The standalone browser entry is `local-main.tsx`; the UI lives in `app/page.tsx` and `app/globals.css`. The ocean scene and depth-animation hook live in `components/ocean.tsx`. Exact matching, structural rules, scoring, seeded selection, and import validation live in `lib/engine.ts`. The AI client and learned-bank validation live in `lib/ai.ts`. Saved rotation and compact replay codes live in `lib/rotation.ts`; dictionary matching lives in `lib/lexicon.ts`. Original question banks live in `lib/data/`.
 
 A [prebuilt local package](https://github.com/jordanbgeach/krillion-local/releases/latest) includes the browser game, Python server, and macOS launcher. Download and extract the whole package together; Python 3 is still needed, but Node.js is unnecessary to play the prebuilt copy. An optional GitHub Actions configuration lives in `.github/examples/check.yml`; move it to `.github/workflows/check.yml` if you enable workflow publishing on your GitHub credential.
 
@@ -170,4 +180,6 @@ The original [Krillion](https://krillion.io) is the inspiration for the rare-ans
 
 The bundled [Silkscreen font](https://github.com/google/fonts/tree/main/ofl/silkscreen) is licensed under the SIL Open Font License; see [the included font license](public/fonts/OFL.txt). It is served locally during play.
 
-This recreation's code and independently curated bank are released under the [MIT License](LICENSE).
+The compiled word evidence comes from the permissively licensed SCOWL / English Speller Database. Its provenance and build instructions are in the [dictionary README](server/dictionary/README.md); preserve the [SCOWL copyright and license notices](server/dictionary/SCOWL-LICENSE.txt) when redistributing that data.
+
+This recreation's code and independently curated bank are released under the [MIT License](LICENSE). The third-party dictionary retains its own license.

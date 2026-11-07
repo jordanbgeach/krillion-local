@@ -2,9 +2,10 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { worldPrompts } from "../lib/data/world.ts";
 import { culturePrompts } from "../lib/data/culture.ts";
+import { extraPrompts } from "../lib/data/extra.ts";
 import { normalizeAnswer, matchAnswer, selectPrompts } from "../lib/engine.ts";
 
-const bank = [...worldPrompts, ...culturePrompts];
+const bank = [...worldPrompts, ...culturePrompts, ...extraPrompts];
 const categories = [
   "Geography",
   "Nature",
@@ -14,6 +15,25 @@ const categories = [
   "Food",
 ];
 const scores = new Set([10, 15, 30, 60, 85, 100]);
+
+test("the expanded bank provides substantial variety in every category", () => {
+  assert.ok(
+    bank.length >= 100,
+    "Unlimited needs at least 100 distinct prompts.",
+  );
+  assert.ok(extraPrompts.length >= 48);
+  for (const category of categories) {
+    assert.ok(
+      extraPrompts.filter((prompt) => prompt.category === category).length >= 8,
+      `${category}: expand variety beyond the original question set.`,
+    );
+  }
+  assert.equal(
+    new Set(bank.map((prompt) => normalizeAnswer(prompt.prompt))).size,
+    bank.length,
+    "Avoid adding the same prompt with only punctuation changes.",
+  );
+});
 
 test("every built-in category supports a full seven-round dive", () => {
   assert.equal(
@@ -43,7 +63,7 @@ test("built-in answer banks have valid scores and unambiguous normalized aliases
       `${prompt.id}: explain prompt scope`,
     );
     assert.ok(
-      prompt.answers.length >= 20,
+      prompt.answers.length >= (prompt.id.startsWith("extra-") ? 12 : 20),
       `${prompt.id}: needs a useful answer bank`,
     );
     assert.ok(

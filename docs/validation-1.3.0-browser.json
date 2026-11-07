@@ -1,0 +1,36 @@
+{
+  "dictionaryExample": {
+    "prompt": "Name an English word containing “ph”.",
+    "input": "Catastrophically",
+    "score": 30,
+    "source": "instant bundled dictionary"
+  },
+  "startedDives": [
+    "Name a natural weather phenomenon.",
+    "Name a culinary herb used for its leaves.",
+    "Name a cheese variety.",
+    "Name a dish associated with Mexican cuisine."
+  ],
+  "reloadPreservedActivePrompt": true,
+  "originalSevenPrompts": [
+    "Name a dish associated with Mexican cuisine.",
+    "Name a tabletop board game.",
+    "Name a two-dimensional geometric shape.",
+    "Name a volcano.",
+    "Name a whale, dolphin, or porpoise species.",
+    "Name a scientific measuring instrument.",
+    "Name a film that won the Best Picture Oscar."
+  ],
+  "replaySeed": "d2-x0g3u5-1o.v.25.26.x.1m.t",
+  "replayedSevenPrompts": [
+    "Name a dish associated with Mexican cuisine.",
+    "Name a tabletop board game.",
+    "Name a two-dimensional geometric shape.",
+    "Name a volcano.",
+    "Name a whale, dolphin, or porpoise species.",
+    "Name a scientific measuring instrument.",
+    "Name a film that won the Best Picture Oscar."
+  ],
+  "exactReplay": true,
+  "diveAgainFirstPrompt": "Name a city that has hosted the Summer Olympics."
+}

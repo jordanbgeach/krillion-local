@@ -287,6 +287,85 @@ export function selectPrompts(
   return selected;
 }
 
+export type FreshPromptOptions = {
+  /** IDs consumed in the current cycle for this category subset. */
+  seenPromptIds?: readonly string[];
+  /** Started dives, newest first; includes abandoned dives and may contain repeats. */
+  recentPromptIds?: readonly string[];
+  count?: number;
+};
+
+/**
+ * Draw from a persistent shuffle bag without changing explicit-seed/daily selection.
+ * Each eligible prompt is consumed once per cycle. Recency and category balance
+ * choose between remaining prompts; neither can jump ahead to a spent prompt.
+ */
+export function drawFreshPrompts(
+  prompts: Prompt[],
+  categories: Category[],
+  seed: string,
+  options: FreshPromptOptions = {},
+): { prompts: Prompt[]; seenPromptIds: string[] } {
+  const allowed = categories.length ? [...new Set(categories)] : CATEGORIES;
+  const pool = [
+    ...new Map(
+      prompts
+        .filter((prompt) => allowed.includes(prompt.category))
+        .map((prompt) => [prompt.id, prompt]),
+    ).values(),
+  ];
+  const eligible = new Set(pool.map((prompt) => prompt.id));
+  const seen = new Set(
+    (options.seenPromptIds ?? []).filter((id) => eligible.has(id)),
+  );
+  const recent = options.recentPromptIds ?? [];
+  const everSeen = new Set(recent);
+  const cooldown = new Set(recent.slice(0, 7));
+  const requested = options.count ?? 7;
+  const target = Number.isFinite(requested)
+    ? Math.max(0, Math.min(Math.floor(requested), pool.length))
+    : 0;
+  const selected: Prompt[] = [];
+  const selectedIds = new Set<string>();
+  const usage = new Map<Category, number>();
+  let cycle = 0;
+  while (selected.length < target) {
+    let remaining = pool.filter(
+      (prompt) => !seen.has(prompt.id) && !selectedIds.has(prompt.id),
+    );
+    if (!remaining.length) {
+      // A single dive can cross a cycle boundary, but cannot contain a duplicate.
+      // With count <= pool size, an unfinished draw always has an unselected item.
+      seen.clear();
+      cycle += 1;
+      remaining = pool.filter((prompt) => !selectedIds.has(prompt.id));
+    }
+    const newToPlayer = remaining.filter((prompt) => !everSeen.has(prompt.id));
+    if (newToPlayer.length) remaining = newToPlayer;
+    const rested = remaining.filter((prompt) => !cooldown.has(prompt.id));
+    if (rested.length) remaining = rested;
+    const availableCategories = seededShuffle(
+      allowed.filter((category) =>
+        remaining.some((prompt) => prompt.category === category),
+      ),
+      `${seed}:fresh-category:${cycle}:${selected.length}`,
+    );
+    const category = availableCategories.reduce((best, candidate) =>
+      (usage.get(candidate) ?? 0) < (usage.get(best) ?? 0) ? candidate : best,
+    );
+    const next = seededShuffle(
+      remaining.filter((prompt) => prompt.category === category),
+      `${seed}:fresh-prompt:${cycle}:${selected.length}`,
+    )[0];
+    selected.push(next);
+    selectedIds.add(next.id);
+    seen.add(next.id);
+    everSeen.add(next.id);
+    usage.set(category, (usage.get(category) ?? 0) + 1);
+  }
+  return { prompts: selected, seenPromptIds: [...seen] };
+}
+
 export function localDateKey(date = new Date()): string {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 }

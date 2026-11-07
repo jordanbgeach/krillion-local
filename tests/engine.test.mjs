@@ -10,6 +10,7 @@ import {
   suggestAnswerCorrections,
   seededShuffle,
   selectPrompts,
+  drawFreshPrompts,
   validateCustomPrompts,
   validateSave,
   localDateKey,
@@ -296,4 +297,164 @@ test("structural guards preserve every curated canonical answer and accepted ali
       }
     }
   }
+});
+
+function freshBank(size) {
+  const categories = [
+    "Geography",
+    "Nature",
+    "Science",
+    "Culture",
+    "Words",
+    "Food",
+  ];
+  return Array.from({ length: size }, (_, i) => ({
+    ...prompt,
+    id: `fresh-${i}`,
+    category: categories[i % categories.length],
+  }));
+}
+
+test("fresh draws exhaust a 105-prompt bank before repeating and reshuffle seven-prompt groups across cycles", () => {
+  const bank = freshBank(105);
+  let seenPromptIds = [];
+  let recentPromptIds = [];
+  const stream = [];
+  const dives = [];
+  for (let dive = 0; dive < 120; dive++) {
+    const result = drawFreshPrompts(bank, [], `fresh-dive-${dive}`, {
+      seenPromptIds,
+      recentPromptIds,
+    });
+    const ids = result.prompts.map((prompt) => prompt.id);
+    assert.equal(ids.length, 7);
+    assert.equal(new Set(ids).size, 7);
+    if (dive > 0)
+      assert.equal(
+        ids.filter((id) => recentPromptIds.slice(0, 7).includes(id)).length,
+        0,
+        "rested alternatives are available in this bank",
+      );
+    seenPromptIds = result.seenPromptIds;
+    recentPromptIds = [...ids, ...recentPromptIds];
+    stream.push(...ids);
+    dives.push([...ids].sort().join(","));
+  }
+  for (let cycle = 0; cycle < 8; cycle++)
+    assert.equal(
+      new Set(stream.slice(cycle * 105, (cycle + 1) * 105)).size,
+      105,
+      `cycle ${cycle} repeats before exhaustion`,
+    );
+  const firstGroups = new Set(dives.slice(0, 15));
+  assert.ok(
+    dives.slice(15, 30).some((group) => !firstGroups.has(group)),
+    "cycle two must not replay the same seven-prompt groups",
+  );
+});
+
+test("fresh bag rollover preserves distinct prompts inside dives that cross the cycle boundary", () => {
+  const bank = freshBank(97);
+  let seenPromptIds = [];
+  let recentPromptIds = [];
+  const stream = [];
+  for (let dive = 0; dive < 100; dive++) {
+    const result = drawFreshPrompts(bank, [], `rollover-${dive}`, {
+      seenPromptIds,
+      recentPromptIds,
+    });
+    const ids = result.prompts.map((prompt) => prompt.id);
+    assert.equal(new Set(ids).size, 7);
+    stream.push(...ids);
+    seenPromptIds = result.seenPromptIds;
+    recentPromptIds = [...ids, ...recentPromptIds];
+  }
+  for (let start = 0; start + 97 <= stream.length; start += 97)
+    assert.equal(new Set(stream.slice(start, start + 97)).size, 97);
+});
+
+test("freshness wins over category balance and cooldown until the bag is exhausted", () => {
+  const bank = freshBank(14);
+  const onlyFresh = bank.at(-1).id;
+  const result = drawFreshPrompts(bank, [], "one-left", {
+    seenPromptIds: bank.slice(0, -1).map((prompt) => prompt.id),
+    recentPromptIds: [
+      onlyFresh,
+      ...bank.slice(0, -1).map((prompt) => prompt.id),
+    ],
+  });
+  assert.equal(result.prompts[0].id, onlyFresh);
+  assert.equal(new Set(result.prompts.map((prompt) => prompt.id)).size, 7);
+  assert.equal(
+    result.seenPromptIds.length,
+    6,
+    "the last old-cycle prompt is not consumed again in the new cycle",
+  );
+});
+
+test("fresh draws are deterministic from bag state and balance categories without a fixed order", () => {
+  const bank = freshBank(120);
+  const recent = bank.slice(0, 7).map((prompt) => prompt.id);
+  const options = { seenPromptIds: recent, recentPromptIds: recent };
+  const before = JSON.stringify({ bank, options });
+  assert.deepEqual(
+    drawFreshPrompts(bank, [], "same", options),
+    drawFreshPrompts(bank, [], "same", options),
+  );
+  const orders = new Set();
+  for (let seed = 0; seed < 12; seed++) {
+    const result = drawFreshPrompts(bank, [], `category-${seed}`, options);
+    const counts = new Map();
+    result.prompts.forEach((prompt) =>
+      counts.set(prompt.category, (counts.get(prompt.category) ?? 0) + 1),
+    );
+    assert.equal(counts.size, 6);
+    assert.deepEqual([...counts.values()].sort(), [1, 1, 1, 1, 1, 2]);
+    orders.add(result.prompts.map((prompt) => prompt.category).join(","));
+  }
+  assert.ok(orders.size > 6);
+  assert.equal(JSON.stringify({ bank, options }), before);
+});
+
+test("fresh bags sanitize category-subset state and accommodate newly added prompts", () => {
+  const bank = freshBank(20);
+  const chosen = ["Nature", "Science"];
+  const eligible = bank.filter((prompt) => chosen.includes(prompt.category));
+  const lastNew = { ...prompt, id: "brand-new", category: "Nature" };
+  const result = drawFreshPrompts(
+    [...bank, lastNew, lastNew],
+    chosen,
+    "expanded",
+    {
+      seenPromptIds: [
+        ...eligible.map((prompt) => prompt.id),
+        "removed-prompt",
+        bank[0].id,
+      ],
+      recentPromptIds: bank.map((prompt) => prompt.id),
+    },
+  );
+  assert.equal(result.prompts[0].id, lastNew.id);
+  assert.equal(
+    new Set(result.prompts.map((prompt) => prompt.id)).size,
+    result.prompts.length,
+  );
+  assert.ok(result.prompts.every((prompt) => chosen.includes(prompt.category)));
+  assert.ok(
+    result.seenPromptIds.every(
+      (id) => id === lastNew.id || eligible.some((prompt) => prompt.id === id),
+    ),
+  );
+  assert.deepEqual(drawFreshPrompts([], [], "empty"), {
+    prompts: [],
+    seenPromptIds: [],
+  });
+  assert.equal(
+    drawFreshPrompts(bank.slice(0, 3), [], "small").prompts.length,
+    3,
+  );
+  assert.equal(
+    drawFreshPrompts(bank, [], "zero", { count: 0 }).prompts.length,
+    0,
+  );
 });

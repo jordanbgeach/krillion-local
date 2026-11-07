@@ -7,6 +7,7 @@ function krillion_config($publicDirectory) {
         'endpoint' => 'https://api.typesafe.ai/v1/systemone',
         'privateDir' => dirname($publicDirectory, 2) . '/krillion-private',
         'bankFile' => $publicDirectory . '/prompt-bank.json',
+        'wordEvidenceFile' => $publicDirectory . '/dictionary/words.json',
         'ipMinute' => 60, 'ipDay' => 1000,
         'globalMinute' => 120, 'globalDay' => 2000,
         'timeoutMs' => 2000
@@ -93,7 +94,7 @@ function krillion_prompt($body, $bank) {
 }
 
 function krillion_fingerprint($prompt, $config) {
-    return hash('sha256', $config['model'] . '|scope-v2|' . json_encode($prompt, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+    return hash('sha256', $config['model'] . '|scope-v3-dictionary1|' . json_encode($prompt, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
 }
 
 /* Necessary spelling rules only. Passing these does not prove dictionary or
@@ -119,6 +120,28 @@ function krillion_lexical_rejection($prompt, $candidate) {
     if ($id === 'culture-palindromes') return implode('', $letters) !== implode('', array_reverse($letters));
     if ($id === 'culture-five-letter-animals') return count($letters) !== 5;
     return false; // Silent-initial pronunciation must be judged semantically.
+}
+
+/* Dictionary membership proves only the seven pure word-and-letter prompts.
+ * It cannot establish silent pronunciation, animal identity, or scientificity. */
+function krillion_dictionary_answer($prompt, $candidate, $config) {
+    $ids = array('culture-palindromes', 'culture-double-o', 'culture-qu-words', 'culture-z-words', 'culture-ph-words', 'culture-less-words', 'culture-double-e');
+    if (!isset($prompt['id']) || !in_array($prompt['id'], $ids, true) || krillion_lexical_rejection($prompt, $candidate)) return null;
+    $lexeme = preg_replace('/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/u', '', trim($candidate));
+    $key = preg_replace_callback('/[\p{L}\p{M}]+/u', function ($match) { return krillion_normalize($match[0]); }, $lexeme);
+    $key = str_replace("\xe2\x80\x99", "'", $key);
+    if (!preg_match("/^[a-z]+(?:[-'][a-z]+)*$/", $key)) return null;
+    $file = isset($config['wordEvidenceFile']) ? $config['wordEvidenceFile'] : '';
+    if (!is_string($file) || $file === '') return null;
+    static $lexicons = array();
+    if (!array_key_exists($file, $lexicons)) {
+        $data = krillion_json_read($file);
+        $lexicons[$file] = is_array($data) && isset($data['version'], $data['words']) && $data['version'] === 1 && is_array($data['words']) ? $data['words'] : array();
+    }
+    if (!isset($lexicons[$file][$key])) return null;
+    $score = $lexicons[$file][$key];
+    if (!is_int($score) || !in_array($score, array(10, 15, 30, 60, 85, 100), true)) return null;
+    return array('name' => $key, 'score' => $score);
 }
 
 function krillion_filter_scope_answers($prompt, $answers) {
@@ -294,6 +317,8 @@ function krillion_check($body, $config, $ip, $transport = null) {
     if (krillion_lexical_rejection($prompt, $candidate)) return array('http' => 200, 'body' => krillion_response('rejected', null, 0, 'bank', 1, $start));
     $manual = krillion_find(isset($prompt['answers']) ? $prompt['answers'] : array(), $candidate);
     if ($manual) return array('http' => 200, 'body' => krillion_response('accepted', $manual['name'], $manual['score'], 'bank', 1, $start));
+    $dictionary = krillion_dictionary_answer($prompt, $candidate, $config);
+    if ($dictionary) return array('http' => 200, 'body' => krillion_response('accepted', $dictionary['name'], $dictionary['score'], 'bank', 1, $start));
     $fingerprint = krillion_fingerprint($prompt, $config);
     $known = krillion_find(krillion_learned($fingerprint, $config), $candidate);
     if ($known) return array('http' => 200, 'body' => krillion_response('accepted', $known['name'], $known['score'], 'cache', isset($known['confidence']) ? $known['confidence'] : 0.85, $start));

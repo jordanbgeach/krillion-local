@@ -1,3 +1,8 @@
 import { worldPrompts } from "./world";
 import { culturePrompts } from "./culture";
-export const builtInPrompts = [...worldPrompts, ...culturePrompts];
+import { extraPrompts } from "./extra";
+export const builtInPrompts = [
+  ...worldPrompts,
+  ...culturePrompts,
+  ...extraPrompts,
+];

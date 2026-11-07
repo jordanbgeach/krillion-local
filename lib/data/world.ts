@@ -1422,7 +1422,7 @@ export const worldPrompts: Prompt[] = [
     id: "world-dog-breeds",
     category: "Nature",
     prompt: "Name a recognized dog breed.",
-    note: "Use a common or official name of a breed recognized by the American Kennel Club. Designer mixed breeds do not qualify.",
+    note: "Use a common or official name of an established dog breed recognized by a major registry such as AKC, UKC, FCI, or The Kennel Club. Recognition need not be American; informal designer crossbreed names do not qualify.",
     answers: [
       {
         name: "Labrador Retriever",
@@ -1572,6 +1572,9 @@ export const worldPrompts: Prompt[] = [
         score: 100,
         aliases: ["Xolo"],
       },
+      { name: "Aidi", score: 85, aliases: ["Atlas Mountain Dog"] },
+      { name: "Akbash Dog", score: 85, aliases: ["Akbash"] },
+      { name: "Kangal Dog", score: 60, aliases: ["Kangal"] },
     ],
     source: "https://www.akc.org/dog-breeds/",
   },
@@ -2448,7 +2451,7 @@ export const worldPrompts: Prompt[] = [
     id: "world-marsupial-species",
     category: "Nature",
     prompt: "Name a species of marsupial.",
-    note: "Name a living marsupial species by its common or scientific name. Broad groups such as kangaroo or opossum alone, and extinct species, do not qualify.",
+    note: "Name a living or extinct marsupial species by its common or scientific name. The prompt does not restrict answers to living species. Broad groups such as kangaroo or opossum alone do not identify a species.",
     answers: [
       {
         name: "Koala",
@@ -2559,6 +2562,15 @@ export const worldPrompts: Prompt[] = [
       {
         name: "Northern Bettong",
         score: 100,
+      },
+      {
+        name: "Thylacine",
+        score: 60,
+        aliases: [
+          "Tasmanian Tiger",
+          "Tasmanian Wolf",
+          "Thylacinus cynocephalus",
+        ],
       },
     ],
   },
@@ -2721,7 +2733,7 @@ export const worldPrompts: Prompt[] = [
     id: "world-cheeses",
     category: "Food",
     prompt: "Name a cheese variety.",
-    note: "Use the name of a cheese variety, made from cow milk or another milk. Generic categories such as blue cheese alone do not identify a variety.",
+    note: "Named cheese varieties and established cheese styles qualify, made from cow milk or another milk. Familiar styles such as blue cheese and cream cheese count; dishes and dressings containing cheese do not.",
     answers: [
       {
         name: "Cheddar",
@@ -2876,6 +2888,8 @@ export const worldPrompts: Prompt[] = [
         score: 100,
         aliases: ["Tête de Moine"],
       },
+      { name: "Blue Cheese", score: 15, aliases: ["Bleu Cheese"] },
+      { name: "Cream Cheese", score: 10 },
     ],
   },
   {
@@ -3049,7 +3063,7 @@ export const worldPrompts: Prompt[] = [
     id: "world-vegetables",
     category: "Food",
     prompt: "Name a culinary vegetable.",
-    note: "Plant foods generally used as savory vegetables qualify, including roots, leaves, stems, and botanical fruits. Culinary herbs, grains, and mushrooms are excluded.",
+    note: "Foods generally served as culinary vegetables qualify, including roots, leaves, stems, botanical fruits, edible mushrooms, fresh peas, beans, and sweetcorn. Culinary usage matters rather than botanical classification; dry cereal grains and herbs used only as seasonings do not qualify.",
     answers: [
       {
         name: "Carrot",
@@ -3217,6 +3231,11 @@ export const worldPrompts: Prompt[] = [
         name: "Skirret",
         score: 100,
       },
+      { name: "Mushroom", score: 10, aliases: ["Mushrooms"] },
+      { name: "Button Mushroom", score: 15, aliases: ["White Mushroom"] },
+      { name: "Shiitake", score: 30, aliases: ["Shiitake Mushroom"] },
+      { name: "Oyster Mushroom", score: 30 },
+      { name: "Sweetcorn", score: 10, aliases: ["Sweet Corn", "Corn"] },
     ],
   },
   {

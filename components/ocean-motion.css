@@ -1,0 +1,811 @@
+/* The camera still follows metres. Local motion gives each layer its own weight. */
+.depth-scene.motion-ocean {
+  pointer-events: none;
+  contain: layout style;
+}
+.motion-ocean .ocean-world,
+.motion-ocean .ocean-particles,
+.motion-ocean .reef-parallax,
+.motion-ocean .ocean-far-water {
+  backface-visibility: hidden;
+}
+.motion-ocean .ocean-far-water {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5200px;
+  pointer-events: none;
+  will-change: transform;
+}
+.motion-ocean .motion-surface {
+  height: 20px;
+  background: none;
+  clip-path: none;
+  animation: none;
+  overflow: visible;
+}
+.motion-ocean .surface-wave {
+  position: absolute;
+  top: 0;
+  left: -144px;
+  width: calc(100% + 288px);
+  height: 12px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='144' height='12' viewBox='0 0 144 12'%3E%3Cpath fill='%2367abb8' d='M0 4h12V2h18v2h12v2h18V4h18V1h12v3h18v2h12V4h24v8H0z'/%3E%3C/svg%3E")
+    repeat-x;
+  animation: ocean-wave-travel 9s linear infinite;
+  opacity: 0.72;
+}
+.motion-ocean .surface-wave.wave-front {
+  top: 6px;
+  opacity: 0.8;
+  filter: brightness(0.67);
+  animation-duration: 6s;
+  animation-direction: reverse;
+}
+.motion-ocean .surface-wave.wave-back::after {
+  content: "";
+  position: absolute;
+  inset: 4px 0 0;
+  background: repeating-linear-gradient(
+    90deg,
+    #c2f0d96b 0 18px,
+    transparent 18px 53px,
+    #bbf0db4d 53px 64px,
+    transparent 64px 144px
+  );
+  height: 2px;
+}
+.motion-ocean .surface-reflection {
+  position: absolute;
+  right: 13%;
+  top: calc(var(--surface) + 13px);
+  width: 145px;
+  height: 165px;
+  fill: #c2e9d4;
+  opacity: 0.16;
+  mask-image: linear-gradient(#000, #0008 60%, transparent);
+  animation: ocean-reflection 8s ease-in-out infinite alternate;
+}
+.motion-ocean .surface-reflection path + path {
+  opacity: 0.5;
+}
+.motion-ocean .water-caustics {
+  position: absolute;
+  top: calc(var(--surface) + 8px);
+  left: -8%;
+  width: 116%;
+  height: 760px;
+  overflow: hidden;
+  mask-image: linear-gradient(#000b, #0007 35%, transparent 90%);
+  opacity: 0.34;
+}
+.motion-ocean .water-caustics i {
+  position: absolute;
+  inset: -60px;
+  background-image:
+    repeating-linear-gradient(
+      27deg,
+      transparent 0 112px,
+      #ace6cd19 113px 115px,
+      transparent 116px 168px
+    ),
+    repeating-linear-gradient(
+      -21deg,
+      transparent 0 88px,
+      #b2e9d415 89px 91px,
+      transparent 92px 155px
+    );
+  transform-origin: top;
+  animation: ocean-caustic-drift 17s ease-in-out infinite alternate;
+}
+.motion-ocean .water-caustics i + i {
+  opacity: 0.45;
+  animation-delay: -9s;
+  animation-duration: 23s;
+  transform: scale(1.2, 0.7);
+}
+.motion-ocean .light-beam {
+  animation: ocean-beam-drift 14s ease-in-out infinite alternate;
+  opacity: 0.55;
+}
+.motion-ocean .light-beam.b2 {
+  animation-delay: -7s;
+  animation-duration: 19s;
+}
+.motion-ocean .ocean-grid {
+  opacity: 0.4;
+}
+.motion-ocean .ocean-current {
+  position: absolute;
+  left: -12%;
+  width: 58%;
+  height: 230px;
+  border: 1px solid #75b7c00b;
+  border-right: none;
+  border-left: none;
+  border-radius: 46% 54% 48% 52%;
+  box-shadow:
+    0 10px 0 #7cbfc008,
+    0 28px 0 #7cbfc005,
+    0 -18px 0 #7cbfc006;
+  transform: rotate(-14deg);
+  animation: ocean-current-flow 18s ease-in-out infinite alternate;
+}
+.motion-ocean .ocean-current.current-1 {
+  left: auto;
+  right: -15%;
+  width: 62%;
+  transform: rotate(12deg);
+  animation-duration: 24s;
+  animation-direction: alternate-reverse;
+}
+.motion-ocean .motion-school {
+  opacity: 0.58;
+  animation-name: ocean-school-cruise;
+}
+.motion-ocean .motion-school b {
+  transform-origin: 70% 50%;
+  animation: ocean-fish-stroke 1.8s ease-in-out infinite alternate;
+}
+.motion-ocean .motion-school b:nth-child(2) {
+  translate: 0 15px;
+  scale: 0.75;
+  transform: none;
+  animation-delay: -0.6s;
+}
+.motion-ocean .motion-school b:nth-child(3) {
+  translate: 0 -9px;
+  scale: 0.56;
+  transform: none;
+  animation-delay: -1.1s;
+}
+.motion-ocean .motion-jelly {
+  opacity: 0.4;
+  animation: ocean-jelly-breathe 8s ease-in-out infinite;
+  filter: drop-shadow(0 0 7px #88e4ca20);
+}
+.motion-ocean .motion-jelly > span {
+  background: #82cfc2;
+  box-shadow: inset 0 -5px 0 #98dbd019;
+}
+.motion-ocean .motion-jelly i {
+  opacity: 0.75;
+  transform-origin: top;
+  animation: ocean-tentacle 4s ease-in-out infinite alternate;
+}
+.motion-ocean .motion-plankton {
+  opacity: 0.35;
+  box-shadow: 0 0 8px #6cddc855;
+  animation: ocean-plankton 9s ease-in-out infinite;
+}
+.motion-ocean .sea-silhouette {
+  position: absolute;
+  width: 135px;
+  opacity: 0;
+  color: #052b3d;
+  animation: ocean-distant-pass 30s linear infinite;
+}
+.motion-ocean .sea-silhouette-art {
+  width: 100%;
+  height: auto;
+  fill: currentColor;
+  overflow: visible;
+  display: block;
+}
+.motion-ocean .silhouette-ray {
+  width: 190px;
+  color: #062335;
+}
+.motion-ocean .silhouette-whale {
+  width: 285px;
+  color: #03182b;
+}
+.motion-ocean .silhouette-angler {
+  width: 98px;
+  color: #31515c;
+}
+.motion-ocean .silhouette-glint {
+  fill: #a9ddcd;
+  opacity: 0.5;
+}
+.motion-ocean .shell-glint {
+  fill: #71b1ae;
+  opacity: 0.1;
+}
+.motion-ocean .silhouette-wing {
+  transform-origin: 90px 42px;
+  animation: ocean-ray-wing 5s ease-in-out infinite alternate;
+}
+.motion-ocean .silhouette-flipper,
+.motion-ocean .silhouette-fin {
+  transform-origin: center;
+  animation: ocean-flipper 4s ease-in-out infinite alternate;
+}
+.motion-ocean .angler-lure {
+  fill: #9ee1ba;
+  filter: drop-shadow(0 0 5px #9ee1ba66);
+  animation: ocean-lure-breathe 7s ease-in-out infinite alternate;
+}
+.motion-ocean .motion-speck {
+  background: #a2d8d05c;
+  animation: ocean-marine-snow 8s ease-in-out infinite alternate;
+}
+.motion-ocean .motion-speck:nth-child(4n) {
+  opacity: 0.28;
+  background: #bce8df55;
+  animation-duration: 12s;
+}
+.motion-ocean .water-bubble {
+  position: absolute;
+  border: 1px solid #93d8d63b;
+  box-shadow: inset 1px 1px 0 #c2f4e929;
+  clip-path: polygon(
+    20% 0,
+    80% 0,
+    80% 20%,
+    100% 20%,
+    100% 80%,
+    80% 80%,
+    80% 100%,
+    20% 100%,
+    20% 80%,
+    0 80%,
+    0 20%,
+    20% 20%
+  );
+  animation: ocean-bubble-rise 10s linear infinite;
+}
+.motion-ocean .reef-fronds {
+  position: absolute;
+  top: calc(var(--surface) + 130px);
+  left: 3%;
+  width: 70px;
+  height: 110px;
+  opacity: 0.4;
+}
+.motion-ocean .reef-fronds i {
+  position: absolute;
+  bottom: 0;
+  left: 10px;
+  width: 7px;
+  height: 100px;
+  background: #164d55;
+  box-shadow:
+    5px 20px 0 -1px #164d55,
+    -5px 47px 0 -1px #164d55;
+  transform-origin: bottom;
+  animation: ocean-kelp-sway 7s ease-in-out infinite alternate;
+}
+.motion-ocean .reef-fronds i:nth-child(2) {
+  left: 26px;
+  height: 74px;
+  animation-delay: -3s;
+}
+.motion-ocean .reef-fronds i:nth-child(3) {
+  left: 43px;
+  height: 110px;
+  animation-delay: -1s;
+}
+.motion-ocean .reef-fronds i:nth-child(4) {
+  left: 58px;
+  height: 57px;
+  animation-delay: -5s;
+}
+.motion-ocean .ocean-edge-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #00172718, transparent 24% 76%, #00172718);
+}
+
+/* The hull pitches into thrust, then gently settles back into a quiet hover. */
+.depth-scene.motion-ocean .descent-craft.motion-craft {
+  left: clamp(24px, 4.8vw, 100px);
+  top: 55%;
+  bottom: auto;
+  width: clamp(126px, 11vw, 162px);
+  opacity: 1;
+  filter: drop-shadow(0 7px 0 #001a2b24);
+  transition: opacity 0.5s ease;
+}
+.motion-ocean .craft-bob {
+  animation: ocean-craft-hover 6.5s ease-in-out infinite;
+  transform-origin: 48% 52%;
+}
+.depth-scene.motion-ocean .craft-body {
+  position: relative;
+  transform: rotate(-3deg);
+  rotate: none;
+  animation: none;
+  transition: transform 0.55s cubic-bezier(0.2, 0.75, 0.3, 1);
+  transform-origin: 45% 55%;
+}
+.depth-scene.motion-ocean .diving .craft-body {
+  transform: translate3d(4px, 3px, 0) rotate(14deg);
+  rotate: none;
+  animation: none;
+}
+.motion-ocean .diving .craft-bob {
+  animation: ocean-craft-thrust 0.42s ease-in-out infinite alternate;
+}
+.motion-ocean .settling .craft-bob {
+  animation: ocean-craft-settle 0.8s cubic-bezier(0.2, 0.7, 0.35, 1) both;
+}
+.motion-ocean .craft-hull {
+  position: relative;
+  z-index: 2;
+}
+.depth-scene.motion-ocean .descent-craft .submarine {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  filter: none;
+  image-rendering: pixelated;
+}
+.motion-ocean .craft-searchlight {
+  position: absolute;
+  z-index: -1;
+  top: 21%;
+  left: 87%;
+  width: 190%;
+  height: 90%;
+  background: linear-gradient(90deg, #d2edbb4d, #a0ddc210 57%, transparent);
+  clip-path: polygon(0 43%, 100% 0, 100% 100%, 0 66%);
+  transform-origin: left center;
+  transition: opacity 1.5s;
+}
+.motion-ocean .craft-window-glow {
+  position: absolute;
+  left: 51%;
+  top: 40%;
+  width: 16%;
+  height: 24%;
+  background: #b6f5df;
+  border-radius: 40%;
+  opacity: 0.08;
+  box-shadow: 0 0 16px 4px #8cebd366;
+  pointer-events: none;
+}
+.motion-ocean .craft-keel-light {
+  position: absolute;
+  top: 88%;
+  left: 48%;
+  width: 12%;
+  height: 3px;
+  background: #9ed4cd;
+  box-shadow: 0 4px 9px #74e1c566;
+  opacity: 0.25;
+  transition: opacity 0.3s;
+}
+.motion-ocean .diving .craft-keel-light {
+  opacity: 0.65;
+}
+.motion-ocean .craft-plume {
+  position: absolute;
+  z-index: 1;
+  top: 37%;
+  left: -35%;
+  width: 49%;
+  height: 43%;
+  fill: #8be4d7;
+  opacity: 0.12;
+  transform: scaleX(0.28);
+  transform-origin: right center;
+  transition:
+    transform 0.35s,
+    opacity 0.35s;
+}
+.motion-ocean .craft-plume path + path {
+  fill: #c0f1d9;
+  opacity: 0.72;
+}
+.motion-ocean .diving .craft-plume {
+  opacity: 0.68;
+  transform: scaleX(1);
+}
+.motion-ocean .craft-exhaust {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+}
+.motion-ocean .craft-exhaust i {
+  position: absolute;
+  left: 5%;
+  border: 1px solid #b3e8da66;
+  opacity: 0;
+  animation: ocean-propeller-bubble 2.8s linear infinite;
+}
+.motion-ocean .diving .craft-exhaust i {
+  animation-duration: 0.8s;
+  border-color: #c0efdf99;
+}
+.motion-ocean .craft-wake {
+  position: absolute;
+  top: 40%;
+  right: 88%;
+  width: 120%;
+  height: 42%;
+  opacity: 0;
+  transition: opacity 0.35s;
+}
+.motion-ocean .craft-wake i {
+  position: absolute;
+  right: 0;
+  height: 2px;
+  width: 65%;
+  background: linear-gradient(90deg, transparent, #8ccfc740);
+  animation: ocean-wake-draw 0.8s linear infinite;
+}
+.motion-ocean .craft-wake i:nth-child(2) {
+  top: 40%;
+  width: 90%;
+  animation-delay: -0.32s;
+}
+.motion-ocean .craft-wake i:nth-child(3) {
+  top: 90%;
+  width: 50%;
+  animation-delay: -0.5s;
+}
+.motion-ocean .diving .craft-wake {
+  opacity: 0.65;
+}
+.motion-ocean .motion-streaks {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.motion-ocean.travelling .motion-streaks {
+  opacity: 0.55;
+}
+.motion-ocean .motion-streaks i {
+  height: 45px;
+  background: linear-gradient(transparent, #b1e5de2b, transparent);
+}
+
+@keyframes ocean-wave-travel {
+  to {
+    transform: translate3d(144px, 0, 0);
+  }
+}
+@keyframes ocean-reflection {
+  from {
+    transform: translate3d(-5px, 0, 0) scaleX(0.92);
+    opacity: 0.12;
+  }
+  to {
+    transform: translate3d(6px, 0, 0) scaleX(1.06);
+    opacity: 0.19;
+  }
+}
+@keyframes ocean-caustic-drift {
+  from {
+    transform: translate3d(-30px, -8px, 0) skewX(-6deg);
+    opacity: 0.45;
+  }
+  to {
+    transform: translate3d(32px, 16px, 0) skewX(5deg);
+    opacity: 0.8;
+  }
+}
+@keyframes ocean-beam-drift {
+  from {
+    transform: skew(-13deg) rotate(-3deg);
+    opacity: 0.4;
+  }
+  to {
+    transform: skew(-8deg) rotate(3deg);
+    opacity: 0.65;
+  }
+}
+@keyframes ocean-current-flow {
+  from {
+    translate: -24px -7px;
+    opacity: 0.4;
+  }
+  to {
+    translate: 32px 12px;
+    opacity: 0.85;
+  }
+}
+@keyframes ocean-school-cruise {
+  0%,
+  100% {
+    transform: translate3d(-20px, 0, 0);
+  }
+  50% {
+    transform: translate3d(35px, -7px, 0);
+  }
+}
+@keyframes ocean-fish-stroke {
+  from {
+    transform: scaleX(0.94);
+  }
+  to {
+    transform: scaleX(1.04);
+  }
+}
+@keyframes ocean-jelly-breathe {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1, 1);
+  }
+  45% {
+    transform: translate3d(4px, -20px, 0) scale(1.05, 0.94);
+  }
+  65% {
+    transform: translate3d(1px, -16px, 0) scale(0.98, 1.03);
+  }
+}
+@keyframes ocean-tentacle {
+  from {
+    transform: rotate(-7deg) scaleY(0.9);
+  }
+  to {
+    transform: rotate(8deg) scaleY(1.03);
+  }
+}
+@keyframes ocean-plankton {
+  0%,
+  100% {
+    opacity: 0.15;
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translate3d(6px, -9px, 0);
+  }
+}
+@keyframes ocean-distant-pass {
+  0% {
+    transform: translate3d(-100px, 10px, 0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.18;
+  }
+  45% {
+    opacity: 0.3;
+  }
+  70% {
+    opacity: 0.16;
+  }
+  85%,
+  100% {
+    transform: translate3d(190px, -14px, 0);
+    opacity: 0;
+  }
+}
+@keyframes ocean-ray-wing {
+  from {
+    transform: scaleY(0.85);
+  }
+  to {
+    transform: scaleY(1.04);
+  }
+}
+@keyframes ocean-flipper {
+  from {
+    transform: rotate(-4deg);
+  }
+  to {
+    transform: rotate(5deg);
+  }
+}
+@keyframes ocean-lure-breathe {
+  from {
+    opacity: 0.5;
+  }
+  to {
+    opacity: 0.85;
+  }
+}
+@keyframes ocean-marine-snow {
+  from {
+    transform: translate3d(0, 4px, 0);
+    opacity: 0.25;
+  }
+  to {
+    transform: translate3d(5px, -12px, 0);
+    opacity: 0.65;
+  }
+}
+@keyframes ocean-bubble-rise {
+  0% {
+    transform: translate3d(0, 18px, 0);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.45;
+  }
+  80% {
+    opacity: 0.35;
+  }
+  100% {
+    transform: translate3d(8px, -80px, 0);
+    opacity: 0;
+  }
+}
+@keyframes ocean-kelp-sway {
+  from {
+    transform: rotate(-5deg);
+  }
+  to {
+    transform: rotate(7deg);
+  }
+}
+@keyframes ocean-craft-hover {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(-1deg);
+  }
+  50% {
+    transform: translate3d(0, -7px, 0) rotate(1deg);
+  }
+}
+@keyframes ocean-craft-thrust {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(1px, 2px, 0);
+  }
+}
+@keyframes ocean-craft-settle {
+  0% {
+    transform: translate3d(1px, 3px, 0) rotate(1deg);
+  }
+  35% {
+    transform: translate3d(-1px, -5px, 0) rotate(-2deg);
+  }
+  70% {
+    transform: translate3d(0, 1px, 0) rotate(0.5deg);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0);
+  }
+}
+@keyframes ocean-propeller-bubble {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.75);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.65;
+  }
+  100% {
+    transform: translate3d(var(--wake-x, -80px), var(--wake-y, -30px), 0)
+      scale(1.15);
+    opacity: 0;
+  }
+}
+@keyframes ocean-wake-draw {
+  from {
+    transform: translate3d(8px, 0, 0) scaleX(0.65);
+    opacity: 0.1;
+  }
+  35% {
+    opacity: 0.8;
+  }
+  to {
+    transform: translate3d(-28px, -2px, 0) scaleX(1);
+    opacity: 0;
+  }
+}
+
+@media (max-width: 1100px) {
+  .depth-scene.motion-ocean .descent-craft.motion-craft {
+    left: 16px;
+    width: 118px;
+  }
+  .motion-ocean .silhouette-whale {
+    width: 220px;
+  }
+}
+@media (max-width: 800px) {
+  .depth-scene.motion-ocean .descent-craft.motion-craft {
+    left: 12px;
+    width: 90px;
+    top: 63%;
+  }
+  .motion-ocean .sea-silhouette {
+    opacity: 0.16;
+  }
+  .motion-ocean .craft-searchlight {
+    width: 140%;
+  }
+}
+@media (max-width: 560px) {
+  .depth-scene.motion-ocean .descent-craft.motion-craft,
+  .depth-scene.motion-ocean .descent-craft.motion-craft.diving {
+    left: calc(50% - 34px);
+    top: 62px;
+    bottom: auto;
+    width: 68px;
+  }
+  .depth-scene.motion-ocean .descent-craft.motion-craft:not(.diving) {
+    opacity: 0.65;
+  }
+  .motion-ocean .craft-searchlight {
+    width: 105%;
+    opacity: 0.08 !important;
+  }
+  .motion-ocean .craft-window-glow {
+    box-shadow: 0 0 10px #8cebd344;
+  }
+  .motion-ocean .craft-wake {
+    width: 95%;
+  }
+  .motion-ocean .silhouette-whale {
+    width: 180px;
+  }
+  .motion-ocean .silhouette-ray {
+    width: 125px;
+  }
+  .motion-ocean .surface-reflection {
+    width: 90px;
+    right: 13%;
+  }
+  .motion-ocean .water-caustics {
+    opacity: 0.2;
+  }
+  .motion-ocean .ocean-current {
+    opacity: 0.3;
+  }
+  .motion-ocean .motion-streaks i {
+    height: 30px;
+  }
+  .motion-ocean.travelling .motion-streaks {
+    opacity: 0.35;
+  }
+}
+
+/* Motion preferences win over every ambient or descent-specific animation. */
+.reduce-motion .motion-ocean *,
+.reduce-motion .motion-ocean *::before,
+.reduce-motion .motion-ocean *::after,
+.motion-ocean.motion-reduced *,
+.motion-ocean.motion-reduced *::before,
+.motion-ocean.motion-reduced *::after {
+  animation: none !important;
+  transition: none !important;
+}
+.reduce-motion .motion-ocean .ocean-far-water,
+.reduce-motion .motion-ocean .water-caustics,
+.reduce-motion .motion-ocean .craft-exhaust,
+.reduce-motion .motion-ocean .craft-plume,
+.reduce-motion .motion-ocean .craft-wake,
+.reduce-motion .motion-ocean .motion-streaks,
+.motion-ocean.motion-reduced .ocean-far-water,
+.motion-ocean.motion-reduced .water-caustics,
+.motion-ocean.motion-reduced .craft-exhaust,
+.motion-ocean.motion-reduced .craft-plume,
+.motion-ocean.motion-reduced .craft-wake,
+.motion-ocean.motion-reduced .motion-streaks {
+  display: none !important;
+}
+.reduce-motion .motion-ocean .craft-body,
+.reduce-motion .motion-ocean .diving .craft-body,
+.motion-ocean.motion-reduced .craft-body,
+.motion-ocean.motion-reduced .diving .craft-body {
+  transform: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .motion-ocean *,
+  .motion-ocean *::before,
+  .motion-ocean *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .motion-ocean .ocean-far-water,
+  .motion-ocean .water-caustics,
+  .motion-ocean .craft-exhaust,
+  .motion-ocean .craft-plume,
+  .motion-ocean .craft-wake,
+  .motion-ocean .motion-streaks {
+    display: none !important;
+  }
+  .motion-ocean .craft-body,
+  .motion-ocean .diving .craft-body {
+    transform: none !important;
+  }
+}

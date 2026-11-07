@@ -1,6 +1,14 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  memo,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {
   ArrowDown,
   ArrowRight,
@@ -26,6 +34,14 @@ import {
 } from "lucide-react";
 import { builtInPrompts } from "../lib/data";
 import { Ocean, DepthRuler, useDepthAnimation } from "../components/ocean";
+import {
+  AnimatedNumber,
+  RevealEffects,
+  CompletionEffects,
+  CheckingSonar,
+  useReducedMotion,
+} from "../components/game-motion";
+import "./motion.css";
 import {
   localDateKey,
   normalizeAnswer,
@@ -121,7 +137,7 @@ function Submarine({ small = false }: { small?: boolean }) {
   );
 }
 
-function AnswerBank({
+const AnswerBank = memo(function AnswerBank({
   prompt,
   initiallyOpen = false,
 }: {
@@ -231,7 +247,7 @@ function AnswerBank({
       )}
     </div>
   );
-}
+});
 
 export default function Home() {
   const [ready, setReady] = useState(false);
@@ -264,6 +280,7 @@ export default function Home() {
   const [customError, setCustomError] = useState("");
   const [showSetup, setShowSetup] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
+  const prefersReducedMotion = useReducedMotion(reducedMotion);
   const [learnedBank, setLearnedBank] = useState<LearnedBank>({});
   const [learnedStorageBlocked, setLearnedStorageBlocked] = useState(false);
   const [aiStatus, setAIStatus] = useState<AIStatus | null>(null);
@@ -306,7 +323,12 @@ export default function Home() {
     : undefined;
   const totalScore = session?.results.reduce((s, r) => s + r.score, 0) ?? 0;
   const depth = totalScore * 10;
-  const descent = useDepthAnimation(depth, session?.id, ready, reducedMotion);
+  const descent = useDepthAnimation(
+    depth,
+    session?.id,
+    ready,
+    prefersReducedMotion,
+  );
   const isDescending = descent.moving;
   const lastDrop = (session?.results.at(-1)?.score ?? 0) * 10;
   const best = Math.max(0, ...history.map((h) => h.score));
@@ -548,10 +570,14 @@ export default function Home() {
       dialogRef.current?.showModal();
     } else dialogRef.current?.close();
   }, [modal]);
+  useLayoutEffect(() => {
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, [view, session?.id, session?.round, session?.stage]);
   useEffect(() => {
     if (view !== "dive" || modal) return;
     if (session?.stage === "question" && !aiWaiting) answerRef.current?.focus();
-    if (session?.stage === "reveal" && !isDescending) nextRef.current?.focus();
+    if (session?.stage === "reveal" && !isDescending)
+      nextRef.current?.focus({ preventScroll: true });
   }, [session?.round, session?.stage, view, modal, aiWaiting, isDescending]);
 
   const landAnswer = useCallback(
@@ -1088,7 +1114,7 @@ export default function Home() {
   const isPlaying = !!session && session.stage !== "finished";
 
   return (
-    <div className={`app ${reducedMotion ? "reduce-motion" : ""}`}>
+    <div className={`app ${prefersReducedMotion ? "reduce-motion" : ""}`}>
       <header className="app-header">
         <button
           className="wordmark"
@@ -1167,6 +1193,7 @@ export default function Home() {
             moving={isDescending}
             active={!!session}
             vehicle={<Submarine />}
+            reducedMotion={prefersReducedMotion}
           />
           <DepthRuler depth={descent.depth} />
           <div className="hud">
@@ -1238,7 +1265,11 @@ export default function Home() {
             <div className="hud-box score-box">
               <span>SCORE</span>
               <strong>
-                {totalScore}
+                <AnimatedNumber
+                  value={totalScore}
+                  duration={850}
+                  reducedMotion={prefersReducedMotion}
+                />
                 <em>/700</em>
               </strong>
               <small>
@@ -1267,7 +1298,11 @@ export default function Home() {
                 <span>small sub. big possibilities.</span>
               </div>
               <div className="start-panel pixel-panel">
-                <div className="mode-tabs" aria-label="Game mode">
+                <div
+                  className="mode-tabs"
+                  aria-label="Game mode"
+                  data-mode={mode}
+                >
                   {(["unlimited", "daily", "practice"] as Mode[]).map((m) => (
                     <button
                       key={m}
@@ -1286,7 +1321,7 @@ export default function Home() {
                     </button>
                   ))}
                 </div>
-                <div className="mode-description">
+                <div className="mode-description" key={mode}>
                   <h2>
                     {mode === "unlimited"
                       ? "The ocean has no run limit."
@@ -1446,7 +1481,7 @@ export default function Home() {
 
           {session && session.stage === "question" && currentPrompt && (
             <section
-              className="play-content"
+              className={`play-content ${aiWaiting ? "is-checking" : ""}`}
               key={`${session.id}-${session.round}`}
             >
               <div className="prompt-kicker">
@@ -1527,8 +1562,8 @@ export default function Home() {
                       id="answer-tip"
                       role="status"
                     >
-                      <Sparkles size={13} /> Jev is checking this answer. Your
-                      clock is briefly paused.
+                      <CheckingSonar reducedMotion={prefersReducedMotion} /> Jev
+                      is checking this answer. Your clock is briefly paused.
                     </p>
                   ) : error ? (
                     <p role="alert" className="error-text" id="answer-error">
@@ -1613,7 +1648,29 @@ export default function Home() {
             session.stage === "reveal" &&
             currentPrompt &&
             lastResult && (
-              <section className="reveal-content">
+              <section
+                className="reveal-content"
+                key={`${session.id}:${session.round}:reveal`}
+                data-tier={
+                  lastResult.score >= 85
+                    ? "rare"
+                    : lastResult.score > 0
+                      ? "found"
+                      : "missed"
+                }
+              >
+                <RevealEffects
+                  score={lastResult.score}
+                  roundKey={`${session.id}:${session.round}`}
+                  reducedMotion={prefersReducedMotion}
+                />
+                <p className="sr-only gm-announcement" role="status">
+                  {lastResult.answer
+                    ? `${lastResult.answer}. ${lastResult.score} points.`
+                    : lastResult.timedOut
+                      ? "Time ran out. Zero points."
+                      : "Prompt skipped. Zero points."}
+                </p>
                 <p className="eyebrow">
                   {lastResult.timedOut
                     ? "THE CLOCK REACHED YOU FIRST"
@@ -1645,7 +1702,15 @@ export default function Home() {
                   className="points-display"
                   style={{ color: scoreColor(lastResult.score) }}
                 >
-                  +{lastResult.score}
+                  <div className="points-value">
+                    <AnimatedNumber
+                      value={lastResult.score}
+                      prefix="+"
+                      duration={900}
+                      animateOnMount
+                      reducedMotion={prefersReducedMotion}
+                    />
+                  </div>
                   <span>POINTS</span>
                 </div>
                 <p className="descent-label">
@@ -1680,7 +1745,16 @@ export default function Home() {
             )}
 
           {session && session.stage === "finished" && (
-            <section className="results-content">
+            <section className="results-content" key={`${session.id}:complete`}>
+              <CompletionEffects
+                score={totalScore}
+                sessionId={session.id}
+                reducedMotion={prefersReducedMotion}
+              />
+              <p className="sr-only gm-announcement" role="status">
+                Expedition complete. {totalScore} points.{" "}
+                {depth.toLocaleString()} metres.
+              </p>
               <p className="eyebrow">EXPEDITION COMPLETE</p>
               <h1>
                 {totalScore >= 500
@@ -1690,7 +1764,14 @@ export default function Home() {
                     : "A GOOD DAY TO DIVE."}
               </h1>
               <div className="final-depth">
-                {depth.toLocaleString()}
+                <b className="final-value">
+                  <AnimatedNumber
+                    value={depth}
+                    duration={1500}
+                    animateOnMount
+                    reducedMotion={prefersReducedMotion}
+                  />
+                </b>
                 <span>m</span>
               </div>
               <p className="result-message">
@@ -1726,7 +1807,11 @@ export default function Home() {
                 {session.results.map((r, i) => {
                   const p = promptMap.get(r.promptId);
                   return (
-                    <details className="recap-round" key={`${r.promptId}-${i}`}>
+                    <details
+                      className="recap-round"
+                      key={`${r.promptId}-${i}`}
+                      style={{ "--recap-index": i } as React.CSSProperties}
+                    >
                       <summary>
                         <span className="round-number">0{i + 1}</span>
                         <div>
@@ -1823,8 +1908,16 @@ export default function Home() {
             </select>
           </div>
           <div className="guide-grid">
-            {filteredPrompts.map((p) => (
-              <article className="guide-card" key={p.id}>
+            {filteredPrompts.map((p, index) => (
+              <article
+                className="guide-card"
+                key={p.id}
+                style={
+                  {
+                    "--entry-delay": `${Math.min(index, 6) * 30}ms`,
+                  } as React.CSSProperties
+                }
+              >
                 <div className="guide-card-top">
                   <span className="category-label">
                     {p.category.toUpperCase()}
@@ -1875,43 +1968,72 @@ export default function Home() {
           <div className="stat-grid">
             <div>
               <span>DIVES COMPLETED</span>
-              <strong>{history.length}</strong>
+              <strong>
+                <AnimatedNumber
+                  value={history.length}
+                  animateOnMount
+                  reducedMotion={prefersReducedMotion}
+                />
+              </strong>
             </div>
             <div>
               <span>DEEPEST DIVE</span>
               <strong>
-                {(best * 10).toLocaleString()}
+                <AnimatedNumber
+                  value={best * 10}
+                  duration={1100}
+                  animateOnMount
+                  reducedMotion={prefersReducedMotion}
+                />
                 <small>m</small>
               </strong>
             </div>
             <div>
               <span>AVERAGE DEPTH</span>
               <strong>
-                {history.length
-                  ? Math.round(
-                      (history.reduce((s, h) => s + h.score, 0) /
-                        history.length) *
-                        10,
-                    ).toLocaleString()
-                  : 0}
+                <AnimatedNumber
+                  value={
+                    history.length
+                      ? Math.round(
+                          (history.reduce((s, h) => s + h.score, 0) /
+                            history.length) *
+                            10,
+                        )
+                      : 0
+                  }
+                  duration={1000}
+                  animateOnMount
+                  reducedMotion={prefersReducedMotion}
+                />
                 <small>m</small>
               </strong>
             </div>
             <div>
               <span>HIDDEN GEMS</span>
               <strong>
-                {
-                  history
-                    .flatMap((h) => h.results)
-                    .filter((r) => r.score === 100).length
-                }
+                <AnimatedNumber
+                  value={
+                    history
+                      .flatMap((h) => h.results)
+                      .filter((r) => r.score === 100).length
+                  }
+                  animateOnMount
+                  reducedMotion={prefersReducedMotion}
+                />
               </strong>
             </div>
           </div>
           {history.length ? (
             <div className="history-list">
-              {history.map((h) => (
-                <article key={h.id}>
+              {history.map((h, index) => (
+                <article
+                  key={h.id}
+                  style={
+                    {
+                      "--entry-delay": `${Math.min(index, 6) * 30}ms`,
+                    } as React.CSSProperties
+                  }
+                >
                   <div className="history-icon">
                     <Waves size={21} />
                   </div>

@@ -1,0 +1,149 @@
+{
+  "version": "1.5.0",
+  "checkedOn": "2026-11-07",
+  "scope": "Frontend animation polish; answer data, scoring rules, and backend are unchanged.",
+  "checks": {
+    "typecheck": "passed",
+    "nodeTests": {
+      "passed": 43,
+      "failed": 0
+    },
+    "productionBuilds": ["local", "Hostinger /krillion/"],
+    "practiceDive": {
+      "seed": "motion-v2",
+      "answers": [
+        "Mountain Pygmy Possum",
+        "Peewee",
+        "Malai Kofta",
+        "Gogyohka",
+        "Tian Shan",
+        "Ronna",
+        "Great Basin Bristlecone Pine"
+      ],
+      "score": 700,
+      "depthMetres": 7000,
+      "completionParticles": 28,
+      "completionCounterObservedDuringTween": 3800,
+      "completionCounterFinal": 7000
+    },
+    "rareRevealDuringDescent": {
+      "particles": 20,
+      "stars": 8,
+      "visualPoints": 90,
+      "visualHudScore": 192,
+      "logicalHudScore": 200,
+      "visualDepthMetres": 1076,
+      "logicalTargetMetres": 2000,
+      "craftTransform": "matrix(0.971851,0.235595,-0.235595,0.971851,3.91216,2.93412)",
+      "nextButtonDisabledUntilLanding": true
+    },
+    "standardReveal": {
+      "answer": "Koala",
+      "points": 10,
+      "particles": 7,
+      "stars": 0
+    },
+    "skip": {
+      "points": 0,
+      "effectLayers": 0,
+      "depthUnchanged": true
+    },
+    "timedNextPrompt": {
+      "seconds": 25,
+      "focusedElementId": "answer-input"
+    },
+    "mobile": {
+      "viewport": "390x844",
+      "documentWidth": 390,
+      "horizontalOverflow": false,
+      "revealScrollTop": 0,
+      "craftClearsPromptEyebrow": true
+    },
+    "reducedMotion": {
+      "tested": "Manual setting while a reveal is active",
+      "depthSnapsToMetres": 4000,
+      "visualPoints": 100,
+      "effectLayers": 0,
+      "craftAnimation": "none",
+      "waveAnimation": "none",
+      "preferenceRestoredAfterTest": true
+    },
+    "logbook": {
+      "statNumberFontPixels": 27,
+      "innerCounterFontPixels": 27
+    },
+    "performanceReview": {
+      "staticOceanGroupsMemoized": true,
+      "answerBankMemoized": true,
+      "counterFramesWriteOnlyDigitText": true,
+      "particleCountsBounded": true,
+      "effectAndAnimationFrameCleanupReviewed": true
+    }
+  },
+  "deployment": {
+    "status": "verified",
+    "url": "https://jordangeach.com/krillion/",
+    "files": [
+      {
+        "file": "index.html",
+        "bytes": 730,
+        "sha256": "b0753f739026ae3eedf105d881fe343c3ed5400a26f61984194850996d618184",
+        "matchesBuild": true
+      },
+      {
+        "file": "favicon.svg",
+        "bytes": 311,
+        "sha256": "5d394d9ed6df3e91c42a029f168464192ddbff0e0fb8cd10cfe0615f66b757f9",
+        "matchesBuild": true
+      },
+      {
+        "file": "assets/index-CdhXflSU.js",
+        "bytes": 947700,
+        "sha256": "730ca2327715f3ba421e79b02f598b9401f0436f73b11465e24ab42724c36234",
+        "matchesBuild": true
+      },
+      {
+        "file": "assets/index-CIEhhZYR.css",
+        "bytes": 79351,
+        "sha256": "ca0ef666b7fc7fa163d4749a2c0232a85c67d7b994a546ce857cd874bac41613",
+        "matchesBuild": true
+      },
+      {
+        "file": "dictionary/words.json",
+        "bytes": 490158,
+        "sha256": "8347e1d322717de03777c339450379e206509d46059be2013dbf06ee3de76211",
+        "matchesBuild": true
+      },
+      {
+        "file": "dictionary/SCOWL-LICENSE.txt",
+        "bytes": 4863,
+        "sha256": "090575a131b4260926c7a6b30a90aca0f5db5fbb5c46778e0c5855227bf6ebc3",
+        "matchesBuild": true
+      },
+      {
+        "file": "prompt-bank.json",
+        "bytes": 326282,
+        "sha256": "06b865a29254a4dc785d66d0de84832fe58a47c7587a28d892b62aabb7b3f8b1",
+        "matchesBuild": true
+      }
+    ],
+    "browser": {
+      "titleAnimation": "title-surface",
+      "waveAnimation": "ocean-wave-travel",
+      "rareReveal": {
+        "answer": "Peewee",
+        "points": 100,
+        "depthDuringDescentMetres": 1765,
+        "stars": 8,
+        "particles": 20,
+        "travelling": true,
+        "scrollTop": 0
+      },
+      "landingDepthMetres": 2000,
+      "landingScore": 200,
+      "fullBankMatches": ["Peewee100", "peewee's30", "peewees30"],
+      "aiBadge": "JEV READY"
+    },
+    "screenshot": "krillion-1.5.0-live.jpg"
+  }
+}

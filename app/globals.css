@@ -1546,7 +1546,7 @@ textarea::placeholder {
   background: #0b2b3d;
   padding: 19px;
 }
-.stat-grid span {
+.stat-grid > div > span {
   display: block;
   font-size: 8px;
   letter-spacing: 1px;
@@ -2263,7 +2263,7 @@ textarea::placeholder {
   .stat-grid > div {
     padding: 15px;
   }
-  .stat-grid span {
+  .stat-grid > div > span {
     font-size: 7px;
     line-height: 1.7;
   }
@@ -2848,7 +2848,7 @@ textarea::placeholder {
   .stat-grid > div {
     padding: 17px;
   }
-  .stat-grid span {
+  .stat-grid > div > span {
     font-size: 7px;
     margin-bottom: 12px;
   }

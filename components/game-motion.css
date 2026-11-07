@@ -1,0 +1,420 @@
+/* Small, local effects. The owning reveal/results section should be positioned
+   relative; give its foreground children z-index:1 when stacking over the layer. */
+.gm-animated-number {
+  display: inline-block;
+  position: relative;
+  font: inherit;
+  color: inherit;
+  font-variant-numeric: tabular-nums;
+  vertical-align: baseline;
+}
+.gm-final-reading {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+.gm-number-visual {
+  white-space: pre;
+}
+.gm-number-digits {
+  display: inline-block;
+  font: inherit;
+  transform-origin: 50% 78%;
+}
+.gm-number-settling .gm-number-digits {
+  animation: gm-number-settle 240ms cubic-bezier(0.22, 0.68, 0.3, 1) both;
+}
+@keyframes gm-number-settle {
+  0% {
+    transform: translateY(0.035em) scale(0.985);
+  }
+  46% {
+    transform: translateY(-0.015em) scale(1.025);
+  }
+  100% {
+    transform: none;
+  }
+}
+
+.gm-effects {
+  --gm-accent: #a4e8d2;
+  --gm-motion-scale: 1;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+  overflow: visible;
+  contain: layout style;
+}
+.gm-effects *,
+.gm-effects *::before,
+.gm-effects *::after {
+  pointer-events: none !important;
+}
+.gm-discovery-glow {
+  position: absolute;
+  left: 50%;
+  top: 147px;
+  width: min(420px, 90%);
+  height: 210px;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  background: radial-gradient(
+    ellipse,
+    color-mix(in srgb, var(--gm-accent) 13%, transparent),
+    transparent 68%
+  );
+  animation: gm-discovery-glow 1900ms ease-out both;
+}
+.gm-sonar-ring {
+  position: absolute;
+  top: 160px;
+  left: 50%;
+  width: clamp(170px, 31vw, 340px);
+  aspect-ratio: 1;
+  border: 1px solid var(--gm-accent);
+  border-radius: 50%;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.26);
+  animation: gm-sonar-open 1650ms cubic-bezier(0.17, 0.6, 0.26, 1) both;
+}
+.gm-sonar-ring-two {
+  animation-delay: 180ms;
+  animation-duration: 1900ms;
+}
+.gm-sonar-ring-three {
+  animation-delay: 360ms;
+  animation-duration: 2300ms;
+  border-style: dotted;
+}
+.gm-reveal-rare .gm-sonar-ring {
+  width: clamp(200px, 38vw, 440px);
+}
+.gm-reveal-gem .gm-discovery-glow {
+  width: min(530px, 100%);
+  height: 270px;
+}
+.gm-particle {
+  position: absolute;
+  left: var(--gm-start-x);
+  top: var(--gm-start-y);
+  width: var(--gm-size);
+  height: var(--gm-size);
+  opacity: 0;
+  color: var(--gm-accent);
+  animation: gm-particle-lift var(--gm-duration)
+    cubic-bezier(0.16, 0.54, 0.26, 0.98) var(--gm-delay) both;
+}
+.gm-particle-bubble {
+  border: 1px solid currentColor;
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--gm-accent) 7%, transparent);
+}
+.gm-particle-spark {
+  background: currentColor;
+  clip-path: polygon(
+    33% 0,
+    67% 0,
+    67% 33%,
+    100% 33%,
+    100% 67%,
+    67% 67%,
+    67% 100%,
+    33% 100%,
+    33% 67%,
+    0 67%,
+    0 33%,
+    33% 33%
+  );
+  box-shadow: 0 0 7px color-mix(in srgb, var(--gm-accent) 25%, transparent);
+}
+.gm-gem-constellation {
+  position: absolute;
+  left: 50%;
+  top: 2px;
+  width: min(620px, 112%);
+  height: auto;
+  overflow: visible;
+  transform: translateX(-50%);
+  color: var(--gm-accent);
+  opacity: 0;
+  animation: gm-constellation-appear 3100ms ease-out both;
+}
+.gm-constellation-line {
+  stroke: currentColor;
+  stroke-width: 0.8;
+  stroke-dasharray: 260;
+  stroke-dashoffset: 260;
+  opacity: 0.3;
+  animation: gm-constellation-draw 1000ms cubic-bezier(0.2, 0.65, 0.3, 1) 200ms
+    both;
+}
+.gm-constellation-line-lower {
+  animation-delay: 530ms;
+  opacity: 0.2;
+}
+.gm-gem-star {
+  fill: currentColor;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: gm-gem-discover 2200ms cubic-bezier(0.2, 0.65, 0.3, 1) both;
+}
+.gm-gem-core {
+  fill: #e5f4df;
+  opacity: 0.65;
+}
+.gm-completion-bloom {
+  position: absolute;
+  left: 50%;
+  top: 165px;
+  width: min(650px, 115%);
+  aspect-ratio: 1.45;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.55);
+  background: radial-gradient(
+    ellipse,
+    color-mix(in srgb, var(--gm-accent) 14%, transparent),
+    #92e7d408 37%,
+    transparent 70%
+  );
+  animation: gm-completion-bloom 3300ms cubic-bezier(0.18, 0.55, 0.25, 1) both;
+}
+.gm-completion-orbit {
+  position: absolute;
+  left: 50%;
+  top: 160px;
+  width: min(460px, 88%);
+  aspect-ratio: 1;
+  border: 1px solid var(--gm-accent);
+  border-radius: 50%;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.2);
+  animation: gm-completion-orbit 3000ms cubic-bezier(0.1, 0.6, 0.2, 1) both;
+}
+.gm-completion-orbit-two {
+  animation-delay: 300ms;
+  animation-duration: 3400ms;
+  border-style: dotted;
+}
+
+.gm-checking-sonar {
+  position: relative;
+  width: 17px;
+  height: 17px;
+  display: inline-block;
+  flex: 0 0 17px;
+  vertical-align: -0.2em;
+  border: 1px solid #9dd9cb55;
+  border-radius: 50%;
+  color: #b5e8d7;
+  overflow: hidden;
+}
+.gm-checking-sweep {
+  position: absolute;
+  inset: 1px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 230deg,
+    #a2dfc82b 325deg,
+    #b7eadb77 359deg,
+    transparent
+  );
+  animation: gm-sonar-sweep 2300ms linear infinite;
+}
+.gm-checking-ping {
+  position: absolute;
+  inset: 1px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  opacity: 0;
+  animation: gm-checking-ping 2300ms ease-out infinite;
+}
+.gm-checking-ping-delayed {
+  animation-delay: 1150ms;
+}
+.gm-checking-center {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  top: 6px;
+  left: 6px;
+  background: currentColor;
+}
+.gm-sonar-still .gm-checking-sweep,
+.gm-sonar-still .gm-checking-ping {
+  display: none;
+}
+
+@keyframes gm-discovery-glow {
+  0% {
+    opacity: 0;
+  }
+  22% {
+    opacity: 0.75;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes gm-sonar-open {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.26);
+  }
+  14% {
+    opacity: 0.32;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.18);
+  }
+}
+@keyframes gm-particle-lift {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 5px, 0) scale(0.5) rotate(0);
+  }
+  12% {
+    opacity: 0.68;
+  }
+  65% {
+    opacity: 0.46;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(
+        calc(var(--gm-dx) * var(--gm-motion-scale)),
+        calc(var(--gm-dy) * var(--gm-motion-scale)),
+        0
+      )
+      scale(0.35) rotate(var(--gm-turn));
+  }
+}
+@keyframes gm-constellation-appear {
+  0% {
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.8;
+  }
+  74% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes gm-constellation-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes gm-gem-discover {
+  0% {
+    opacity: 0;
+    transform: scale(0.45);
+  }
+  23% {
+    opacity: 0.9;
+    transform: scale(1.05);
+  }
+  70% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.72);
+  }
+}
+@keyframes gm-completion-bloom {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.55);
+  }
+  22% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.17);
+  }
+}
+@keyframes gm-completion-orbit {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.2);
+  }
+  12% {
+    opacity: 0.24;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.3);
+  }
+}
+@keyframes gm-sonar-sweep {
+  to {
+    transform: rotate(1turn);
+  }
+}
+@keyframes gm-checking-ping {
+  0% {
+    opacity: 0.36;
+    transform: scale(0.25);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.05);
+  }
+}
+
+@media (max-width: 560px) {
+  .gm-effects {
+    --gm-motion-scale: 0.68;
+  }
+  .gm-gem-constellation {
+    width: 112%;
+    top: 30px;
+  }
+  .gm-particle:nth-of-type(n + 21) {
+    display: none;
+  }
+  .gm-sonar-ring {
+    top: 145px;
+  }
+}
+.reduce-motion .gm-effects {
+  display: none !important;
+}
+.reduce-motion .gm-animated-number *,
+.reduce-motion .gm-checking-sonar * {
+  animation: none !important;
+  transition: none !important;
+}
+.reduce-motion .gm-checking-sweep,
+.reduce-motion .gm-checking-ping {
+  display: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .gm-effects {
+    display: none !important;
+  }
+  .gm-animated-number *,
+  .gm-checking-sonar * {
+    animation: none !important;
+    transition: none !important;
+  }
+  .gm-checking-sweep,
+  .gm-checking-ping {
+    display: none !important;
+  }
+}

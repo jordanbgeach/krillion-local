@@ -48,3 +48,6 @@ yarn-error.log*
 /dist-local/
 __pycache__/
 *.pyc
+
+# Hostinger static deployment build
+/dist-hostinger/

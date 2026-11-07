@@ -2,7 +2,9 @@
 
 An unofficial, independently built local recreation of [Krillion](https://krillion.io). Name something that fits the prompt: familiar answers score a little, unusual answers take you deeper. Seven rounds make a dive, and every point adds ten metres.
 
-![Krillion running locally](docs/krillion.jpg)
+**Play online:** [jordangeach.com/krillion](https://jordangeach.com/krillion/).
+
+![Krillion live on jordangeach.com](docs/krillion-live.jpg)
 
 This local recreation runs on your computer with no ads, accounts, subscriptions, API keys, or per-run limits. Its artwork, interface, and curated question bank were built independently. It does not connect to the official game's servers or unlock paid content.
 
@@ -96,6 +98,23 @@ Keep the answer sets accurate and include common alternatives. Imported banks ar
 Progress, preferences, and custom questions stay in your browser's local storage. The game includes no analytics or advertising scripts. It needs no external game server during play; the Python server listens only on your computer's loopback address.
 
 Browser storage is tied to the browser profile and exact local address. Keep using `http://127.0.0.1:4173` for the same save. Export your data before changing browsers, clearing site data, or switching machines. The export includes your custom questions and dive history.
+
+## Deploy to Hostinger at /krillion
+
+Build the static upload package from the project folder:
+
+```sh
+npm install
+npm run build:hostinger
+```
+
+This creates `dist-hostinger/` and `outputs/krillion-hostinger.zip`. The hosting build uses `/krillion/` for all application, font, and favicon URLs; it does not replace `dist-local/` or change the local launcher.
+
+In Hostinger's File Manager for **jordangeach.com**, open `public_html/krillion/` (create the `krillion` folder if needed). Upload `krillion-hostinger.zip` there and extract its contents directly into that folder. The result must be `public_html/krillion/index.html`, with sibling `assets/`, `fonts/`, `favicon.svg`, and `.htaccess`; avoid nesting another `dist-hostinger` or `krillion` folder inside it. Upload only these generated files. Keep the rest of the existing website in place.
+
+The included `.htaccess` selects `index.html` and enables the normal directory redirect from [jordangeach.com/krillion](https://jordangeach.com/krillion) to [jordangeach.com/krillion/](https://jordangeach.com/krillion/). The game is static: no Node process, Python server, database, or environment variables are needed on Hostinger. After extraction, remove the uploaded ZIP from the public directory and verify the page, a new dive, and its font load at the public URL.
+
+Hosted browser saves belong to the `https://jordangeach.com` origin and are separate from localhost saves. Use the game's backup export and import to transfer progress between them. Rebuilding and replacing the static files preserves existing browser saves.
 
 ## Development and checks
 

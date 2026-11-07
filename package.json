@@ -12,7 +12,8 @@
     "build:local": "vite build --config vite.local.config.ts",
     "start": "python3 scripts/serve.py",
     "test": "node --experimental-strip-types --test tests/*.test.mjs",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "build:hostinger": "node scripts/build-hostinger.mjs"
   },
   "dependencies": {
     "lucide-react": "^1.31.0",

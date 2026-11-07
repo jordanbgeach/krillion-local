@@ -6,7 +6,7 @@ An unofficial, independently built local recreation of [Krillion](https://krilli
 
 ![Krillion live on jordangeach.com](docs/krillion-live.jpg)
 
-This local recreation runs on your computer with no ads, accounts, subscriptions, API keys, or per-run limits. Its artwork, interface, and curated question bank were built independently. It does not connect to the official game's servers or unlock paid content.
+Players can run this recreation with no ads, account, or per-run limits. The bundled game works offline; optional Jev AI checking uses the website owner’s server-side TypeSafe key. Its artwork, interface, and curated question bank were built independently. It does not connect to the official game's servers or unlock paid content.
 
 Source repository: [jordanbgeach/krillion-local](https://github.com/jordanbgeach/krillion-local).
 
@@ -14,7 +14,7 @@ Source repository: [jordanbgeach/krillion-local](https://github.com/jordanbgeach
 
 ## Run locally
 
-The browser game works offline once its dependencies are installed and the local build is created. You need **Node.js 22.13 or newer** to build it, and **Python 3** for the simple launcher.
+The bundled trivia game works offline once its dependencies are installed and the local build is created. AI checking requires an internet connection and a configured backend. You need **Node.js 22.13 or newer** to build it, and **Python 3** for the simple launcher.
 
 For the prebuilt version, extract the [latest release](https://github.com/jordanbgeach/krillion-local/releases/latest) and double-click **Start Krillion.command**.
 
@@ -69,7 +69,7 @@ The highest possible seven-round score is 700 points, or 7,000 metres.
 
 There is no play counter, paywall, or daily restriction on Unlimited mode. The bundled question bank is finite, so prompts eventually repeat; shuffling and category selection create different runs. You can add your own prompts to keep expanding it.
 
-The scores are **manually curated familiarity estimates**, not measured player popularity or Krillion's official rankings. The local bank is deliberately bounded: a correct answer that has not been included may be rejected. Prompt notes explain the intended scope. Normalization accepts accents, spacing, and punctuation differences, and conservative typo correction only accepts an unambiguous nearby answer.
+The bundled scores are **manually curated familiarity estimates**; learned Jev scores are **AI familiarity estimates**. Neither is measured player popularity or Krillion’s official ranking. With AI available, unlisted answers can be checked against the actual prompt and added to the learned bank. Without AI, the finite local bank determines what is accepted. Prompt notes explain the scope. Normalization accepts accents, spacing, and punctuation differences; conservative typo correction only accepts an unambiguous nearby answer.
 
 ## Custom question format
 
@@ -95,7 +95,7 @@ Keep the answer sets accurate and include common alternatives. Imported banks ar
 
 ## Saves and privacy
 
-Progress, preferences, and custom questions stay in your browser's local storage. The game includes no analytics or advertising scripts. It needs no external game server during play; the Python server listens only on your computer's loopback address.
+Progress, preferences, custom questions, and a copy of learned answers stay in your browser’s local storage. The game includes no analytics or advertising scripts. When AI checking is enabled, the current prompt and candidate answer are sent through the game’s backend to TypeSafe. The backend caches judgments and shares accepted answers; your dive history is not sent. The local Python launcher listens only on your computer’s loopback address.
 
 Browser storage is tied to the browser profile and exact local address. Keep using `http://127.0.0.1:4173` for the same save. Export your data before changing browsers, clearing site data, or switching machines. The export includes your custom questions and dive history.
 
@@ -112,9 +112,25 @@ This creates `dist-hostinger/` and `outputs/krillion-hostinger.zip`. The hosting
 
 In Hostinger's File Manager for **jordangeach.com**, open `public_html/krillion/` (create the `krillion` folder if needed). Upload `krillion-hostinger.zip` there and extract its contents directly into that folder. The result must be `public_html/krillion/index.html`, with sibling `assets/`, `fonts/`, `favicon.svg`, and `.htaccess`; avoid nesting another `dist-hostinger` or `krillion` folder inside it. Upload only these generated files. Keep the rest of the existing website in place.
 
-The included `.htaccess` selects `index.html` and enables the normal directory redirect from [jordangeach.com/krillion](https://jordangeach.com/krillion) to [jordangeach.com/krillion/](https://jordangeach.com/krillion/). The game is static: no Node process, Python server, database, or environment variables are needed on Hostinger. After extraction, remove the uploaded ZIP from the public directory and verify the page, a new dive, and its font load at the public URL.
+The included `.htaccess` selects `index.html` and enables the normal directory redirect from [jordangeach.com/krillion](https://jordangeach.com/krillion) to [jordangeach.com/krillion/](https://jordangeach.com/krillion/). The browser app is static. Optional AI checking uses the included PHP endpoint on Hostinger, with a private key file and cache outside the public web folder; no Node process or database server is required. After extraction, remove the uploaded ZIP from the public directory and verify the page, a new dive, and its font load at the public URL.
 
 Hosted browser saves belong to the `https://jordangeach.com` origin and are separate from localhost saves. Use the game's backup export and import to transfer progress between them. Rebuilding and replacing the static files preserves existing browser saves.
+
+## Jev AI checking and the learned bank
+
+The server calls [TypeSafe’s System One API](https://docs.typesafe.ai/api/system-one) with one validity question and one rarity-tier question together. Jev is a decision model: it evaluates answers supplied by players instead of generating new trivia questions or word lists. Accepted candidates grow a cached, shared answer bank, with a local copy for fast repeat checks.
+
+Known answers are checked immediately in the browser. Unknown answers are checked in the background after typing settles, and submission reuses that request. A submitted AI check briefly pauses the prompt timer while the answer is locked. Network errors and uncertain judgments are reported separately from a rejected answer. No response-time guarantee is implied: first checks depend on Hostinger, the network, and TypeSafe.
+
+On Hostinger, create `krillion-private/` **beside** `public_html/`, then put only the raw TypeSafe key in `krillion-private/api-key.txt`. Keep this folder outside the website. The PHP endpoint also accepts a `TYPESAFE_API_KEY` environment variable. The key is never bundled into JavaScript, sent to players, or committed to this repository. Server cache and rate counters live in that same private folder. See the backend documentation in `server/` for limits and failure handling.
+
+For a local build to use your own hosted endpoint, create an ignored `.env.local` containing a public URL, not a key:
+
+```dotenv
+VITE_KRILLION_AI_ENDPOINT=https://your-domain.example/krillion/api.php
+```
+
+Then rebuild with `npm run build:local`. Without an endpoint override, local play stays local and continues with the bundled bank if no PHP service is present. API request limits apply to new server judgments; cached and bundled answers do not spend inference requests. Repeated runs themselves remain unlimited.
 
 ## Development and checks
 

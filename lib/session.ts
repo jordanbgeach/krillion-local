@@ -127,6 +127,8 @@ export function validateSession(
       throw new Error("Saved round cannot score after time expires.");
     if (result.corrected && answer === null)
       throw new Error("Saved round cannot correct a missing answer.");
+    if (result.ai !== undefined && typeof result.ai !== "boolean")
+      throw new Error("Saved round AI flag is invalid.");
     return {
       promptId: promptIds[index],
       input: text(result.input, "Saved round input", 500, true),
@@ -134,6 +136,7 @@ export function validateSession(
       score: result.score,
       timedOut: result.timedOut,
       corrected: result.corrected,
+      ...(result.ai === undefined ? {} : { ai: result.ai }),
     };
   });
   const needsDeadline = stage === "question" && data.timer > 0;

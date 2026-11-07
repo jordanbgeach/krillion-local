@@ -26,6 +26,7 @@ export interface RoundResult {
   score: number;
   timedOut: boolean;
   corrected: boolean;
+  ai?: boolean;
 }
 export interface DiveRecord {
   id: string;

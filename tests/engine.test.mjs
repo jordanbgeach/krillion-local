@@ -142,6 +142,23 @@ test("save import validates totals, types, and unsupported versions", () => {
   };
   const save = { version: 1, history: [record], customPrompts: [prompt] };
   assert.equal(validateSave(save).history[0].score, 30);
+  assert.equal(
+    validateSave({
+      ...save,
+      history: [{ ...record, results: [{ ...record.results[0], ai: true }] }],
+    }).history[0].results[0].ai,
+    true,
+  );
+  assert.throws(
+    () =>
+      validateSave({
+        ...save,
+        history: [
+          { ...record, results: [{ ...record.results[0], ai: "yes" }] },
+        ],
+      }),
+    /ai/,
+  );
   assert.throws(() => validateSave({ ...save, version: 2 }), /version/);
   assert.throws(
     () => validateSave({ ...save, history: [{ ...record, score: 100 }] }),

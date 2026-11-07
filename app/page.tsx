@@ -36,6 +36,17 @@ import {
   validateSave,
 } from "../lib/engine";
 import { mergeCustomPrompts, validateSession } from "../lib/session";
+import {
+  createAIClient,
+  exportLearnedBank,
+  isLearnedAnswer,
+  learnAnswer,
+  LEARNED_BANK_KEY,
+  mergeLearnedBanks,
+  validateLearnedBank,
+  withLearnedAnswers,
+} from "../lib/ai";
+import type { AIStatus, LearnedBank } from "../lib/ai";
 import type { Session } from "../lib/session";
 import type { Category, DiveRecord, Prompt, RoundResult } from "../lib/types";
 
@@ -223,7 +234,8 @@ function AnswerBank({
           </div>
           {!answers.length && <p className="muted">No matching answers.</p>}
           <p className="bank-foot">
-            Scores are curated familiarity estimates, not live popularity data.
+            Scores are curated or AI familiarity estimates, not live popularity
+            data.
           </p>
           {prompt.source && (
             <a
@@ -267,14 +279,36 @@ export default function Home() {
   const [customError, setCustomError] = useState("");
   const [showSetup, setShowSetup] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
+  const [learnedBank, setLearnedBank] = useState<LearnedBank>({});
+  const [learnedStorageBlocked, setLearnedStorageBlocked] = useState(false);
+  const [aiStatus, setAIStatus] = useState<AIStatus | null>(null);
+  const [aiWaiting, setAIWaiting] = useState(false);
+  const aiClientRef = useRef(createAIClient());
+  const sessionRef = useRef(session);
+  sessionRef.current = session;
+  const submissionSequence = useRef(0);
+  const pendingSubmission = useRef<{
+    token: number;
+    sessionId: string;
+    round: number;
+  } | null>(null);
+  // null deadline freezes only the short submitted-answer check. A rejected or
+  // unavailable judgment restores the exact unused time; background prechecks do not pause.
+  const pausedClock = useRef<{ key: string; deadline: number | null } | null>(
+    null,
+  );
   const answerRef = useRef<HTMLInputElement>(null);
   const nextRef = useRef<HTMLButtonElement>(null);
   const importRef = useRef<HTMLInputElement>(null);
   const bankRef = useRef<HTMLInputElement>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
-  const allPrompts = useMemo(
+  const basePrompts = useMemo(
     () => [...builtInPrompts, ...customPrompts],
     [customPrompts],
+  );
+  const allPrompts = useMemo(
+    () => basePrompts.map((prompt) => withLearnedAnswers(prompt, learnedBank)),
+    [basePrompts, learnedBank],
   );
   const promptMap = useMemo(
     () => new Map(allPrompts.map((p) => [p.id, p])),
@@ -292,6 +326,23 @@ export default function Home() {
 
   useEffect(() => {
     let storedCustom: Prompt[] = [];
+    try {
+      const learned = localStorage.getItem(LEARNED_BANK_KEY);
+      if (learned) {
+        try {
+          if (learned.length > 3_000_000)
+            throw new Error("Learned bank is too large.");
+          setLearnedBank(validateLearnedBank(JSON.parse(learned)));
+        } catch {
+          setLearnedStorageBlocked(true);
+          setToast(
+            "The learned answer bank could not be read. Your curated bank and logbook are still available; the original learned data has been preserved.",
+          );
+        }
+      }
+    } catch {
+      setLearnedStorageBlocked(true);
+    }
     try {
       const raw =
         localStorage.getItem(SAVE_KEY) ??
@@ -361,6 +412,112 @@ export default function Home() {
     setReady(true);
   }, []);
   useEffect(() => {
+    let active = true;
+    let generation = 0;
+    let retry: ReturnType<typeof setTimeout> | undefined;
+    let lastStarted = 0;
+    const check = async (attempt: number, run: number) => {
+      lastStarted = Date.now();
+      let enabled = false;
+      try {
+        const status = await aiClientRef.current.status();
+        if (!active || run !== generation) return;
+        enabled = status.enabled;
+        setAIStatus(status);
+      } catch {
+        if (!active || run !== generation) return;
+        setAIStatus({ enabled: false, model: "", version: 1 });
+      }
+      if (!enabled && attempt < 2) {
+        retry = setTimeout(
+          () => {
+            void check(attempt + 1, run);
+          },
+          attempt === 0 ? 3000 : 10_000,
+        );
+      }
+    };
+    const refresh = () => {
+      clearTimeout(retry);
+      generation += 1;
+      void check(0, generation);
+    };
+    const onFocus = () => {
+      // Returning after server setup can discover a newly activated key, without polling.
+      if (Date.now() - lastStarted >= 10_000) refresh();
+    };
+    // Availability is optional; checks never delay saves, controls, or a dive.
+    refresh();
+    window.addEventListener("online", refresh);
+    window.addEventListener("focus", onFocus);
+    return () => {
+      active = false;
+      generation += 1;
+      clearTimeout(retry);
+      window.removeEventListener("online", refresh);
+      window.removeEventListener("focus", onFocus);
+    };
+  }, []);
+  useEffect(() => {
+    if (!ready || learnedStorageBlocked) return;
+    try {
+      localStorage.setItem(
+        LEARNED_BANK_KEY,
+        JSON.stringify(exportLearnedBank(learnedBank)),
+      );
+    } catch {
+      setToast(
+        "Learned answers are available for this session. Export a backup to keep them; browser storage is unavailable.",
+      );
+    }
+  }, [ready, learnedBank, learnedStorageBlocked]);
+  useEffect(() => {
+    if (!session || !aiStatus?.enabled) return;
+    let active = true;
+    const prompts = session.promptIds
+      .map((id) => basePrompts.find((prompt) => prompt.id === id))
+      .filter((prompt): prompt is Prompt => !!prompt);
+    void aiClientRef.current
+      .bank(prompts)
+      .then((bank) => {
+        if (active)
+          setLearnedBank((previous) => mergeLearnedBanks(previous, bank));
+      })
+      .catch(() => {
+        /* Curated answers remain ready while the shared bank is offline. */
+      });
+    return () => {
+      active = false;
+    };
+    // Prefetch once per dive, independently of its clock and answer submissions.
+  }, [session?.id, aiStatus?.enabled]);
+  useEffect(() => {
+    if (
+      !aiStatus?.enabled ||
+      !session ||
+      session.stage !== "question" ||
+      !currentPrompt ||
+      aiWaiting ||
+      guess.trim().length < 3 ||
+      matchAnswer(currentPrompt, guess).answer
+    )
+      return;
+    const id = setTimeout(() => {
+      // A speculative result does not change UI or score. Submission reuses this
+      // promise, including an already completed judgment, without another request.
+      void aiClientRef.current.judge(currentPrompt, guess).catch(() => {});
+    }, 350);
+    return () => clearTimeout(id);
+  }, [
+    guess,
+    currentPrompt,
+    session?.id,
+    session?.round,
+    session?.stage,
+    aiStatus?.enabled,
+    aiWaiting,
+  ]);
+  useEffect(() => {
     if (!ready || storageBlocked) return;
     try {
       localStorage.setItem(
@@ -409,27 +566,33 @@ export default function Home() {
   }, [modal]);
   useEffect(() => {
     if (view !== "dive" || modal) return;
-    if (session?.stage === "question") answerRef.current?.focus();
+    if (session?.stage === "question" && !aiWaiting) answerRef.current?.focus();
     if (session?.stage === "reveal") nextRef.current?.focus();
-  }, [session?.round, session?.stage, view, modal]);
+  }, [session?.round, session?.stage, view, modal, aiWaiting]);
 
-  const landAnswer = useCallback((result: RoundResult) => {
-    setSession((prev) => {
-      if (
-        !prev ||
-        prev.stage !== "question" ||
-        result.promptId !== prev.promptIds[prev.round]
-      )
-        return prev;
-      return {
-        ...prev,
-        results: [...prev.results, result],
-        stage: "reveal",
-        deadline: null,
-      };
-    });
-    setError("");
-  }, []);
+  const landAnswer = useCallback(
+    (result: RoundResult, expected?: { sessionId: string; round: number }) => {
+      setSession((prev) => {
+        if (
+          !prev ||
+          prev.stage !== "question" ||
+          (expected &&
+            (prev.id !== expected.sessionId ||
+              prev.round !== expected.round)) ||
+          result.promptId !== prev.promptIds[prev.round]
+        )
+          return prev;
+        return {
+          ...prev,
+          results: [...prev.results, result],
+          stage: "reveal",
+          deadline: null,
+        };
+      });
+      setError("");
+    },
+    [],
+  );
   useEffect(() => {
     if (
       !session ||
@@ -441,17 +604,29 @@ export default function Home() {
       return;
     const deadline = session.deadline;
     const tick = () => {
-      const left = Math.max(0, Math.ceil((deadline - Date.now()) / 1000));
+      const override = pausedClock.current;
+      const effectiveDeadline =
+        override?.key === `${session.id}:${session.round}`
+          ? override.deadline
+          : deadline;
+      if (effectiveDeadline === null) return;
+      const left = Math.max(
+        0,
+        Math.ceil((effectiveDeadline - Date.now()) / 1000),
+      );
       setSeconds(left);
       if (left === 0)
-        landAnswer({
-          promptId: currentPrompt.id,
-          input: "",
-          answer: null,
-          score: 0,
-          timedOut: true,
-          corrected: false,
-        });
+        landAnswer(
+          {
+            promptId: currentPrompt.id,
+            input: "",
+            answer: null,
+            score: 0,
+            timedOut: true,
+            corrected: false,
+          },
+          { sessionId: session.id, round: session.round },
+        );
     };
     tick();
     const id = setInterval(tick, 150);
@@ -465,6 +640,20 @@ export default function Home() {
     landAnswer,
   ]);
 
+  function cancelPendingCheck() {
+    submissionSequence.current += 1;
+    pendingSubmission.current = null;
+    pausedClock.current = null;
+    setAIWaiting(false);
+  }
+  function backupData() {
+    return {
+      version: 1,
+      history,
+      customPrompts,
+      learnedAnswers: exportLearnedBank(learnedBank),
+    };
+  }
   function startDive(options?: {
     mode?: Mode;
     seed?: string;
@@ -516,6 +705,7 @@ export default function Home() {
       );
       return;
     }
+    cancelPendingCheck();
     const next: Session = {
       id: randomSeed(),
       date: new Date().toISOString(),
@@ -536,44 +726,149 @@ export default function Home() {
     setView("dive");
     setModal(null);
   }
-  function submitGuess(event: React.FormEvent) {
+  async function submitGuess(event: React.FormEvent) {
     event.preventDefault();
-    if (!currentPrompt || !session || session.stage !== "question") return;
+    if (
+      !currentPrompt ||
+      !session ||
+      session.stage !== "question" ||
+      pendingSubmission.current
+    )
+      return;
+    const expected = { sessionId: session.id, round: session.round };
     if (session.deadline !== null && Date.now() >= session.deadline) {
-      landAnswer({
-        promptId: currentPrompt.id,
-        input: "",
-        answer: null,
-        score: 0,
-        timedOut: true,
-        corrected: false,
-      });
-      return;
-    }
-    if (!guess.trim()) {
-      setError("Name something first, or skip this prompt.");
-      return;
-    }
-    const match = matchAnswer(currentPrompt, guess);
-    if (!match.answer) {
-      setError(
-        match.suggestions.length
-          ? "That spelling could mean more than one answer. Try a more exact name."
-          : "Not in this local answer bank. Try another answer, or skip this prompt.",
+      landAnswer(
+        {
+          promptId: currentPrompt.id,
+          input: "",
+          answer: null,
+          score: 0,
+          timedOut: true,
+          corrected: false,
+        },
+        expected,
       );
       return;
     }
-    landAnswer({
-      promptId: currentPrompt.id,
-      input: guess.trim(),
-      answer: match.answer.name,
-      score: match.answer.score,
-      timedOut: false,
-      corrected: match.corrected,
-    });
+    const input = guess.trim();
+    if (!input) {
+      setError("Name something first, or skip this prompt.");
+      return;
+    }
+    const match = matchAnswer(currentPrompt, input);
+    if (match.answer) {
+      const original = basePrompts.find(
+        (prompt) => prompt.id === currentPrompt.id,
+      )!;
+      landAnswer(
+        {
+          promptId: currentPrompt.id,
+          input,
+          answer: match.answer.name,
+          score: match.answer.score,
+          timedOut: false,
+          corrected: match.corrected,
+          ...(isLearnedAnswer(original, match.answer.name) ? { ai: true } : {}),
+        },
+        expected,
+      );
+      return;
+    }
+    if (!aiStatus?.enabled) {
+      setError(
+        match.suggestions.length
+          ? "That spelling could mean more than one answer. Try a more exact name."
+          : "Not in this local answer bank. AI checking is offline; try a bank answer or skip this prompt.",
+      );
+      return;
+    }
+    const token = ++submissionSequence.current;
+    pendingSubmission.current = { token, ...expected };
+    const waitStarted = Date.now();
+    const submittedDeadline = session.deadline;
+    pausedClock.current = {
+      key: `${session.id}:${session.round}`,
+      deadline: null,
+    };
+    setAIWaiting(true);
+    setError("");
+    const stillCurrent = () => {
+      const active = sessionRef.current;
+      return (
+        pendingSubmission.current?.token === token &&
+        active?.id === expected.sessionId &&
+        active.round === expected.round &&
+        active.stage === "question"
+      );
+    };
+    const allowAnotherAnswer = (message: string) => {
+      if (!stillCurrent()) return;
+      const restoredDeadline =
+        submittedDeadline === null
+          ? null
+          : submittedDeadline + (Date.now() - waitStarted);
+      pausedClock.current = {
+        key: `${expected.sessionId}:${expected.round}`,
+        deadline: restoredDeadline,
+      };
+      pendingSubmission.current = null;
+      setAIWaiting(false);
+      if (restoredDeadline !== null)
+        setSeconds(
+          Math.max(0, Math.ceil((restoredDeadline - Date.now()) / 1000)),
+        );
+      setSession((previous) =>
+        previous?.id === expected.sessionId &&
+        previous.round === expected.round &&
+        previous.stage === "question"
+          ? { ...previous, deadline: restoredDeadline }
+          : previous,
+      );
+      setError(message);
+      answerRef.current?.focus();
+    };
+    try {
+      const result = await aiClientRef.current.judge(currentPrompt, input);
+      if (!stillCurrent()) return;
+      if (result.status === "accepted" && result.answer) {
+        const canonical = result.answer;
+        setLearnedBank((previous) =>
+          learnAnswer(previous, currentPrompt, {
+            name: canonical,
+            score: result.score as 10 | 15 | 30 | 60 | 85 | 100,
+            ...(canonical !== input ? { aliases: [input] } : {}),
+          }),
+        );
+        pendingSubmission.current = null;
+        setAIWaiting(false);
+        landAnswer(
+          {
+            promptId: currentPrompt.id,
+            input,
+            answer: canonical,
+            score: result.score,
+            timedOut: false,
+            corrected: false,
+            ai: true,
+          },
+          expected,
+        );
+      } else {
+        allowAnotherAnswer(
+          result.status === "rejected"
+            ? "Jev judged that answer outside this prompt’s scope. Try another answer. Your unused time is preserved."
+            : "Jev couldn’t verify that answer confidently. It wasn’t marked wrong; try another answer. Your unused time is preserved.",
+        );
+      }
+    } catch {
+      allowAnotherAnswer(
+        "AI checking is unavailable. Your answer wasn’t marked wrong and your unused time is preserved. Try a bank answer or skip.",
+      );
+    }
   }
   function nextRound() {
     if (!session || session.stage !== "reveal") return;
+    cancelPendingCheck();
     if (session.round === 6) {
       const record: DiveRecord = {
         id: session.id,
@@ -646,6 +941,10 @@ export default function Home() {
         setToast(`Added ${prompts.length} custom prompts to your local bank.`);
       } else {
         const save = validateSave(data);
+        const importedLearned =
+          data.learnedAnswers === undefined
+            ? {}
+            : validateLearnedBank(data.learnedAnswers);
         const merged = mergeCustomPrompts(save.customPrompts, customPrompts);
         if (unreadableSave)
           localStorage.setItem(
@@ -662,6 +961,10 @@ export default function Home() {
             .slice(0, 5000),
         );
         setCustomPrompts(merged);
+        setLearnedBank((previous) =>
+          mergeLearnedBanks(previous, importedLearned),
+        );
+        setLearnedStorageBlocked(false);
         setStorageBlocked(false);
         setUnreadableSave("");
         setToast("Backup merged with your local logbook.");
@@ -774,6 +1077,17 @@ export default function Home() {
           <span className="local-status">
             <i />
             LOCAL · AD FREE
+          </span>
+          <span
+            className={`ai-status ${aiStatus?.enabled ? "ready" : "offline"}`}
+            title={
+              aiStatus?.enabled
+                ? `Jev checks unlisted answers · ${aiStatus.model}`
+                : "Curated and previously learned answers work locally"
+            }
+          >
+            <Sparkles size={12} />{" "}
+            {aiStatus?.enabled ? "JEV READY" : "LOCAL BANK"}
           </span>
           <button
             className="icon-button"
@@ -1132,6 +1446,7 @@ export default function Home() {
                     id="answer-input"
                     ref={answerRef}
                     value={guess}
+                    disabled={aiWaiting}
                     maxLength={200}
                     onChange={(e) => {
                       setGuess(e.target.value);
@@ -1140,22 +1455,40 @@ export default function Home() {
                     placeholder="Something less obvious…"
                     aria-describedby={error ? "answer-error" : "answer-tip"}
                   />
-                  {error ? (
+                  {aiWaiting ? (
+                    <p
+                      className="answer-tip ai-checking"
+                      id="answer-tip"
+                      role="status"
+                    >
+                      <Sparkles size={13} /> Jev is checking this answer. Your
+                      clock is briefly paused.
+                    </p>
+                  ) : error ? (
                     <p role="alert" className="error-text" id="answer-error">
                       {error}
                     </p>
                   ) : (
                     <p className="answer-tip" id="answer-tip">
-                      One answer. Spelling help is on. Press <kbd>Enter ↵</kbd>{" "}
-                      to lock it in.
+                      {aiStatus?.enabled
+                        ? "Unlisted answers can be checked by AI. "
+                        : "Local spelling help is on. "}
+                      Press <kbd>Enter ↵</kbd> to lock it in.
                     </p>
                   )}
-                  <button type="submit" className="primary-button">
-                    LOCK IT IN <ArrowDown size={17} />
+                  <button
+                    type="submit"
+                    className="primary-button"
+                    disabled={aiWaiting}
+                    aria-busy={aiWaiting}
+                  >
+                    {aiWaiting ? "CHECKING ANSWER…" : "LOCK IT IN"}{" "}
+                    <ArrowDown size={17} />
                   </button>
                 </form>
                 <div className="play-card-bottom">
                   <button
+                    disabled={aiWaiting}
                     onClick={() =>
                       landAnswer({
                         promptId: currentPrompt.id,
@@ -1200,6 +1533,12 @@ export default function Home() {
                       ? "Out of time."
                       : "Nothing landed this round.")}
                 </p>
+                {lastResult.ai && (
+                  <p className="ai-estimate">
+                    <Sparkles size={13} /> AI familiarity estimate · saved to
+                    the answer bank
+                  </p>
+                )}
                 {lastResult.corrected && (
                   <p className="correction-note">
                     Spelling corrected from “{lastResult.input}”.
@@ -1355,7 +1694,8 @@ export default function Home() {
             <p>
               Curiosity welcome. Spoilers ahead. Open a prompt to explore its
               local answer bank and score estimates. Broad categories contain a
-              curated selection; they are not exhaustive.
+              curated selection; they are not exhaustive. Accepted AI checks
+              grow this bank with answers you and other players submit.
             </p>
           </div>
           <div className="library-filters">
@@ -1402,8 +1742,8 @@ export default function Home() {
             </div>
           )}
           <p className="page-fineprint">
-            Original, locally curated content. Rarity scores reflect estimated
-            familiarity rather than Krillion’s scoring or player statistics.
+            Independent content with curated and AI familiarity estimates, not
+            official Krillion scoring or measured player statistics.
           </p>
         </main>
       )}
@@ -1421,11 +1761,7 @@ export default function Home() {
               onClick={() =>
                 download(
                   `krillion-backup-${localDateKey()}.json`,
-                  JSON.stringify(
-                    { version: 1, history, customPrompts },
-                    null,
-                    2,
-                  ),
+                  JSON.stringify(backupData(), null, 2),
                 )
               }
             >
@@ -1572,8 +1908,10 @@ export default function Home() {
                 <div>
                   <span>02</span>
                   <p>
-                    <b>Lock it in before time runs out.</b> An answer outside
-                    the local bank can be retried. The clock keeps going.
+                    <b>Lock it in before time runs out.</b> Known answers score
+                    instantly. When Jev is ready, an unlisted answer gets an AI
+                    check. The clock briefly pauses for a submitted check; you
+                    keep your unused time if it cannot be accepted.
                   </p>
                 </div>
                 <div>
@@ -1597,7 +1935,9 @@ export default function Home() {
               <p className="modal-note">
                 This is an independent local recreation of Krillion. It uses
                 original artwork and a separate, finite, expandable answer bank.
-                Scores are manually curated estimates. Daily dives repeat the
+                Scores are curated or AI familiarity estimates, not measured
+                popularity. Jev judges answers you supply; it does not generate
+                words. Accepted checks expand the bank. Daily dives repeat the
                 same local prompts for that date; practice is untimed.
               </p>
               <button className="primary-button" onClick={() => setModal(null)}>
@@ -1612,11 +1952,15 @@ export default function Home() {
               <div className="privacy-card">
                 <span className="local-status">
                   <i />
-                  LOCAL BY DESIGN
+                  PROGRESS STAYS LOCAL
                 </span>
                 <p>
-                  Answers, progress, and custom prompts stay in this browser. No
-                  account, API key, ads, or online scoring service.
+                  Your progress and logbook stay in this browser. Curated and
+                  learned answers work offline. When Jev is ready, unlisted
+                  answers send only the current prompt, scope, and answer
+                  through this site’s server to TypeSafe for validity and rarity
+                  estimates. Accepted answers join the shared answer bank. No
+                  browser API key, account, or ads.
                 </p>
               </div>
               <label className="motion-setting">
@@ -1657,18 +2001,17 @@ export default function Home() {
                   onClick={() =>
                     download(
                       `krillion-backup-${localDateKey()}.json`,
-                      JSON.stringify(
-                        { version: 1, history, customPrompts },
-                        null,
-                        2,
-                      ),
+                      JSON.stringify(backupData(), null, 2),
                     )
                   }
                 >
                   <Download size={18} />
                   <span>
                     <b>Export your logbook</b>
-                    <small>Back up dives and custom prompts as JSON.</small>
+                    <small>
+                      Back up dives, custom prompts, and learned answers as
+                      JSON.
+                    </small>
                   </span>
                   <ChevronRight size={16} />
                 </button>
@@ -1845,6 +2188,7 @@ export default function Home() {
                 <button
                   className="secondary-button"
                   onClick={() => {
+                    cancelPendingCheck();
                     setSession(null);
                     setGuess("");
                     setError("");

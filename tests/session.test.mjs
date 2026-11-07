@@ -35,6 +35,16 @@ test("resumes coherent question, reveal, and finished sessions", () => {
     results: [result(0)],
   };
   assert.deepEqual(validateSession(reveal, available), reveal);
+  const aiReveal = { ...reveal, results: [{ ...result(0), ai: true }] };
+  assert.equal(validateSession(aiReveal, available).results[0].ai, true);
+  assert.throws(
+    () =>
+      validateSession(
+        { ...reveal, results: [{ ...result(0), ai: "yes" }] },
+        available,
+      ),
+    /AI flag/,
+  );
   const finished = {
     ...session,
     stage: "finished",

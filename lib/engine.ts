@@ -408,6 +408,9 @@ export function validateSave(value: unknown): {
           score,
           timedOut,
           corrected: boolean(result.corrected, `${resultLabel} corrected`),
+          ...(result.ai === undefined
+            ? {}
+            : { ai: boolean(result.ai, `${resultLabel} ai`) }),
         };
       },
     );

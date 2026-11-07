@@ -1,5 +1,12 @@
 #!/usr/bin/env node
-import { mkdir, readFile, readdir, stat, writeFile } from "node:fs/promises";
+import {
+  copyFile,
+  mkdir,
+  readFile,
+  readdir,
+  stat,
+  writeFile,
+} from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { deflateRawSync } from "node:zlib";
@@ -15,6 +22,26 @@ await build({
   configFile: path.join(projectRoot, "vite.local.config.ts"),
   mode: "hostinger",
 });
+
+// Only public PHP source and generated factual prompt metadata are packaged.
+// Secrets and the writable cache live outside public_html and are never copied.
+for (const filename of ["api.php", "api-lib.php"]) {
+  await copyFile(
+    path.join(projectRoot, "server", filename),
+    path.join(output, filename),
+  );
+}
+const [{ worldPrompts }, { culturePrompts }] = await Promise.all([
+  import(new URL("../lib/data/world.ts", import.meta.url).href),
+  import(new URL("../lib/data/culture.ts", import.meta.url).href),
+]);
+const promptBank = Object.fromEntries(
+  [...worldPrompts, ...culturePrompts].map((prompt) => [prompt.id, prompt]),
+);
+await writeFile(
+  path.join(output, "prompt-bank.json"),
+  JSON.stringify(promptBank),
+);
 
 // Apache/LiteSpeed redirects a physical directory's slashless URL before
 // loading index.html. Keep this configuration inside the krillion directory.
@@ -54,6 +81,9 @@ for (const required of [
   "fonts/Silkscreen-Regular.ttf",
   "fonts/OFL.txt",
   ".htaccess",
+  "api.php",
+  "api-lib.php",
+  "prompt-bank.json",
 ]) {
   if (!files.includes(required))
     throw new Error(`Static build is missing ${required}.`);

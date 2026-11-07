@@ -1,0 +1,2 @@
+Paste only your TypeSafe API key into a file named api-key.txt OUTSIDE public_html.
+Do not paste a real key into this example file, the repository, or the browser app.

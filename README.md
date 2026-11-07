@@ -1,0 +1,118 @@
+# Krillion
+
+An unofficial, independently built local recreation of [Krillion](https://krillion.io). Name something that fits the prompt: familiar answers score a little, unusual answers take you deeper. Seven rounds make a dive, and every point adds ten metres.
+
+![Krillion running locally](docs/krillion.jpg)
+
+This local recreation runs on your computer with no ads, accounts, subscriptions, API keys, or per-run limits. Its artwork, interface, and curated question bank were built independently. It does not connect to the official game's servers or unlock paid content.
+
+Source repository: [jordanbgeach/krillion-local](https://github.com/jordanbgeach/krillion-local).
+
+51 bundled prompts • 2,127 accepted answers • 6 categories • Unlimited runs
+
+## Run locally
+
+The browser game works offline once its dependencies are installed and the local build is created. You need **Node.js 22.13 or newer** to build it, and **Python 3** for the simple launcher.
+
+For the prebuilt version, extract the [latest release](https://github.com/jordanbgeach/krillion-local/releases/latest) and double-click **Start Krillion.command**.
+
+To build from source, run from this project folder:
+
+```sh
+npm install
+npm run build:local
+```
+
+On macOS, double-click **Start Krillion.command**. The launcher opens [Krillion on your computer](http://127.0.0.1:4173) in your default browser. Keep its Terminal window open while playing; press Control-C there to stop the server. Reopening the launcher reuses a running server for this project.
+
+On any platform with Python 3:
+
+```sh
+python3 scripts/serve.py
+```
+
+If Finder does not run the launcher after downloading a source ZIP, run `chmod +x "Start Krillion.command"` from the project folder, or use the Python command above. Opening `dist-local/index.html` directly is unsupported; use the local server.
+
+To work on the app with live updates:
+
+```sh
+npm run dev:local
+```
+
+The development address is [http://127.0.0.1:5173](http://127.0.0.1:5173). Development and launcher addresses have separate browser saves because they use different ports.
+
+## Play
+
+- **Unlimited:** start as many shuffled seven-round dives as you like. Random dives reroll to reduce overlap with your previous dive when possible, with a mix of your selected categories.
+- **Daily:** a deterministic dive based on your computer's local date.
+- **Practice:** play without time pressure and learn from the accepted-answer list.
+- Choose categories, adjust the timer, or replay a seed. A shared seed reproduces a dive when the question bank and settings match.
+- Review your dives in the logbook, and export your saves before moving computers or clearing browser storage.
+- Extend the game with custom questions and scores through the custom-bank tools.
+
+The default timed format is seven prompts with 25 seconds each. Type one answer and submit it before time runs out. After the reveal, inspect the local answer list to see what else you could have named.
+
+| Score | Tier       |
+| ----: | ---------- |
+|    10 | Surface    |
+|    15 | Familiar   |
+|    30 | Shoal      |
+|    60 | Uncommon   |
+|    85 | Deep cut   |
+|   100 | Hidden gem |
+
+The highest possible seven-round score is 700 points, or 7,000 metres.
+
+## What unlimited means
+
+There is no play counter, paywall, or daily restriction on Unlimited mode. The bundled question bank is finite, so prompts eventually repeat; shuffling and category selection create different runs. You can add your own prompts to keep expanding it.
+
+The scores are **manually curated familiarity estimates**, not measured player popularity or Krillion's official rankings. The local bank is deliberately bounded: a correct answer that has not been included may be rejected. Prompt notes explain the intended scope. Normalization accepts accents, spacing, and punctuation differences, and conservative typo correction only accepts an unambiguous nearby answer.
+
+## Custom question format
+
+Custom banks use a JSON array. Supported categories are `Geography`, `Nature`, `Science`, `Culture`, `Words`, and `Food`. Each answer needs a name and one of the six scores above; aliases are optional. Prompt IDs are automatically prefixed with `custom-`.
+
+```json
+[
+  {
+    "id": "local-colours",
+    "category": "Words",
+    "prompt": "Name a colour in this sample bank.",
+    "note": "A short example; add more accepted answers before playing.",
+    "answers": [
+      { "name": "Blue", "score": 10 },
+      { "name": "Vermilion", "score": 85, "aliases": ["Vermillion"] },
+      { "name": "Celadon", "score": 100 }
+    ]
+  }
+]
+```
+
+Keep the answer sets accurate and include common alternatives. Imported banks are validated: unsupported categories, invalid scores, and conflicting names or aliases are rejected. A bank can contain up to 500 prompts with 300 answers per prompt.
+
+## Saves and privacy
+
+Progress, preferences, and custom questions stay in your browser's local storage. The game includes no analytics or advertising scripts. It needs no external game server during play; the Python server listens only on your computer's loopback address.
+
+Browser storage is tied to the browser profile and exact local address. Keep using `http://127.0.0.1:4173` for the same save. Export your data before changing browsers, clearing site data, or switching machines. The export includes your custom questions and dive history.
+
+## Development and checks
+
+```sh
+npm test
+npm run typecheck
+npm run build:local
+```
+
+The standalone browser entry is `local-main.tsx`; the UI lives in `app/page.tsx` and `app/globals.css`. Matching, scoring, seeded selection, and import validation live in `lib/engine.ts`. Original question banks live in `lib/data/`.
+
+A [prebuilt local package](https://github.com/jordanbgeach/krillion-local/releases/latest) includes the browser game, Python server, and macOS launcher. Download and extract the whole package together; Python 3 is still needed, but Node.js is unnecessary to play the prebuilt copy. An optional GitHub Actions configuration lives in `.github/examples/check.yml`; move it to `.github/workflows/check.yml` if you enable workflow publishing on your GitHub credential.
+
+## Credits and license
+
+The original [Krillion](https://krillion.io) is the inspiration for the rare-answer game format. See its [FAQ](https://krillion.io/faq) for the original game's curation and scoring approach. This local recreation is unofficial and is not affiliated with or endorsed by the original Krillion creator. No official question-bank dumps, proprietary application code, official artwork, or paid content are included.
+
+The bundled [Silkscreen font](https://github.com/google/fonts/tree/main/ofl/silkscreen) is licensed under the SIL Open Font License; see [the included font license](public/fonts/OFL.txt). It is served locally during play.
+
+This recreation's code and independently curated bank are released under the [MIT License](LICENSE).

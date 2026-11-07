@@ -28,6 +28,7 @@ import { builtInPrompts } from "../lib/data";
 import { Ocean, DepthRuler, useDepthAnimation } from "../components/ocean";
 import {
   localDateKey,
+  normalizeAnswer,
   matchExactAnswer,
   suggestAnswerCorrections,
   checkPromptConstraints,
@@ -49,12 +50,12 @@ import {
   decodeDrawSeed,
 } from "../lib/rotation";
 import type { PromptRotation } from "../lib/rotation";
-import { matchDictionaryAnswer } from "../lib/lexicon";
+import { matchDictionaryAnswer, dictionaryWordCount } from "../lib/lexicon";
+import { knownAnswersForPrompt } from "../lib/answer-bank";
 import {
   createAIClient,
   describeAIError,
   exportLearnedBank,
-  isLearnedAnswer,
   learnAnswer,
   LEARNED_BANK_KEY,
   mergeLearnedBanks,
@@ -129,13 +130,35 @@ function AnswerBank({
 }) {
   const [open, setOpen] = useState(initiallyOpen);
   const [filter, setFilter] = useState("");
-  const answers = [...prompt.answers]
-    .sort((a, b) => b.score - a.score || a.name.localeCompare(b.name))
-    .filter((a) =>
-      [a.name, ...(a.aliases ?? [])].some((n) =>
-        n.toLowerCase().includes(filter.toLowerCase()),
-      ),
-    );
+  const [visibleCount, setVisibleCount] = useState(80);
+  const knownAnswers = useMemo(() => {
+    const curated =
+      builtInPrompts.find((item) => item.id === prompt.id) ?? prompt;
+    return knownAnswersForPrompt(prompt, curated);
+  }, [prompt.id, prompt.answers]);
+  const sortedAnswers = useMemo(
+    () =>
+      open
+        ? [...knownAnswers].sort(
+            (a, b) => b.score - a.score || a.name.localeCompare(b.name),
+          )
+        : [],
+    [knownAnswers, open],
+  );
+  const searchIndex = useMemo(
+    () =>
+      sortedAnswers.map((answer) => ({
+        answer,
+        names: [answer.name, ...(answer.aliases ?? [])].map(normalizeAnswer),
+      })),
+    [sortedAnswers],
+  );
+  const answers = useMemo(() => {
+    const query = normalizeAnswer(filter);
+    return searchIndex
+      .filter((item) => item.names.some((name) => name.includes(query)))
+      .map((item) => item.answer);
+  }, [searchIndex, filter]);
   return (
     <div className="answer-bank">
       <button
@@ -145,7 +168,9 @@ function AnswerBank({
       >
         <BookOpen size={15} />
         <span>{open ? "Close" : "Explore"} answer bank</span>
-        <span className="muted">{prompt.answers.length} answers</span>
+        <span className="muted">
+          {knownAnswers.length.toLocaleString()} answers
+        </span>
         <ChevronDown size={15} className={open ? "rotate" : ""} />
       </button>
       {open && (
@@ -157,21 +182,40 @@ function AnswerBank({
             aria-label="Search accepted answers"
             placeholder="Find an answer…"
             value={filter}
-            onChange={(e) => setFilter(e.target.value)}
+            onChange={(e) => {
+              setFilter(e.target.value);
+              setVisibleCount(80);
+            }}
           />
           <div className="answer-grid">
-            {answers.map((a) => (
+            {answers.slice(0, visibleCount).map((a) => (
               <div className="bank-answer" key={a.name}>
                 <span>{a.name}</span>
                 <b style={{ color: scoreColor(a.score) }}>{a.score}</b>
               </div>
             ))}
           </div>
+          {answers.length > 0 && (
+            <div className="bank-pagination">
+              <span aria-live="polite">
+                Showing{" "}
+                {Math.min(visibleCount, answers.length).toLocaleString()} of{" "}
+                {answers.length.toLocaleString()} matches
+              </span>
+              {visibleCount < answers.length && (
+                <button
+                  type="button"
+                  onClick={() => setVisibleCount((count) => count + 80)}
+                >
+                  Show 80 more <ChevronDown size={13} />
+                </button>
+              )}
+            </div>
+          )}
           {!answers.length && <p className="muted">No matching answers.</p>}
           <p className="bank-foot">
-            This is the known-answer list, not a limit on what you can submit.
-            Other valid answers can be checked by Jev. Scores are familiarity
-            estimates.
+            Dictionary words score instantly. Jev can check additional valid
+            answers. Scores are familiarity estimates.
           </p>
           {prompt.source && (
             <a
@@ -741,11 +785,17 @@ export default function Home() {
       setCanRetryAI(false);
       return;
     }
-    const exact = matchExactAnswer(currentPrompt, input);
+    const original = basePrompts.find(
+      (prompt) => prompt.id === currentPrompt.id,
+    )!;
+    const curated = matchExactAnswer(original, input);
+    const dictionary = curated
+      ? null
+      : matchDictionaryAnswer(currentPrompt, input);
+    const learned =
+      curated || dictionary ? null : matchExactAnswer(currentPrompt, input);
+    const exact = curated ?? dictionary ?? learned;
     if (exact) {
-      const original = basePrompts.find(
-        (prompt) => prompt.id === currentPrompt.id,
-      )!;
       landAnswer(
         {
           promptId: currentPrompt.id,
@@ -754,22 +804,7 @@ export default function Home() {
           score: exact.score,
           timedOut: false,
           corrected: false,
-          ...(isLearnedAnswer(original, exact.name) ? { ai: true } : {}),
-        },
-        expected,
-      );
-      return;
-    }
-    const dictionary = matchDictionaryAnswer(currentPrompt, input);
-    if (dictionary) {
-      landAnswer(
-        {
-          promptId: currentPrompt.id,
-          input,
-          answer: dictionary.name,
-          score: dictionary.score,
-          timedOut: false,
-          corrected: false,
+          ...(learned ? { ai: true } : {}),
         },
         expected,
       );
@@ -1387,11 +1422,11 @@ export default function Home() {
                   <BookOpen size={15} />
                   <span>
                     <b>
-                      {allPrompts
+                      {basePrompts
                         .reduce((n, p) => n + p.answers.length, 0)
                         .toLocaleString()}
                     </b>{" "}
-                    accepted answers
+                    curated answers
                   </span>
                 </div>
                 <span className="tiny-divider" />
@@ -1403,7 +1438,8 @@ export default function Home() {
                 </div>
               </div>
               <p className="local-footnote">
-                NO ADS. NO ACCOUNTS. JUST YOU AND THE DEEP.
+                {dictionaryWordCount.toLocaleString()} DICTIONARY WORDS. NO ADS.
+                JUST YOU AND THE DEEP.
               </p>
             </section>
           )}
@@ -1746,11 +1782,8 @@ export default function Home() {
               <p className="eyebrow">A LITTLE KNOWLEDGE GOES A LONG WAY DOWN</p>
               <h1>The field guide.</h1>
               <p>
-                {allPrompts.length} prompts.{" "}
-                {allPrompts
-                  .reduce((s, p) => s + p.answers.length, 0)
-                  .toLocaleString()}{" "}
-                ways to find your depth.
+                {allPrompts.length} prompts ·{" "}
+                {dictionaryWordCount.toLocaleString()} dictionary words.
               </p>
             </div>
             <button

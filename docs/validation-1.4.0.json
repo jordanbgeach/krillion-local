@@ -1,0 +1,3205 @@
+{
+  "version": "1.4.0",
+  "verifiedAt": "2026-11-07T20:54:52.245973+00:00",
+  "url": "https://jordangeach.com/krillion/",
+  "assets": [
+    {
+      "file": "assets/index-C_TAlStW.js",
+      "matches": true,
+      "sha256": "e8e310139e291ca2282628e0705b808ae0e53b55e274d454cf0e64b76bec48b0"
+    },
+    {
+      "file": "assets/index-DoT_K_ej.css",
+      "matches": true,
+      "sha256": "3195e774ee83a7d18fa2d77db7fb9391c7f622cdaa6628754b6e5d9ccebd7570"
+    },
+    {
+      "file": "dictionary/words.json",
+      "matches": true,
+      "sha256": "8347e1d322717de03777c339450379e206509d46059be2013dbf06ee3de76211"
+    },
+    {
+      "file": "dictionary/SCOWL-LICENSE.txt",
+      "matches": true,
+      "sha256": "090575a131b4260926c7a6b30a90aca0f5db5fbb5c46778e0c5855227bf6ebc3"
+    },
+    {
+      "file": "prompt-bank.json",
+      "matches": true,
+      "sha256": "06b865a29254a4dc785d66d0de84832fe58a47c7587a28d892b62aabb7b3f8b1"
+    }
+  ],
+  "promptCount": 108,
+  "curatedAnswers": 7507,
+  "curatedAliases": 1601,
+  "dictionaryForms": 30000,
+  "aiStatus": {
+    "enabled": true,
+    "model": "jev-1.14.0",
+    "version": 1
+  },
+  "automatedChecks": {
+    "nodeTests": 43,
+    "php72Assertions": 120,
+    "typecheck": "passed",
+    "builds": [
+      "Hostinger",
+      "local"
+    ],
+    "legacyCuratedNamesAndScoresPreserved": 2557,
+    "legacyDictionaryFormsAndScoresPreserved": 17705
+  },
+  "liveChecks": [
+    {
+      "promptId": "world-single-word-states",
+      "input": "California",
+      "passed": true,
+      "wallMs": 178,
+      "response": {
+        "status": "accepted",
+        "answer": "California",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 7
+      }
+    },
+    {
+      "promptId": "world-single-word-states",
+      "input": "Vermont",
+      "passed": true,
+      "wallMs": 189,
+      "response": {
+        "status": "accepted",
+        "answer": "Vermont",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "world-one-word-state-capitals",
+      "input": "Austin",
+      "passed": true,
+      "wallMs": 176,
+      "response": {
+        "status": "accepted",
+        "answer": "Austin",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "world-one-word-state-capitals",
+      "input": "Columbia",
+      "passed": true,
+      "wallMs": 178,
+      "response": {
+        "status": "accepted",
+        "answer": "Columbia",
+        "score": 60,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "world-african-countries",
+      "input": "Egypt",
+      "passed": true,
+      "wallMs": 176,
+      "response": {
+        "status": "accepted",
+        "answer": "Egypt",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 9
+      }
+    },
+    {
+      "promptId": "world-african-countries",
+      "input": "Guinea-Bissau",
+      "passed": true,
+      "wallMs": 167,
+      "response": {
+        "status": "accepted",
+        "answer": "Guinea-Bissau",
+        "score": 85,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "world-americas-countries",
+      "input": "United States",
+      "passed": true,
+      "wallMs": 178,
+      "response": {
+        "status": "accepted",
+        "answer": "United States",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "world-americas-countries",
+      "input": "Saint Vincent and the Grenadines",
+      "passed": true,
+      "wallMs": 189,
+      "response": {
+        "status": "accepted",
+        "answer": "Saint Vincent and the Grenadines",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 10
+      }
+    },
+    {
+      "promptId": "world-landlocked-countries",
+      "input": "Switzerland",
+      "passed": true,
+      "wallMs": 174,
+      "response": {
+        "status": "accepted",
+        "answer": "Switzerland",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "world-landlocked-countries",
+      "input": "San Marino",
+      "passed": true,
+      "wallMs": 174,
+      "response": {
+        "status": "accepted",
+        "answer": "San Marino",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "world-european-capitals",
+      "input": "London",
+      "passed": true,
+      "wallMs": 185,
+      "response": {
+        "status": "accepted",
+        "answer": "London",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 9
+      }
+    },
+    {
+      "promptId": "world-european-capitals",
+      "input": "Pristina",
+      "passed": true,
+      "wallMs": 187,
+      "response": {
+        "status": "accepted",
+        "answer": "Pristina",
+        "score": 85,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 10
+      }
+    },
+    {
+      "promptId": "world-asian-capitals",
+      "input": "Tokyo",
+      "passed": true,
+      "wallMs": 181,
+      "response": {
+        "status": "accepted",
+        "answer": "Tokyo",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 5
+      }
+    },
+    {
+      "promptId": "world-asian-capitals",
+      "input": "Sri Jayewardenepura Kotte",
+      "passed": true,
+      "wallMs": 192,
+      "response": {
+        "status": "accepted",
+        "answer": "Sri Jayewardenepura Kotte",
+        "score": 85,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 10
+      }
+    },
+    {
+      "promptId": "world-us-national-parks",
+      "input": "Yellowstone",
+      "passed": true,
+      "wallMs": 168,
+      "response": {
+        "status": "accepted",
+        "answer": "Yellowstone",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "world-us-national-parks",
+      "input": "Chiricahua",
+      "passed": true,
+      "wallMs": 177,
+      "response": {
+        "status": "accepted",
+        "answer": "Chiricahua",
+        "score": 85,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 7
+      }
+    },
+    {
+      "promptId": "world-dog-breeds",
+      "input": "Labrador Retriever",
+      "passed": true,
+      "wallMs": 199,
+      "response": {
+        "status": "accepted",
+        "answer": "Labrador Retriever",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 9
+      }
+    },
+    {
+      "promptId": "world-dog-breeds",
+      "input": "Wirehaired Pointing Griffon",
+      "passed": true,
+      "wallMs": 179,
+      "response": {
+        "status": "accepted",
+        "answer": "Wirehaired Pointing Griffon",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 7
+      }
+    },
+    {
+      "promptId": "world-cat-breeds",
+      "input": "Persian",
+      "passed": true,
+      "wallMs": 169,
+      "response": {
+        "status": "accepted",
+        "answer": "Persian",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 7
+      }
+    },
+    {
+      "promptId": "world-cat-breeds",
+      "input": "Napoleon",
+      "passed": true,
+      "wallMs": 172,
+      "response": {
+        "status": "accepted",
+        "answer": "Napoleon",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "world-shark-species",
+      "input": "Great White Shark",
+      "passed": true,
+      "wallMs": 189,
+      "response": {
+        "status": "accepted",
+        "answer": "Great White Shark",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 10
+      }
+    },
+    {
+      "promptId": "world-shark-species",
+      "input": "Bigeye Sixgill Shark",
+      "passed": true,
+      "wallMs": 188,
+      "response": {
+        "status": "accepted",
+        "answer": "Bigeye Sixgill Shark",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 10
+      }
+    },
+    {
+      "promptId": "world-snake-species",
+      "input": "King Cobra",
+      "passed": true,
+      "wallMs": 187,
+      "response": {
+        "status": "accepted",
+        "answer": "King Cobra",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 10
+      }
+    },
+    {
+      "promptId": "world-snake-species",
+      "input": "Blunt-Headed Tree Snake",
+      "passed": true,
+      "wallMs": 172,
+      "response": {
+        "status": "accepted",
+        "answer": "Blunt-Headed Tree Snake",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "world-bird-species",
+      "input": "Bald Eagle",
+      "passed": true,
+      "wallMs": 172,
+      "response": {
+        "status": "accepted",
+        "answer": "Bald Eagle",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "world-bird-species",
+      "input": "Crested Ibis",
+      "passed": true,
+      "wallMs": 168,
+      "response": {
+        "status": "accepted",
+        "answer": "Crested Ibis",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "world-tree-species",
+      "input": "English Oak",
+      "passed": true,
+      "wallMs": 169,
+      "response": {
+        "status": "accepted",
+        "answer": "English Oak",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 5
+      }
+    },
+    {
+      "promptId": "world-tree-species",
+      "input": "Giant Baobab",
+      "passed": true,
+      "wallMs": 175,
+      "response": {
+        "status": "accepted",
+        "answer": "Giant Baobab",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "world-butterfly-species",
+      "input": "Monarch",
+      "passed": true,
+      "wallMs": 171,
+      "response": {
+        "status": "accepted",
+        "answer": "Monarch",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 5
+      }
+    },
+    {
+      "promptId": "world-butterfly-species",
+      "input": "Purple-Shot Copper",
+      "passed": true,
+      "wallMs": 166,
+      "response": {
+        "status": "accepted",
+        "answer": "Purple-Shot Copper",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "world-marsupial-species",
+      "input": "Koala",
+      "passed": true,
+      "wallMs": 165,
+      "response": {
+        "status": "accepted",
+        "answer": "Koala",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 5
+      }
+    },
+    {
+      "promptId": "world-marsupial-species",
+      "input": "Northern Marsupial Mole",
+      "passed": true,
+      "wallMs": 185,
+      "response": {
+        "status": "accepted",
+        "answer": "Northern Marsupial Mole",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 11
+      }
+    },
+    {
+      "promptId": "world-pasta-shapes",
+      "input": "Spaghetti",
+      "passed": true,
+      "wallMs": 176,
+      "response": {
+        "status": "accepted",
+        "answer": "Spaghetti",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 8
+      }
+    },
+    {
+      "promptId": "world-pasta-shapes",
+      "input": "Tortelli",
+      "passed": true,
+      "wallMs": 167,
+      "response": {
+        "status": "accepted",
+        "answer": "Tortelli",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "world-cheeses",
+      "input": "Cheddar",
+      "passed": true,
+      "wallMs": 176,
+      "response": {
+        "status": "accepted",
+        "answer": "Cheddar",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 9
+      }
+    },
+    {
+      "promptId": "world-cheeses",
+      "input": "Mah\u00f3n",
+      "passed": true,
+      "wallMs": 171,
+      "response": {
+        "status": "accepted",
+        "answer": "Mah\u00f3n",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "world-culinary-fruits",
+      "input": "Apple",
+      "passed": true,
+      "wallMs": 171,
+      "response": {
+        "status": "accepted",
+        "answer": "Apple",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "world-culinary-fruits",
+      "input": "Mamoncillo",
+      "passed": true,
+      "wallMs": 173,
+      "response": {
+        "status": "accepted",
+        "answer": "Mamoncillo",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "world-vegetables",
+      "input": "Carrot",
+      "passed": true,
+      "wallMs": 168,
+      "response": {
+        "status": "accepted",
+        "answer": "Carrot",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "world-vegetables",
+      "input": "Moringa Leaves",
+      "passed": true,
+      "wallMs": 214,
+      "response": {
+        "status": "accepted",
+        "answer": "Moringa Leaves",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 11
+      }
+    },
+    {
+      "promptId": "world-culinary-herbs",
+      "input": "Basil",
+      "passed": true,
+      "wallMs": 177,
+      "response": {
+        "status": "accepted",
+        "answer": "Basil",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "world-culinary-herbs",
+      "input": "Mountain Pepper Leaf",
+      "passed": true,
+      "wallMs": 168,
+      "response": {
+        "status": "accepted",
+        "answer": "Mountain Pepper Leaf",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "world-culinary-spices",
+      "input": "Cinnamon",
+      "passed": true,
+      "wallMs": 167,
+      "response": {
+        "status": "accepted",
+        "answer": "Cinnamon",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "world-culinary-spices",
+      "input": "Timur Pepper",
+      "passed": true,
+      "wallMs": 171,
+      "response": {
+        "status": "accepted",
+        "answer": "Timur Pepper",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "world-breads",
+      "input": "Baguette",
+      "passed": true,
+      "wallMs": 168,
+      "response": {
+        "status": "accepted",
+        "answer": "Baguette",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 8
+      }
+    },
+    {
+      "promptId": "world-breads",
+      "input": "Makki di Roti",
+      "passed": true,
+      "wallMs": 188,
+      "response": {
+        "status": "accepted",
+        "answer": "Makki di Roti",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 9
+      }
+    },
+    {
+      "promptId": "world-edible-legumes",
+      "input": "Chickpea",
+      "passed": true,
+      "wallMs": 197,
+      "response": {
+        "status": "accepted",
+        "answer": "Chickpea",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 10
+      }
+    },
+    {
+      "promptId": "world-edible-legumes",
+      "input": "Velvet Bean",
+      "passed": true,
+      "wallMs": 183,
+      "response": {
+        "status": "accepted",
+        "answer": "Velvet Bean",
+        "score": 85,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "culture-constellations",
+      "input": "Orion",
+      "passed": true,
+      "wallMs": 171,
+      "response": {
+        "status": "accepted",
+        "answer": "Orion",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "culture-constellations",
+      "input": "Horologium",
+      "passed": true,
+      "wallMs": 171,
+      "response": {
+        "status": "accepted",
+        "answer": "Horologium",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "culture-moons",
+      "input": "Moon",
+      "passed": true,
+      "wallMs": 200,
+      "response": {
+        "status": "accepted",
+        "answer": "Moon",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 10
+      }
+    },
+    {
+      "promptId": "culture-moons",
+      "input": "Calypso",
+      "passed": true,
+      "wallMs": 179,
+      "response": {
+        "status": "accepted",
+        "answer": "Calypso",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "culture-si-prefixes",
+      "input": "Kilo",
+      "passed": true,
+      "wallMs": 168,
+      "response": {
+        "status": "accepted",
+        "answer": "Kilo",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "culture-si-prefixes",
+      "input": "Quecto",
+      "passed": true,
+      "wallMs": 179,
+      "response": {
+        "status": "accepted",
+        "answer": "Quecto",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 5
+      }
+    },
+    {
+      "promptId": "culture-si-units",
+      "input": "Metre",
+      "passed": true,
+      "wallMs": 166,
+      "response": {
+        "status": "accepted",
+        "answer": "Metre",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 5
+      }
+    },
+    {
+      "promptId": "culture-si-units",
+      "input": "Katal",
+      "passed": true,
+      "wallMs": 187,
+      "response": {
+        "status": "accepted",
+        "answer": "Katal",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 9
+      }
+    },
+    {
+      "promptId": "culture-bones",
+      "input": "Femur",
+      "passed": true,
+      "wallMs": 166,
+      "response": {
+        "status": "accepted",
+        "answer": "Femur",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 5
+      }
+    },
+    {
+      "promptId": "culture-bones",
+      "input": "Stapes",
+      "passed": true,
+      "wallMs": 167,
+      "response": {
+        "status": "accepted",
+        "answer": "Stapes",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "culture-sciences",
+      "input": "Biology",
+      "passed": true,
+      "wallMs": 174,
+      "response": {
+        "status": "accepted",
+        "answer": "Biology",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 5
+      }
+    },
+    {
+      "promptId": "culture-sciences",
+      "input": "Cetology",
+      "passed": true,
+      "wallMs": 185,
+      "response": {
+        "status": "accepted",
+        "answer": "Cetology",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 10
+      }
+    },
+    {
+      "promptId": "culture-minerals",
+      "input": "Quartz",
+      "passed": true,
+      "wallMs": 175,
+      "response": {
+        "status": "accepted",
+        "answer": "Quartz",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 8
+      }
+    },
+    {
+      "promptId": "culture-minerals",
+      "input": "Sillimanite",
+      "passed": true,
+      "wallMs": 195,
+      "response": {
+        "status": "accepted",
+        "answer": "Sillimanite",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 10
+      }
+    },
+    {
+      "promptId": "culture-scientists",
+      "input": "Albert Einstein",
+      "passed": true,
+      "wallMs": 177,
+      "response": {
+        "status": "accepted",
+        "answer": "Albert Einstein",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "culture-scientists",
+      "input": "Sofia Kovalevskaya",
+      "passed": true,
+      "wallMs": 186,
+      "response": {
+        "status": "accepted",
+        "answer": "Sofia Kovalevskaya",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 10
+      }
+    },
+    {
+      "promptId": "culture-muscles",
+      "input": "Biceps brachii",
+      "passed": true,
+      "wallMs": 184,
+      "response": {
+        "status": "accepted",
+        "answer": "Biceps brachii",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 9
+      }
+    },
+    {
+      "promptId": "culture-muscles",
+      "input": "Inferior gemellus",
+      "passed": true,
+      "wallMs": 174,
+      "response": {
+        "status": "accepted",
+        "answer": "Inferior gemellus",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "culture-instruments",
+      "input": "Piano",
+      "passed": true,
+      "wallMs": 182,
+      "response": {
+        "status": "accepted",
+        "answer": "Piano",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "culture-instruments",
+      "input": "Crumhorn",
+      "passed": true,
+      "wallMs": 180,
+      "response": {
+        "status": "accepted",
+        "answer": "Crumhorn",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 9
+      }
+    },
+    {
+      "promptId": "culture-greek-deities",
+      "input": "Zeus",
+      "passed": true,
+      "wallMs": 170,
+      "response": {
+        "status": "accepted",
+        "answer": "Zeus",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 7
+      }
+    },
+    {
+      "promptId": "culture-greek-deities",
+      "input": "Kratos",
+      "passed": true,
+      "wallMs": 182,
+      "response": {
+        "status": "accepted",
+        "answer": "Kratos",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 9
+      }
+    },
+    {
+      "promptId": "culture-shakespeare",
+      "input": "Hamlet",
+      "passed": true,
+      "wallMs": 187,
+      "response": {
+        "status": "accepted",
+        "answer": "Hamlet",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 9
+      }
+    },
+    {
+      "promptId": "culture-shakespeare",
+      "input": "Edward III",
+      "passed": true,
+      "wallMs": 187,
+      "response": {
+        "status": "accepted",
+        "answer": "Edward III",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 10
+      }
+    },
+    {
+      "promptId": "culture-composers",
+      "input": "Ludwig van Beethoven",
+      "passed": true,
+      "wallMs": 172,
+      "response": {
+        "status": "accepted",
+        "answer": "Ludwig van Beethoven",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 9
+      }
+    },
+    {
+      "promptId": "culture-composers",
+      "input": "C\u00e9cile Chaminade",
+      "passed": true,
+      "wallMs": 175,
+      "response": {
+        "status": "accepted",
+        "answer": "C\u00e9cile Chaminade",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 7
+      }
+    },
+    {
+      "promptId": "culture-art-movements",
+      "input": "Impressionism",
+      "passed": true,
+      "wallMs": 197,
+      "response": {
+        "status": "accepted",
+        "answer": "Impressionism",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 9
+      }
+    },
+    {
+      "promptId": "culture-art-movements",
+      "input": "Figuration Libre",
+      "passed": true,
+      "wallMs": 180,
+      "response": {
+        "status": "accepted",
+        "answer": "Figuration Libre",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 10
+      }
+    },
+    {
+      "promptId": "culture-poetic-forms",
+      "input": "Haiku",
+      "passed": true,
+      "wallMs": 178,
+      "response": {
+        "status": "accepted",
+        "answer": "Haiku",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "culture-poetic-forms",
+      "input": "D\u00e1n d\u00edreach",
+      "passed": true,
+      "wallMs": 174,
+      "response": {
+        "status": "accepted",
+        "answer": "D\u00e1n d\u00edreach",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 7
+      }
+    },
+    {
+      "promptId": "culture-literary-genres",
+      "input": "Fantasy",
+      "passed": true,
+      "wallMs": 169,
+      "response": {
+        "status": "accepted",
+        "answer": "Fantasy",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "culture-literary-genres",
+      "input": "Menippean satire",
+      "passed": true,
+      "wallMs": 184,
+      "response": {
+        "status": "accepted",
+        "answer": "Menippean satire",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 10
+      }
+    },
+    {
+      "promptId": "culture-dances",
+      "input": "Ballet",
+      "passed": true,
+      "wallMs": 185,
+      "response": {
+        "status": "accepted",
+        "answer": "Ballet",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 9
+      }
+    },
+    {
+      "promptId": "culture-dances",
+      "input": "Hopak",
+      "passed": true,
+      "wallMs": 164,
+      "response": {
+        "status": "accepted",
+        "answer": "Hopak",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "culture-norse-deities",
+      "input": "Odin",
+      "passed": true,
+      "wallMs": 181,
+      "response": {
+        "status": "accepted",
+        "answer": "Odin",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 10
+      }
+    },
+    {
+      "promptId": "culture-norse-deities",
+      "input": "Lodur",
+      "passed": true,
+      "wallMs": 173,
+      "response": {
+        "status": "accepted",
+        "answer": "Lodur",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 9
+      }
+    },
+    {
+      "promptId": "culture-palindromes",
+      "input": "Racecar",
+      "passed": true,
+      "wallMs": 199,
+      "response": {
+        "status": "accepted",
+        "answer": "Racecar",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 5
+      }
+    },
+    {
+      "promptId": "culture-palindromes",
+      "input": "Kinnikinnik",
+      "passed": true,
+      "wallMs": 180,
+      "response": {
+        "status": "accepted",
+        "answer": "Kinnikinnik",
+        "score": 85,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "culture-silent-initials",
+      "input": "Knife",
+      "passed": true,
+      "wallMs": 227,
+      "response": {
+        "status": "accepted",
+        "answer": "Knife",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 8
+      }
+    },
+    {
+      "promptId": "culture-silent-initials",
+      "input": "Ctenophore",
+      "passed": true,
+      "wallMs": 168,
+      "response": {
+        "status": "accepted",
+        "answer": "Ctenophore",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "culture-double-o",
+      "input": "Book",
+      "passed": true,
+      "wallMs": 177,
+      "response": {
+        "status": "accepted",
+        "answer": "Book",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 9
+      }
+    },
+    {
+      "promptId": "culture-double-o",
+      "input": "Schooner",
+      "passed": true,
+      "wallMs": 163,
+      "response": {
+        "status": "accepted",
+        "answer": "Schooner",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "culture-qu-words",
+      "input": "Queen",
+      "passed": true,
+      "wallMs": 192,
+      "response": {
+        "status": "accepted",
+        "answer": "Queen",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 10
+      }
+    },
+    {
+      "promptId": "culture-qu-words",
+      "input": "Quinquereme",
+      "passed": true,
+      "wallMs": 182,
+      "response": {
+        "status": "accepted",
+        "answer": "Quinquereme",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 9
+      }
+    },
+    {
+      "promptId": "culture-z-words",
+      "input": "Zebra",
+      "passed": true,
+      "wallMs": 171,
+      "response": {
+        "status": "accepted",
+        "answer": "Zebra",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 5
+      }
+    },
+    {
+      "promptId": "culture-z-words",
+      "input": "Zamindar",
+      "passed": true,
+      "wallMs": 187,
+      "response": {
+        "status": "accepted",
+        "answer": "Zamindar",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 10
+      }
+    },
+    {
+      "promptId": "culture-ph-words",
+      "input": "Phone",
+      "passed": true,
+      "wallMs": 221,
+      "response": {
+        "status": "accepted",
+        "answer": "Phone",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 9
+      }
+    },
+    {
+      "promptId": "culture-ph-words",
+      "input": "Epiphyte",
+      "passed": true,
+      "wallMs": 195,
+      "response": {
+        "status": "accepted",
+        "answer": "Epiphyte",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 10
+      }
+    },
+    {
+      "promptId": "culture-less-words",
+      "input": "Hopeless",
+      "passed": true,
+      "wallMs": 179,
+      "response": {
+        "status": "accepted",
+        "answer": "Hopeless",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 10
+      }
+    },
+    {
+      "promptId": "culture-less-words",
+      "input": "Sinewless",
+      "passed": true,
+      "wallMs": 190,
+      "response": {
+        "status": "accepted",
+        "answer": "Sinewless",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 10
+      }
+    },
+    {
+      "promptId": "culture-double-e",
+      "input": "Tree",
+      "passed": true,
+      "wallMs": 164,
+      "response": {
+        "status": "accepted",
+        "answer": "Tree",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 5
+      }
+    },
+    {
+      "promptId": "culture-double-e",
+      "input": "Leeward",
+      "passed": true,
+      "wallMs": 167,
+      "response": {
+        "status": "accepted",
+        "answer": "Leeward",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "culture-five-letter-animals",
+      "input": "Tiger",
+      "passed": true,
+      "wallMs": 167,
+      "response": {
+        "status": "accepted",
+        "answer": "Tiger",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "culture-five-letter-animals",
+      "input": "Indri",
+      "passed": true,
+      "wallMs": 172,
+      "response": {
+        "status": "accepted",
+        "answer": "Indri",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-deserts",
+      "input": "Sahara",
+      "passed": true,
+      "wallMs": 188,
+      "response": {
+        "status": "accepted",
+        "answer": "Sahara",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 9
+      }
+    },
+    {
+      "promptId": "extra-deserts",
+      "input": "Richtersveld",
+      "passed": true,
+      "wallMs": 167,
+      "response": {
+        "status": "accepted",
+        "answer": "Richtersveld",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-rivers",
+      "input": "Nile",
+      "passed": true,
+      "wallMs": 191,
+      "response": {
+        "status": "accepted",
+        "answer": "Nile",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-rivers",
+      "input": "Tungabhadra",
+      "passed": true,
+      "wallMs": 173,
+      "response": {
+        "status": "accepted",
+        "answer": "Tungabhadra",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 9
+      }
+    },
+    {
+      "promptId": "extra-mountain-ranges",
+      "input": "Himalayas",
+      "passed": true,
+      "wallMs": 165,
+      "response": {
+        "status": "accepted",
+        "answer": "Himalayas",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 7
+      }
+    },
+    {
+      "promptId": "extra-mountain-ranges",
+      "input": "Bale Mountains",
+      "passed": true,
+      "wallMs": 179,
+      "response": {
+        "status": "accepted",
+        "answer": "Bale Mountains",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 9
+      }
+    },
+    {
+      "promptId": "extra-seas",
+      "input": "Mediterranean Sea",
+      "passed": true,
+      "wallMs": 172,
+      "response": {
+        "status": "accepted",
+        "answer": "Mediterranean Sea",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 7
+      }
+    },
+    {
+      "promptId": "extra-seas",
+      "input": "Riiser-Larsen Sea",
+      "passed": true,
+      "wallMs": 193,
+      "response": {
+        "status": "accepted",
+        "answer": "Riiser-Larsen Sea",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 10
+      }
+    },
+    {
+      "promptId": "extra-mediterranean-islands",
+      "input": "Sicily",
+      "passed": true,
+      "wallMs": 189,
+      "response": {
+        "status": "accepted",
+        "answer": "Sicily",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 9
+      }
+    },
+    {
+      "promptId": "extra-mediterranean-islands",
+      "input": "Sipan",
+      "passed": true,
+      "wallMs": 167,
+      "response": {
+        "status": "accepted",
+        "answer": "Sipan",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-waterfalls",
+      "input": "Niagara Falls",
+      "passed": true,
+      "wallMs": 169,
+      "response": {
+        "status": "accepted",
+        "answer": "Niagara Falls",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-waterfalls",
+      "input": "Barron Falls",
+      "passed": true,
+      "wallMs": 165,
+      "response": {
+        "status": "accepted",
+        "answer": "Barron Falls",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-star-flags",
+      "input": "United States",
+      "passed": true,
+      "wallMs": 169,
+      "response": {
+        "status": "accepted",
+        "answer": "United States",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-star-flags",
+      "input": "Equatorial Guinea",
+      "passed": true,
+      "wallMs": 173,
+      "response": {
+        "status": "accepted",
+        "answer": "Equatorial Guinea",
+        "score": 85,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-summer-host-cities",
+      "input": "London",
+      "passed": true,
+      "wallMs": 163,
+      "response": {
+        "status": "accepted",
+        "answer": "London",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 5
+      }
+    },
+    {
+      "promptId": "extra-summer-host-cities",
+      "input": "Saint Louis",
+      "passed": true,
+      "wallMs": 166,
+      "response": {
+        "status": "accepted",
+        "answer": "Saint Louis",
+        "score": 85,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-volcanoes",
+      "input": "Mount Fuji",
+      "passed": true,
+      "wallMs": 178,
+      "response": {
+        "status": "accepted",
+        "answer": "Mount Fuji",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-volcanoes",
+      "input": "Suswa",
+      "passed": true,
+      "wallMs": 168,
+      "response": {
+        "status": "accepted",
+        "answer": "Suswa",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-garden-flowers",
+      "input": "Rose",
+      "passed": true,
+      "wallMs": 164,
+      "response": {
+        "status": "accepted",
+        "answer": "Rose",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-garden-flowers",
+      "input": "Cerinthe",
+      "passed": true,
+      "wallMs": 190,
+      "response": {
+        "status": "accepted",
+        "answer": "Cerinthe",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 7
+      }
+    },
+    {
+      "promptId": "extra-dinosaur-genera",
+      "input": "Tyrannosaurus",
+      "passed": true,
+      "wallMs": 172,
+      "response": {
+        "status": "accepted",
+        "answer": "Tyrannosaurus",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-dinosaur-genera",
+      "input": "Massospondylus",
+      "passed": true,
+      "wallMs": 169,
+      "response": {
+        "status": "accepted",
+        "answer": "Massospondylus",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 7
+      }
+    },
+    {
+      "promptId": "extra-cetaceans",
+      "input": "Blue Whale",
+      "passed": true,
+      "wallMs": 167,
+      "response": {
+        "status": "accepted",
+        "answer": "Blue Whale",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-cetaceans",
+      "input": "Spade-Toothed Whale",
+      "passed": true,
+      "wallMs": 170,
+      "response": {
+        "status": "accepted",
+        "answer": "Spade-Toothed Whale",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-marine-invertebrates",
+      "input": "Octopus",
+      "passed": true,
+      "wallMs": 203,
+      "response": {
+        "status": "accepted",
+        "answer": "Octopus",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 5
+      }
+    },
+    {
+      "promptId": "extra-marine-invertebrates",
+      "input": "Spoon Worm",
+      "passed": true,
+      "wallMs": 169,
+      "response": {
+        "status": "accepted",
+        "answer": "Spoon Worm",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-freshwater-fish",
+      "input": "Goldfish",
+      "passed": true,
+      "wallMs": 178,
+      "response": {
+        "status": "accepted",
+        "answer": "Goldfish",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-freshwater-fish",
+      "input": "Giant Gourami",
+      "passed": true,
+      "wallMs": 173,
+      "response": {
+        "status": "accepted",
+        "answer": "Giant Gourami",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-farm-animals",
+      "input": "Cattle",
+      "passed": true,
+      "wallMs": 172,
+      "response": {
+        "status": "accepted",
+        "answer": "Cattle",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-farm-animals",
+      "input": "Mithun",
+      "passed": true,
+      "wallMs": 171,
+      "response": {
+        "status": "accepted",
+        "answer": "Mithun",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 8
+      }
+    },
+    {
+      "promptId": "extra-mammal-orders",
+      "input": "Primates",
+      "passed": true,
+      "wallMs": 189,
+      "response": {
+        "status": "accepted",
+        "answer": "Primates",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 9
+      }
+    },
+    {
+      "promptId": "extra-mammal-orders",
+      "input": "Afrosoricida",
+      "passed": true,
+      "wallMs": 210,
+      "response": {
+        "status": "accepted",
+        "answer": "Afrosoricida",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-natural-habitats",
+      "input": "Forest",
+      "passed": true,
+      "wallMs": 173,
+      "response": {
+        "status": "accepted",
+        "answer": "Forest",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-natural-habitats",
+      "input": "Coastal Salt Meadow",
+      "passed": true,
+      "wallMs": 190,
+      "response": {
+        "status": "accepted",
+        "answer": "Coastal Salt Meadow",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 10
+      }
+    },
+    {
+      "promptId": "extra-rock-types",
+      "input": "Granite",
+      "passed": true,
+      "wallMs": 181,
+      "response": {
+        "status": "accepted",
+        "answer": "Granite",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 5
+      }
+    },
+    {
+      "promptId": "extra-rock-types",
+      "input": "Foidolite",
+      "passed": true,
+      "wallMs": 175,
+      "response": {
+        "status": "accepted",
+        "answer": "Foidolite",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 10
+      }
+    },
+    {
+      "promptId": "extra-chemical-elements",
+      "input": "Hydrogen",
+      "passed": true,
+      "wallMs": 169,
+      "response": {
+        "status": "accepted",
+        "answer": "Hydrogen",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 5
+      }
+    },
+    {
+      "promptId": "extra-chemical-elements",
+      "input": "Ytterbium",
+      "passed": true,
+      "wallMs": 170,
+      "response": {
+        "status": "accepted",
+        "answer": "Ytterbium",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 7
+      }
+    },
+    {
+      "promptId": "extra-human-organs",
+      "input": "Heart",
+      "passed": true,
+      "wallMs": 188,
+      "response": {
+        "status": "accepted",
+        "answer": "Heart",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 9
+      }
+    },
+    {
+      "promptId": "extra-human-organs",
+      "input": "Organ of Corti",
+      "passed": true,
+      "wallMs": 180,
+      "response": {
+        "status": "accepted",
+        "answer": "Organ of Corti",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-robotic-spacecraft",
+      "input": "Voyager 1",
+      "passed": true,
+      "wallMs": 165,
+      "response": {
+        "status": "accepted",
+        "answer": "Voyager 1",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-robotic-spacecraft",
+      "input": "SLIM",
+      "passed": true,
+      "wallMs": 176,
+      "response": {
+        "status": "accepted",
+        "answer": "SLIM",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 8
+      }
+    },
+    {
+      "promptId": "extra-data-structures",
+      "input": "Array",
+      "passed": true,
+      "wallMs": 174,
+      "response": {
+        "status": "accepted",
+        "answer": "Array",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-data-structures",
+      "input": "Cartesian Tree",
+      "passed": true,
+      "wallMs": 183,
+      "response": {
+        "status": "accepted",
+        "answer": "Cartesian Tree",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 8
+      }
+    },
+    {
+      "promptId": "extra-measuring-instruments",
+      "input": "Thermometer",
+      "passed": true,
+      "wallMs": 192,
+      "response": {
+        "status": "accepted",
+        "answer": "Thermometer",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 10
+      }
+    },
+    {
+      "promptId": "extra-measuring-instruments",
+      "input": "Scintillometer",
+      "passed": true,
+      "wallMs": 180,
+      "response": {
+        "status": "accepted",
+        "answer": "Scintillometer",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 11
+      }
+    },
+    {
+      "promptId": "extra-mathematics-fields",
+      "input": "Algebra",
+      "passed": true,
+      "wallMs": 183,
+      "response": {
+        "status": "accepted",
+        "answer": "Algebra",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 9
+      }
+    },
+    {
+      "promptId": "extra-mathematics-fields",
+      "input": "Descriptive Set Theory",
+      "passed": true,
+      "wallMs": 182,
+      "response": {
+        "status": "accepted",
+        "answer": "Descriptive Set Theory",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-cloud-formations",
+      "input": "Cumulus",
+      "passed": true,
+      "wallMs": 167,
+      "response": {
+        "status": "accepted",
+        "answer": "Cumulus",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-cloud-formations",
+      "input": "Morning Glory Cloud",
+      "passed": true,
+      "wallMs": 180,
+      "response": {
+        "status": "accepted",
+        "answer": "Morning Glory Cloud",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 10
+      }
+    },
+    {
+      "promptId": "extra-geological-periods",
+      "input": "Jurassic",
+      "passed": true,
+      "wallMs": 165,
+      "response": {
+        "status": "accepted",
+        "answer": "Jurassic",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-geological-periods",
+      "input": "Ectasian",
+      "passed": true,
+      "wallMs": 173,
+      "response": {
+        "status": "accepted",
+        "answer": "Ectasian",
+        "score": 85,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-laboratory-glassware",
+      "input": "Beaker",
+      "passed": true,
+      "wallMs": 182,
+      "response": {
+        "status": "accepted",
+        "answer": "Beaker",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 5
+      }
+    },
+    {
+      "promptId": "extra-laboratory-glassware",
+      "input": "Wash Bottle",
+      "passed": true,
+      "wallMs": 170,
+      "response": {
+        "status": "accepted",
+        "answer": "Wash Bottle",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 10
+      }
+    },
+    {
+      "promptId": "extra-board-games",
+      "input": "Chess",
+      "passed": true,
+      "wallMs": 169,
+      "response": {
+        "status": "accepted",
+        "answer": "Chess",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-board-games",
+      "input": "Anachrony",
+      "passed": true,
+      "wallMs": 177,
+      "response": {
+        "status": "accepted",
+        "answer": "Anachrony",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-nineteenth-century-novels",
+      "input": "Pride and Prejudice",
+      "passed": true,
+      "wallMs": 217,
+      "response": {
+        "status": "accepted",
+        "answer": "Pride and Prejudice",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-nineteenth-century-novels",
+      "input": "Romance of the Three Kingdoms",
+      "passed": true,
+      "wallMs": 182,
+      "response": {
+        "status": "accepted",
+        "answer": "Romance of the Three Kingdoms",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 10
+      }
+    },
+    {
+      "promptId": "extra-best-picture-films",
+      "input": "Titanic",
+      "passed": true,
+      "wallMs": 175,
+      "response": {
+        "status": "accepted",
+        "answer": "Titanic",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 8
+      }
+    },
+    {
+      "promptId": "extra-best-picture-films",
+      "input": "Around the World in 80 Days",
+      "passed": true,
+      "wallMs": 167,
+      "response": {
+        "status": "accepted",
+        "answer": "Around the World in 80 Days",
+        "score": 60,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-summer-olympic-sports",
+      "input": "Swimming",
+      "passed": true,
+      "wallMs": 168,
+      "response": {
+        "status": "accepted",
+        "answer": "Swimming",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-summer-olympic-sports",
+      "input": "Ice Hockey",
+      "passed": true,
+      "wallMs": 168,
+      "response": {
+        "status": "accepted",
+        "answer": "Ice Hockey",
+        "score": 85,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-spielberg-films",
+      "input": "Jaws",
+      "passed": true,
+      "wallMs": 164,
+      "response": {
+        "status": "accepted",
+        "answer": "Jaws",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-spielberg-films",
+      "input": "Firelight",
+      "passed": true,
+      "wallMs": 166,
+      "response": {
+        "status": "accepted",
+        "answer": "Firelight",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 7
+      }
+    },
+    {
+      "promptId": "extra-early-civilizations",
+      "input": "Ancient Egypt",
+      "passed": true,
+      "wallMs": 167,
+      "response": {
+        "status": "accepted",
+        "answer": "Ancient Egypt",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-early-civilizations",
+      "input": "Kingdom of Kush",
+      "passed": true,
+      "wallMs": 168,
+      "response": {
+        "status": "accepted",
+        "answer": "Kingdom of Kush",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-renaissance-painters",
+      "input": "Leonardo da Vinci",
+      "passed": true,
+      "wallMs": 178,
+      "response": {
+        "status": "accepted",
+        "answer": "Leonardo da Vinci",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 7
+      }
+    },
+    {
+      "promptId": "extra-renaissance-painters",
+      "input": "Baldassare Peruzzi",
+      "passed": true,
+      "wallMs": 172,
+      "response": {
+        "status": "accepted",
+        "answer": "Baldassare Peruzzi",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-stage-musicals",
+      "input": "Hamilton",
+      "passed": true,
+      "wallMs": 167,
+      "response": {
+        "status": "accepted",
+        "answer": "Hamilton",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-stage-musicals",
+      "input": "A Gentleman's Guide to Love and Murder",
+      "passed": true,
+      "wallMs": 172,
+      "response": {
+        "status": "accepted",
+        "answer": "A Gentleman's Guide to Love and Murder",
+        "score": 85,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-fictional-detectives",
+      "input": "Sherlock Holmes",
+      "passed": true,
+      "wallMs": 168,
+      "response": {
+        "status": "accepted",
+        "answer": "Sherlock Holmes",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 5
+      }
+    },
+    {
+      "promptId": "extra-fictional-detectives",
+      "input": "Precious Ramotswe",
+      "passed": true,
+      "wallMs": 166,
+      "response": {
+        "status": "accepted",
+        "answer": "Precious Ramotswe",
+        "score": 85,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 7
+      }
+    },
+    {
+      "promptId": "extra-italian-dishes",
+      "input": "Pizza",
+      "passed": true,
+      "wallMs": 180,
+      "response": {
+        "status": "accepted",
+        "answer": "Pizza",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 10
+      }
+    },
+    {
+      "promptId": "extra-italian-dishes",
+      "input": "Stracciatella alla Romana",
+      "passed": true,
+      "wallMs": 178,
+      "response": {
+        "status": "accepted",
+        "answer": "Stracciatella alla Romana",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-japanese-dishes",
+      "input": "Sushi",
+      "passed": true,
+      "wallMs": 173,
+      "response": {
+        "status": "accepted",
+        "answer": "Sushi",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 5
+      }
+    },
+    {
+      "promptId": "extra-japanese-dishes",
+      "input": "Tori Meshi",
+      "passed": true,
+      "wallMs": 180,
+      "response": {
+        "status": "accepted",
+        "answer": "Tori Meshi",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-indian-dishes",
+      "input": "Biryani",
+      "passed": true,
+      "wallMs": 168,
+      "response": {
+        "status": "accepted",
+        "answer": "Biryani",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-indian-dishes",
+      "input": "Zunka",
+      "passed": true,
+      "wallMs": 166,
+      "response": {
+        "status": "accepted",
+        "answer": "Zunka",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-mexican-dishes",
+      "input": "Taco",
+      "passed": true,
+      "wallMs": 165,
+      "response": {
+        "status": "accepted",
+        "answer": "Taco",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 5
+      }
+    },
+    {
+      "promptId": "extra-mexican-dishes",
+      "input": "Huachinango a la Talla",
+      "passed": true,
+      "wallMs": 166,
+      "response": {
+        "status": "accepted",
+        "answer": "Huachinango a la Talla",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-desserts",
+      "input": "Ice Cream",
+      "passed": true,
+      "wallMs": 160,
+      "response": {
+        "status": "accepted",
+        "answer": "Ice Cream",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 5
+      }
+    },
+    {
+      "promptId": "extra-desserts",
+      "input": "Faloodeh",
+      "passed": true,
+      "wallMs": 189,
+      "response": {
+        "status": "accepted",
+        "answer": "Faloodeh",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 9
+      }
+    },
+    {
+      "promptId": "extra-edible-nuts-seeds",
+      "input": "Peanut",
+      "passed": true,
+      "wallMs": 164,
+      "response": {
+        "status": "accepted",
+        "answer": "Peanut",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 5
+      }
+    },
+    {
+      "promptId": "extra-edible-nuts-seeds",
+      "input": "Sapucaia Nut",
+      "passed": true,
+      "wallMs": 170,
+      "response": {
+        "status": "accepted",
+        "answer": "Sapucaia Nut",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-grains",
+      "input": "Rice",
+      "passed": true,
+      "wallMs": 181,
+      "response": {
+        "status": "accepted",
+        "answer": "Rice",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 9
+      }
+    },
+    {
+      "promptId": "extra-grains",
+      "input": "Kernza",
+      "passed": true,
+      "wallMs": 170,
+      "response": {
+        "status": "accepted",
+        "answer": "Kernza",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-cooking-methods",
+      "input": "Boiling",
+      "passed": true,
+      "wallMs": 176,
+      "response": {
+        "status": "accepted",
+        "answer": "Boiling",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-cooking-methods",
+      "input": "Haybox Cooking",
+      "passed": true,
+      "wallMs": 180,
+      "response": {
+        "status": "accepted",
+        "answer": "Haybox Cooking",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 10
+      }
+    },
+    {
+      "promptId": "extra-sauces-condiments",
+      "input": "Ketchup",
+      "passed": true,
+      "wallMs": 252,
+      "response": {
+        "status": "accepted",
+        "answer": "Ketchup",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 8
+      }
+    },
+    {
+      "promptId": "extra-sauces-condiments",
+      "input": "Nuoc Cham",
+      "passed": true,
+      "wallMs": 174,
+      "response": {
+        "status": "accepted",
+        "answer": "Nuoc Cham",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 10
+      }
+    },
+    {
+      "promptId": "extra-texture-adjectives",
+      "input": "Smooth",
+      "passed": true,
+      "wallMs": 166,
+      "response": {
+        "status": "accepted",
+        "answer": "Smooth",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-texture-adjectives",
+      "input": "Laminated",
+      "passed": true,
+      "wallMs": 172,
+      "response": {
+        "status": "accepted",
+        "answer": "Laminated",
+        "score": 85,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-movement-verbs",
+      "input": "Run",
+      "passed": true,
+      "wallMs": 174,
+      "response": {
+        "status": "accepted",
+        "answer": "Run",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 9
+      }
+    },
+    {
+      "promptId": "extra-movement-verbs",
+      "input": "Frolic",
+      "passed": true,
+      "wallMs": 193,
+      "response": {
+        "status": "accepted",
+        "answer": "Frolic",
+        "score": 85,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 10
+      }
+    },
+    {
+      "promptId": "extra-emotion-words",
+      "input": "Happiness",
+      "passed": true,
+      "wallMs": 173,
+      "response": {
+        "status": "accepted",
+        "answer": "Happiness",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-emotion-words",
+      "input": "Disconsolation",
+      "passed": true,
+      "wallMs": 184,
+      "response": {
+        "status": "accepted",
+        "answer": "Disconsolation",
+        "score": 85,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-two-dimensional-shapes",
+      "input": "Circle",
+      "passed": true,
+      "wallMs": 167,
+      "response": {
+        "status": "accepted",
+        "answer": "Circle",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-two-dimensional-shapes",
+      "input": "Arbelos",
+      "passed": true,
+      "wallMs": 188,
+      "response": {
+        "status": "accepted",
+        "answer": "Arbelos",
+        "score": 85,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 10
+      }
+    },
+    {
+      "promptId": "extra-animal-collectives",
+      "input": "Herd",
+      "passed": true,
+      "wallMs": 192,
+      "response": {
+        "status": "accepted",
+        "answer": "Herd",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 9
+      }
+    },
+    {
+      "promptId": "extra-animal-collectives",
+      "input": "Clamour",
+      "passed": true,
+      "wallMs": 168,
+      "response": {
+        "status": "accepted",
+        "answer": "Clamour",
+        "score": 85,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-building-types",
+      "input": "House",
+      "passed": true,
+      "wallMs": 231,
+      "response": {
+        "status": "accepted",
+        "answer": "House",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 5
+      }
+    },
+    {
+      "promptId": "extra-building-types",
+      "input": "Blockhouse",
+      "passed": true,
+      "wallMs": 183,
+      "response": {
+        "status": "accepted",
+        "answer": "Blockhouse",
+        "score": 85,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 10
+      }
+    },
+    {
+      "promptId": "extra-weather-words",
+      "input": "Rain",
+      "passed": true,
+      "wallMs": 165,
+      "response": {
+        "status": "accepted",
+        "answer": "Rain",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-weather-words",
+      "input": "Anticrepuscular Rays",
+      "passed": true,
+      "wallMs": 188,
+      "response": {
+        "status": "accepted",
+        "answer": "Anticrepuscular Rays",
+        "score": 85,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-beauty-adjectives",
+      "input": "Beautiful",
+      "passed": true,
+      "wallMs": 168,
+      "response": {
+        "status": "accepted",
+        "answer": "Beautiful",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "extra-beauty-adjectives",
+      "input": "Seraphic",
+      "passed": true,
+      "wallMs": 254,
+      "response": {
+        "status": "accepted",
+        "answer": "Seraphic",
+        "score": 85,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 7
+      }
+    },
+    {
+      "promptId": "extra-blue-shades",
+      "input": "Navy",
+      "passed": true,
+      "wallMs": 182,
+      "response": {
+        "status": "accepted",
+        "answer": "Navy",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 10
+      }
+    },
+    {
+      "promptId": "extra-blue-shades",
+      "input": "Smalt",
+      "passed": true,
+      "wallMs": 170,
+      "response": {
+        "status": "accepted",
+        "answer": "Smalt",
+        "score": 85,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "words-ending-ness",
+      "input": "Happiness",
+      "passed": true,
+      "wallMs": 168,
+      "response": {
+        "status": "accepted",
+        "answer": "Happiness",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 7
+      }
+    },
+    {
+      "promptId": "words-ending-ness",
+      "input": "Sprightliness",
+      "passed": true,
+      "wallMs": 189,
+      "response": {
+        "status": "accepted",
+        "answer": "Sprightliness",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 9
+      }
+    },
+    {
+      "promptId": "words-ending-ing",
+      "input": "King",
+      "passed": true,
+      "wallMs": 188,
+      "response": {
+        "status": "accepted",
+        "answer": "King",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "words-ending-ing",
+      "input": "Spelunking",
+      "passed": true,
+      "wallMs": 178,
+      "response": {
+        "status": "accepted",
+        "answer": "Spelunking",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "words-ending-tion",
+      "input": "Action",
+      "passed": true,
+      "wallMs": 177,
+      "response": {
+        "status": "accepted",
+        "answer": "Action",
+        "score": 10,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    },
+    {
+      "promptId": "words-ending-tion",
+      "input": "Reification",
+      "passed": true,
+      "wallMs": 172,
+      "response": {
+        "status": "accepted",
+        "answer": "Reification",
+        "score": 100,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 11
+      }
+    },
+    {
+      "promptId": "culture-double-e",
+      "input": "addressee's",
+      "passed": true,
+      "wallMs": 193,
+      "response": {
+        "status": "accepted",
+        "answer": "addressee's",
+        "score": 30,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 22
+      }
+    },
+    {
+      "promptId": "culture-double-e",
+      "input": "addressees",
+      "passed": true,
+      "wallMs": 171,
+      "response": {
+        "status": "accepted",
+        "answer": "addressees",
+        "score": 15,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 13
+      }
+    },
+    {
+      "promptId": "words-ending-ing",
+      "input": "back-pedaling",
+      "passed": true,
+      "wallMs": 198,
+      "response": {
+        "status": "accepted",
+        "answer": "back-pedaling",
+        "score": 60,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 21
+      }
+    },
+    {
+      "promptId": "words-ending-ing",
+      "input": "backpedaling",
+      "passed": true,
+      "wallMs": 203,
+      "response": {
+        "status": "accepted",
+        "answer": "backpedaling",
+        "score": 30,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 14
+      }
+    },
+    {
+      "promptId": "words-ending-ness",
+      "input": "thoughtlessness",
+      "passed": true,
+      "wallMs": 192,
+      "response": {
+        "status": "accepted",
+        "answer": "thoughtlessness",
+        "score": 30,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 14
+      }
+    },
+    {
+      "promptId": "words-ending-tion",
+      "input": "multiplication",
+      "passed": true,
+      "wallMs": 186,
+      "response": {
+        "status": "accepted",
+        "answer": "multiplication",
+        "score": 15,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 13
+      }
+    },
+    {
+      "promptId": "words-ending-ness",
+      "input": "kindly",
+      "passed": true,
+      "wallMs": 184,
+      "response": {
+        "status": "rejected",
+        "answer": null,
+        "score": 0,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 7
+      }
+    },
+    {
+      "promptId": "words-ending-ing",
+      "input": "runner",
+      "passed": true,
+      "wallMs": 176,
+      "response": {
+        "status": "rejected",
+        "answer": null,
+        "score": 0,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 12
+      }
+    },
+    {
+      "promptId": "words-ending-tion",
+      "input": "photosynthesis",
+      "passed": true,
+      "wallMs": 169,
+      "response": {
+        "status": "rejected",
+        "answer": null,
+        "score": 0,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 6
+      }
+    }
+  ],
+  "passed": true
+}

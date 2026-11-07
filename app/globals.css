@@ -1233,6 +1233,29 @@ textarea::placeholder {
   margin: 15px 0 0;
   line-height: 1.7;
 }
+.bank-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 14px;
+  font-size: 9px;
+  color: #9bb9c2;
+}
+.bank-pagination button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 11px;
+  border: 1px solid #426c79;
+  background: #103747;
+  color: #b6e6d8;
+  font-size: inherit;
+}
+.bank-pagination button:hover {
+  background: #1b4b58;
+}
 .source-link {
   font-size: 9px;
   display: inline-block;

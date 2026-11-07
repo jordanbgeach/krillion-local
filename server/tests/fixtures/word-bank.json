@@ -130,5 +130,41 @@
         "score": 10
       }
     ]
+  },
+  "words-ending-ness": {
+    "id": "words-ending-ness",
+    "category": "Words",
+    "prompt": "Name an English word ending in ness.",
+    "note": "A single dictionary word ending with the exact letters ness. Standard word forms and inflections count when they satisfy the literal ending.",
+    "answers": [
+      {
+        "name": "Kindness",
+        "score": 10
+      }
+    ]
+  },
+  "words-ending-ing": {
+    "id": "words-ending-ing",
+    "category": "Words",
+    "prompt": "Name an English word ending in ing.",
+    "note": "A single dictionary word ending with the exact letters ing. Standard word forms and inflections count when they satisfy the literal ending.",
+    "answers": [
+      {
+        "name": "Running",
+        "score": 10
+      }
+    ]
+  },
+  "words-ending-tion": {
+    "id": "words-ending-tion",
+    "category": "Words",
+    "prompt": "Name an English word ending in tion.",
+    "note": "A single dictionary word ending with the exact letters tion. Standard word forms and inflections count when they satisfy the literal ending.",
+    "answers": [
+      {
+        "name": "Action",
+        "score": 10
+      }
+    ]
   }
 }

@@ -12,7 +12,8 @@ $goodForms = array(
     array('culture-less-words', 'colorless!'), array('culture-double-e', 'beekeepers'),
     array('culture-qu-words', 'quasi-public'), array('culture-qu-words', " 'QUEEN' "),
     array('culture-silent-initials', 'knives'), array('culture-palindromes', 'Stats'),
-    array('culture-five-letter-animals', 'saïga'), array('culture-sciences', 'marine biology')
+    array('culture-five-letter-animals', 'saïga'), array('culture-sciences', 'marine biology'),
+    array('words-ending-ness', 'happiness'), array('words-ending-ing', 'willing'), array('words-ending-tion', 'education')
 );
 foreach ($goodForms as $case) check(!krillion_lexical_rejection($wordBank[$case[0]], $case[1]), 'Correct literal form must reach semantic judging: ' . $case[1]);
 $badForms = array(
@@ -21,7 +22,8 @@ $badForms = array(
     array('culture-ph-words', 'p-hone'), array('culture-qu-words', 'qu estion'),
     array('culture-z-words', 'xylophone'), array('culture-palindromes', 'le vel'),
     array('culture-palindromes', 'ordinary'), array('culture-five-letter-animals', 'tigers'),
-    array('culture-sciences', 'chemistry'), array('culture-silent-initials', 'silent word')
+    array('culture-sciences', 'chemistry'), array('culture-silent-initials', 'silent word'),
+    array('words-ending-ness', 'happinesses'), array('words-ending-ing', 'kingdom'), array('words-ending-tion', 'actions')
 );
 foreach ($badForms as $case) {
     $result = krillion_check(array('promptId' => $case[0], 'answer' => $case[1]), $wordConfig, 'word-visitor', $wordTransport);

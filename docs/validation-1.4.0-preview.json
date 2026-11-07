@@ -1,0 +1,22 @@
+{
+  "dictionaryForms": 30000,
+  "wordPrompt": "words-ending-ing",
+  "input": "backpedaling",
+  "score": 30,
+  "source": "instant dictionary",
+  "pagination": {
+    "initialRows": 80,
+    "initialStatus": "Showing 80 of 8,727 matches\nShow 80 more",
+    "expandedRows": 160
+  },
+  "searchVariants": [
+    {
+      "name": "back-pedaling",
+      "score": 60
+    },
+    {
+      "name": "backpedaling",
+      "score": 30
+    }
+  ]
+}

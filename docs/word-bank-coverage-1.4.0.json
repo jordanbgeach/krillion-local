@@ -1,0 +1,1118 @@
+{
+  "dictionaryWordForms": 30000,
+  "promptCount": 108,
+  "curatedAnswers": 7507,
+  "curatedAliases": 1601,
+  "perPrompt": {
+    "minimumCurated": 16,
+    "medianCurated": 68,
+    "maximumCurated": 146,
+    "atLeast40Curated": 98
+  },
+  "note": "Counts describe bundled matches and explicitly listed spellings, with aliases kept distinct from canonical answers. Overlapping words across prompts are not additional dictionary forms. Jev can check further answers. Finite topics can contain fewer answers than open-ended topics.",
+  "prompts": [
+    {
+      "id": "world-single-word-states",
+      "category": "Geography",
+      "prompt": "Name a U.S. state with a one-word name.",
+      "curatedAnswers": 40,
+      "curatedAliases": 0,
+      "dictionaryForms": 0,
+      "knownAnswers": 40,
+      "acceptedSpellings": 40,
+      "source": "https://www.census.gov/library/reference/code-lists/ansi.html"
+    },
+    {
+      "id": "world-one-word-state-capitals",
+      "category": "Geography",
+      "prompt": "Name a U.S. state capital with a one-word name.",
+      "curatedAnswers": 41,
+      "curatedAliases": 0,
+      "dictionaryForms": 0,
+      "knownAnswers": 41,
+      "acceptedSpellings": 41
+    },
+    {
+      "id": "world-african-countries",
+      "category": "Geography",
+      "prompt": "Name a UN member country in Africa.",
+      "curatedAnswers": 54,
+      "curatedAliases": 9,
+      "dictionaryForms": 0,
+      "knownAnswers": 54,
+      "acceptedSpellings": 63,
+      "source": "https://www.un.org/en/about-us/member-states"
+    },
+    {
+      "id": "world-americas-countries",
+      "category": "Geography",
+      "prompt": "Name a UN member country in the Americas.",
+      "curatedAnswers": 35,
+      "curatedAliases": 7,
+      "dictionaryForms": 0,
+      "knownAnswers": 35,
+      "acceptedSpellings": 42,
+      "source": "https://www.un.org/en/about-us/member-states"
+    },
+    {
+      "id": "world-landlocked-countries",
+      "category": "Geography",
+      "prompt": "Name a landlocked UN member country.",
+      "curatedAnswers": 43,
+      "curatedAliases": 5,
+      "dictionaryForms": 0,
+      "knownAnswers": 43,
+      "acceptedSpellings": 48,
+      "source": "https://www.un.org/ohrlls/content/list-lldcs"
+    },
+    {
+      "id": "world-european-capitals",
+      "category": "Geography",
+      "prompt": "Name a national capital city in Europe.",
+      "curatedAnswers": 45,
+      "curatedAliases": 6,
+      "dictionaryForms": 0,
+      "knownAnswers": 45,
+      "acceptedSpellings": 51
+    },
+    {
+      "id": "world-asian-capitals",
+      "category": "Geography",
+      "prompt": "Name a national capital city in Asia.",
+      "curatedAnswers": 45,
+      "curatedAliases": 8,
+      "dictionaryForms": 0,
+      "knownAnswers": 45,
+      "acceptedSpellings": 53
+    },
+    {
+      "id": "world-us-national-parks",
+      "category": "Geography",
+      "prompt": "Name a U.S. national park.",
+      "curatedAnswers": 64,
+      "curatedAliases": 79,
+      "dictionaryForms": 0,
+      "knownAnswers": 64,
+      "acceptedSpellings": 143,
+      "source": "https://www.nps.gov/aboutus/national-park-system.htm"
+    },
+    {
+      "id": "world-dog-breeds",
+      "category": "Nature",
+      "prompt": "Name a recognized dog breed.",
+      "curatedAnswers": 138,
+      "curatedAliases": 15,
+      "dictionaryForms": 0,
+      "knownAnswers": 138,
+      "acceptedSpellings": 153,
+      "source": "https://www.akc.org/dog-breeds/"
+    },
+    {
+      "id": "world-cat-breeds",
+      "category": "Nature",
+      "prompt": "Name a pedigree cat breed.",
+      "curatedAnswers": 61,
+      "curatedAliases": 3,
+      "dictionaryForms": 0,
+      "knownAnswers": 61,
+      "acceptedSpellings": 64,
+      "source": "https://cfa.org/breeds/"
+    },
+    {
+      "id": "world-shark-species",
+      "category": "Nature",
+      "prompt": "Name a living species of shark.",
+      "curatedAnswers": 68,
+      "curatedAliases": 14,
+      "dictionaryForms": 0,
+      "knownAnswers": 68,
+      "acceptedSpellings": 82,
+      "source": "https://www.floridamuseum.ufl.edu/discover-fish/species-profiles/"
+    },
+    {
+      "id": "world-snake-species",
+      "category": "Nature",
+      "prompt": "Name a living species of snake.",
+      "curatedAnswers": 81,
+      "curatedAliases": 11,
+      "dictionaryForms": 0,
+      "knownAnswers": 81,
+      "acceptedSpellings": 92
+    },
+    {
+      "id": "world-bird-species",
+      "category": "Nature",
+      "prompt": "Name a living species of bird.",
+      "curatedAnswers": 97,
+      "curatedAliases": 13,
+      "dictionaryForms": 0,
+      "knownAnswers": 97,
+      "acceptedSpellings": 110,
+      "source": "https://www.birds.cornell.edu/home/"
+    },
+    {
+      "id": "world-tree-species",
+      "category": "Nature",
+      "prompt": "Name a species of tree.",
+      "curatedAnswers": 88,
+      "curatedAliases": 33,
+      "dictionaryForms": 0,
+      "knownAnswers": 88,
+      "acceptedSpellings": 121
+    },
+    {
+      "id": "world-butterfly-species",
+      "category": "Nature",
+      "prompt": "Name a species of butterfly.",
+      "curatedAnswers": 75,
+      "curatedAliases": 10,
+      "dictionaryForms": 0,
+      "knownAnswers": 75,
+      "acceptedSpellings": 85
+    },
+    {
+      "id": "world-marsupial-species",
+      "category": "Nature",
+      "prompt": "Name a species of marsupial.",
+      "curatedAnswers": 70,
+      "curatedAliases": 90,
+      "dictionaryForms": 0,
+      "knownAnswers": 70,
+      "acceptedSpellings": 160,
+      "source": "https://www.mammaldiversity.org/"
+    },
+    {
+      "id": "world-pasta-shapes",
+      "category": "Food",
+      "prompt": "Name an Italian pasta shape.",
+      "curatedAnswers": 81,
+      "curatedAliases": 9,
+      "dictionaryForms": 0,
+      "knownAnswers": 81,
+      "acceptedSpellings": 90
+    },
+    {
+      "id": "world-cheeses",
+      "category": "Food",
+      "prompt": "Name a cheese variety.",
+      "curatedAnswers": 107,
+      "curatedAliases": 11,
+      "dictionaryForms": 0,
+      "knownAnswers": 107,
+      "acceptedSpellings": 118
+    },
+    {
+      "id": "world-culinary-fruits",
+      "category": "Food",
+      "prompt": "Name a fruit commonly eaten as fruit.",
+      "curatedAnswers": 94,
+      "curatedAliases": 10,
+      "dictionaryForms": 0,
+      "knownAnswers": 94,
+      "acceptedSpellings": 104
+    },
+    {
+      "id": "world-vegetables",
+      "category": "Food",
+      "prompt": "Name a culinary vegetable.",
+      "curatedAnswers": 95,
+      "curatedAliases": 29,
+      "dictionaryForms": 0,
+      "knownAnswers": 95,
+      "acceptedSpellings": 124
+    },
+    {
+      "id": "world-culinary-herbs",
+      "category": "Food",
+      "prompt": "Name a culinary herb used for its leaves.",
+      "curatedAnswers": 58,
+      "curatedAliases": 16,
+      "dictionaryForms": 0,
+      "knownAnswers": 58,
+      "acceptedSpellings": 74
+    },
+    {
+      "id": "world-culinary-spices",
+      "category": "Food",
+      "prompt": "Name a culinary spice.",
+      "curatedAnswers": 56,
+      "curatedAliases": 19,
+      "dictionaryForms": 0,
+      "knownAnswers": 56,
+      "acceptedSpellings": 75
+    },
+    {
+      "id": "world-breads",
+      "category": "Food",
+      "prompt": "Name a traditional type of bread.",
+      "curatedAnswers": 92,
+      "curatedAliases": 10,
+      "dictionaryForms": 0,
+      "knownAnswers": 92,
+      "acceptedSpellings": 102
+    },
+    {
+      "id": "world-edible-legumes",
+      "category": "Food",
+      "prompt": "Name an edible bean, pea or lentil.",
+      "curatedAnswers": 54,
+      "curatedAliases": 23,
+      "dictionaryForms": 0,
+      "knownAnswers": 54,
+      "acceptedSpellings": 77,
+      "source": "https://www.fao.org/fao-who-codexalimentarius/sh-proxy/es/?lnk=1&url=https%253A%252F%252Fworkspace.fao.org%252Fsites%252Fcodex%252FMeetings%252FCX-718-49%252FWD%252Fpr49_06e.pdf"
+    },
+    {
+      "id": "culture-constellations",
+      "category": "Science",
+      "prompt": "Name an official constellation.",
+      "curatedAnswers": 88,
+      "curatedAliases": 92,
+      "dictionaryForms": 0,
+      "knownAnswers": 88,
+      "acceptedSpellings": 180,
+      "source": "https://starchild.gsfc.nasa.gov/docs/StarChild/questions/88constellations.html"
+    },
+    {
+      "id": "culture-moons",
+      "category": "Science",
+      "prompt": "Name a natural moon in our Solar System.",
+      "curatedAnswers": 45,
+      "curatedAliases": 1,
+      "dictionaryForms": 0,
+      "knownAnswers": 45,
+      "acceptedSpellings": 46,
+      "source": "https://science.nasa.gov/solar-system/moons/"
+    },
+    {
+      "id": "culture-si-prefixes",
+      "category": "Science",
+      "prompt": "Name an official SI metric prefix.",
+      "curatedAnswers": 24,
+      "curatedAliases": 1,
+      "dictionaryForms": 0,
+      "knownAnswers": 24,
+      "acceptedSpellings": 25,
+      "source": "https://www.bipm.org/en/measurement-units/si-prefixes"
+    },
+    {
+      "id": "culture-si-units",
+      "category": "Science",
+      "prompt": "Name an SI base unit or a specially named SI derived unit.",
+      "curatedAnswers": 29,
+      "curatedAliases": 3,
+      "dictionaryForms": 0,
+      "knownAnswers": 29,
+      "acceptedSpellings": 32,
+      "source": "https://www.bipm.org/en/measurement-units/"
+    },
+    {
+      "id": "culture-bones",
+      "category": "Science",
+      "prompt": "Name a bone in the adult human skeleton.",
+      "curatedAnswers": 46,
+      "curatedAliases": 14,
+      "dictionaryForms": 0,
+      "knownAnswers": 46,
+      "acceptedSpellings": 60
+    },
+    {
+      "id": "culture-sciences",
+      "category": "Science",
+      "prompt": "Name a field of science ending in “ology”.",
+      "curatedAnswers": 86,
+      "curatedAliases": 5,
+      "dictionaryForms": 0,
+      "knownAnswers": 86,
+      "acceptedSpellings": 91
+    },
+    {
+      "id": "culture-minerals",
+      "category": "Science",
+      "prompt": "Name a naturally occurring mineral.",
+      "curatedAnswers": 48,
+      "curatedAliases": 2,
+      "dictionaryForms": 0,
+      "knownAnswers": 48,
+      "acceptedSpellings": 50
+    },
+    {
+      "id": "culture-scientists",
+      "category": "Science",
+      "prompt": "Name a scientist born before 1900.",
+      "curatedAnswers": 83,
+      "curatedAliases": 81,
+      "dictionaryForms": 0,
+      "knownAnswers": 83,
+      "acceptedSpellings": 164
+    },
+    {
+      "id": "culture-muscles",
+      "category": "Science",
+      "prompt": "Name a human muscle.",
+      "curatedAnswers": 112,
+      "curatedAliases": 19,
+      "dictionaryForms": 0,
+      "knownAnswers": 112,
+      "acceptedSpellings": 131
+    },
+    {
+      "id": "culture-instruments",
+      "category": "Culture",
+      "prompt": "Name a musical instrument.",
+      "curatedAnswers": 56,
+      "curatedAliases": 9,
+      "dictionaryForms": 0,
+      "knownAnswers": 56,
+      "acceptedSpellings": 65
+    },
+    {
+      "id": "culture-greek-deities",
+      "category": "Culture",
+      "prompt": "Name a deity from Greek mythology.",
+      "curatedAnswers": 50,
+      "curatedAliases": 8,
+      "dictionaryForms": 0,
+      "knownAnswers": 50,
+      "acceptedSpellings": 58
+    },
+    {
+      "id": "culture-shakespeare",
+      "category": "Culture",
+      "prompt": "Name a surviving play by William Shakespeare.",
+      "curatedAnswers": 39,
+      "curatedAliases": 32,
+      "dictionaryForms": 0,
+      "knownAnswers": 39,
+      "acceptedSpellings": 71,
+      "source": "https://folgerpedia.folger.edu/William_Shakespeare%27s_plays"
+    },
+    {
+      "id": "culture-composers",
+      "category": "Culture",
+      "prompt": "Name a classical composer born before 1900.",
+      "curatedAnswers": 93,
+      "curatedAliases": 94,
+      "dictionaryForms": 0,
+      "knownAnswers": 93,
+      "acceptedSpellings": 187
+    },
+    {
+      "id": "culture-art-movements",
+      "category": "Culture",
+      "prompt": "Name a visual art movement or style.",
+      "curatedAnswers": 83,
+      "curatedAliases": 7,
+      "dictionaryForms": 0,
+      "knownAnswers": 83,
+      "acceptedSpellings": 90
+    },
+    {
+      "id": "culture-poetic-forms",
+      "category": "Culture",
+      "prompt": "Name a poetic form or verse form.",
+      "curatedAnswers": 75,
+      "curatedAliases": 8,
+      "dictionaryForms": 0,
+      "knownAnswers": 75,
+      "acceptedSpellings": 83
+    },
+    {
+      "id": "culture-literary-genres",
+      "category": "Culture",
+      "prompt": "Name a literary genre or recognized subgenre.",
+      "curatedAnswers": 47,
+      "curatedAliases": 11,
+      "dictionaryForms": 0,
+      "knownAnswers": 47,
+      "acceptedSpellings": 58
+    },
+    {
+      "id": "culture-dances",
+      "category": "Culture",
+      "prompt": "Name a dance style.",
+      "curatedAnswers": 51,
+      "curatedAliases": 9,
+      "dictionaryForms": 0,
+      "knownAnswers": 51,
+      "acceptedSpellings": 60
+    },
+    {
+      "id": "culture-norse-deities",
+      "category": "Culture",
+      "prompt": "Name a deity from Norse mythology.",
+      "curatedAnswers": 48,
+      "curatedAliases": 37,
+      "dictionaryForms": 0,
+      "knownAnswers": 48,
+      "acceptedSpellings": 85
+    },
+    {
+      "id": "culture-palindromes",
+      "category": "Words",
+      "prompt": "Name a single English word that is a palindrome.",
+      "curatedAnswers": 63,
+      "curatedAliases": 0,
+      "dictionaryForms": 137,
+      "knownAnswers": 143,
+      "acceptedSpellings": 143
+    },
+    {
+      "id": "culture-silent-initials",
+      "category": "Words",
+      "prompt": "Name an English word with a silent first letter.",
+      "curatedAnswers": 50,
+      "curatedAliases": 1,
+      "dictionaryForms": 0,
+      "knownAnswers": 50,
+      "acceptedSpellings": 51
+    },
+    {
+      "id": "culture-double-o",
+      "category": "Words",
+      "prompt": "Name an English word containing “oo”.",
+      "curatedAnswers": 62,
+      "curatedAliases": 0,
+      "dictionaryForms": 4766,
+      "knownAnswers": 4767,
+      "acceptedSpellings": 4767
+    },
+    {
+      "id": "culture-qu-words",
+      "category": "Words",
+      "prompt": "Name an English word beginning with “qu”.",
+      "curatedAnswers": 52,
+      "curatedAliases": 0,
+      "dictionaryForms": 932,
+      "knownAnswers": 933,
+      "acceptedSpellings": 933
+    },
+    {
+      "id": "culture-z-words",
+      "category": "Words",
+      "prompt": "Name an English word beginning with “z”.",
+      "curatedAnswers": 48,
+      "curatedAliases": 0,
+      "dictionaryForms": 669,
+      "knownAnswers": 670,
+      "acceptedSpellings": 670
+    },
+    {
+      "id": "culture-ph-words",
+      "category": "Words",
+      "prompt": "Name an English word containing “ph”.",
+      "curatedAnswers": 51,
+      "curatedAliases": 0,
+      "dictionaryForms": 6444,
+      "knownAnswers": 6444,
+      "acceptedSpellings": 6444
+    },
+    {
+      "id": "culture-less-words",
+      "category": "Words",
+      "prompt": "Name an English word ending in “less”.",
+      "curatedAnswers": 55,
+      "curatedAliases": 0,
+      "dictionaryForms": 701,
+      "knownAnswers": 702,
+      "acceptedSpellings": 702
+    },
+    {
+      "id": "culture-double-e",
+      "category": "Words",
+      "prompt": "Name an English word containing “ee”.",
+      "curatedAnswers": 59,
+      "curatedAliases": 0,
+      "dictionaryForms": 4513,
+      "knownAnswers": 4513,
+      "acceptedSpellings": 4513
+    },
+    {
+      "id": "culture-five-letter-animals",
+      "category": "Words",
+      "prompt": "Name an animal whose English name has five letters.",
+      "curatedAnswers": 77,
+      "curatedAliases": 0,
+      "dictionaryForms": 0,
+      "knownAnswers": 77,
+      "acceptedSpellings": 77
+    },
+    {
+      "id": "extra-deserts",
+      "category": "Geography",
+      "prompt": "Name a desert.",
+      "curatedAnswers": 53,
+      "curatedAliases": 13,
+      "dictionaryForms": 0,
+      "knownAnswers": 53,
+      "acceptedSpellings": 66
+    },
+    {
+      "id": "extra-rivers",
+      "category": "Geography",
+      "prompt": "Name a river.",
+      "curatedAnswers": 80,
+      "curatedAliases": 32,
+      "dictionaryForms": 0,
+      "knownAnswers": 80,
+      "acceptedSpellings": 112
+    },
+    {
+      "id": "extra-mountain-ranges",
+      "category": "Geography",
+      "prompt": "Name a mountain range.",
+      "curatedAnswers": 66,
+      "curatedAliases": 22,
+      "dictionaryForms": 0,
+      "knownAnswers": 66,
+      "acceptedSpellings": 88
+    },
+    {
+      "id": "extra-seas",
+      "category": "Geography",
+      "prompt": "Name a sea connected to the ocean.",
+      "curatedAnswers": 65,
+      "curatedAliases": 8,
+      "dictionaryForms": 0,
+      "knownAnswers": 65,
+      "acceptedSpellings": 73
+    },
+    {
+      "id": "extra-mediterranean-islands",
+      "category": "Geography",
+      "prompt": "Name an island in the Mediterranean Sea.",
+      "curatedAnswers": 98,
+      "curatedAliases": 8,
+      "dictionaryForms": 0,
+      "knownAnswers": 98,
+      "acceptedSpellings": 106
+    },
+    {
+      "id": "extra-waterfalls",
+      "category": "Geography",
+      "prompt": "Name a waterfall.",
+      "curatedAnswers": 63,
+      "curatedAliases": 19,
+      "dictionaryForms": 0,
+      "knownAnswers": 63,
+      "acceptedSpellings": 82
+    },
+    {
+      "id": "extra-star-flags",
+      "category": "Geography",
+      "prompt": "Name a country whose national flag contains a star.",
+      "curatedAnswers": 62,
+      "curatedAliases": 10,
+      "dictionaryForms": 0,
+      "knownAnswers": 62,
+      "acceptedSpellings": 72
+    },
+    {
+      "id": "extra-summer-host-cities",
+      "category": "Geography",
+      "prompt": "Name a city that has hosted the Summer Olympics.",
+      "curatedAnswers": 23,
+      "curatedAliases": 8,
+      "dictionaryForms": 0,
+      "knownAnswers": 23,
+      "acceptedSpellings": 31,
+      "source": "https://www.olympics.com/ioc/olympic-games"
+    },
+    {
+      "id": "extra-volcanoes",
+      "category": "Geography",
+      "prompt": "Name a volcano.",
+      "curatedAnswers": 78,
+      "curatedAliases": 27,
+      "dictionaryForms": 0,
+      "knownAnswers": 78,
+      "acceptedSpellings": 105
+    },
+    {
+      "id": "extra-garden-flowers",
+      "category": "Nature",
+      "prompt": "Name a flowering plant grown in gardens.",
+      "curatedAnswers": 80,
+      "curatedAliases": 17,
+      "dictionaryForms": 0,
+      "knownAnswers": 80,
+      "acceptedSpellings": 97
+    },
+    {
+      "id": "extra-dinosaur-genera",
+      "category": "Nature",
+      "prompt": "Name a dinosaur genus.",
+      "curatedAnswers": 103,
+      "curatedAliases": 2,
+      "dictionaryForms": 0,
+      "knownAnswers": 103,
+      "acceptedSpellings": 105
+    },
+    {
+      "id": "extra-cetaceans",
+      "category": "Nature",
+      "prompt": "Name a whale, dolphin, or porpoise species.",
+      "curatedAnswers": 72,
+      "curatedAliases": 13,
+      "dictionaryForms": 0,
+      "knownAnswers": 72,
+      "acceptedSpellings": 85
+    },
+    {
+      "id": "extra-marine-invertebrates",
+      "category": "Nature",
+      "prompt": "Name a kind of marine invertebrate.",
+      "curatedAnswers": 71,
+      "curatedAliases": 7,
+      "dictionaryForms": 0,
+      "knownAnswers": 71,
+      "acceptedSpellings": 78
+    },
+    {
+      "id": "extra-freshwater-fish",
+      "category": "Nature",
+      "prompt": "Name a kind of freshwater fish.",
+      "curatedAnswers": 88,
+      "curatedAliases": 12,
+      "dictionaryForms": 0,
+      "knownAnswers": 88,
+      "acceptedSpellings": 100
+    },
+    {
+      "id": "extra-farm-animals",
+      "category": "Nature",
+      "prompt": "Name an animal raised on farms.",
+      "curatedAnswers": 55,
+      "curatedAliases": 16,
+      "dictionaryForms": 0,
+      "knownAnswers": 55,
+      "acceptedSpellings": 71
+    },
+    {
+      "id": "extra-mammal-orders",
+      "category": "Nature",
+      "prompt": "Name a living mammal order.",
+      "curatedAnswers": 28,
+      "curatedAliases": 17,
+      "dictionaryForms": 0,
+      "knownAnswers": 28,
+      "acceptedSpellings": 45,
+      "source": "https://www.mammaldiversity.org/order/"
+    },
+    {
+      "id": "extra-natural-habitats",
+      "category": "Nature",
+      "prompt": "Name a type of natural habitat.",
+      "curatedAnswers": 67,
+      "curatedAliases": 7,
+      "dictionaryForms": 0,
+      "knownAnswers": 67,
+      "acceptedSpellings": 74
+    },
+    {
+      "id": "extra-rock-types",
+      "category": "Nature",
+      "prompt": "Name a naturally occurring rock type.",
+      "curatedAnswers": 75,
+      "curatedAliases": 1,
+      "dictionaryForms": 0,
+      "knownAnswers": 75,
+      "acceptedSpellings": 76,
+      "source": "https://www.usgs.gov/faqs/what-are-igneous-rocks"
+    },
+    {
+      "id": "extra-chemical-elements",
+      "category": "Science",
+      "prompt": "Name a chemical element.",
+      "curatedAnswers": 16,
+      "curatedAliases": 1,
+      "dictionaryForms": 0,
+      "knownAnswers": 16,
+      "acceptedSpellings": 17
+    },
+    {
+      "id": "extra-human-organs",
+      "category": "Science",
+      "prompt": "Name a human organ.",
+      "curatedAnswers": 53,
+      "curatedAliases": 27,
+      "dictionaryForms": 0,
+      "knownAnswers": 53,
+      "acceptedSpellings": 80
+    },
+    {
+      "id": "extra-robotic-spacecraft",
+      "category": "Science",
+      "prompt": "Name a robotic mission that explored beyond Earth orbit.",
+      "curatedAnswers": 83,
+      "curatedAliases": 12,
+      "dictionaryForms": 0,
+      "knownAnswers": 83,
+      "acceptedSpellings": 95,
+      "source": "https://science.nasa.gov/solar-system/missions/"
+    },
+    {
+      "id": "extra-data-structures",
+      "category": "Science",
+      "prompt": "Name a data structure used in computing.",
+      "curatedAnswers": 71,
+      "curatedAliases": 18,
+      "dictionaryForms": 0,
+      "knownAnswers": 71,
+      "acceptedSpellings": 89
+    },
+    {
+      "id": "extra-measuring-instruments",
+      "category": "Science",
+      "prompt": "Name a scientific measuring instrument.",
+      "curatedAnswers": 79,
+      "curatedAliases": 8,
+      "dictionaryForms": 0,
+      "knownAnswers": 79,
+      "acceptedSpellings": 87
+    },
+    {
+      "id": "extra-mathematics-fields",
+      "category": "Science",
+      "prompt": "Name a branch of mathematics.",
+      "curatedAnswers": 82,
+      "curatedAliases": 6,
+      "dictionaryForms": 0,
+      "knownAnswers": 82,
+      "acceptedSpellings": 88
+    },
+    {
+      "id": "extra-cloud-formations",
+      "category": "Science",
+      "prompt": "Name a type of cloud or atmospheric cloud formation.",
+      "curatedAnswers": 61,
+      "curatedAliases": 13,
+      "dictionaryForms": 0,
+      "knownAnswers": 61,
+      "acceptedSpellings": 74,
+      "source": "https://cloudatlas.wmo.int/en/home.html"
+    },
+    {
+      "id": "extra-geological-periods",
+      "category": "Science",
+      "prompt": "Name a geological period.",
+      "curatedAnswers": 22,
+      "curatedAliases": 0,
+      "dictionaryForms": 0,
+      "knownAnswers": 22,
+      "acceptedSpellings": 22,
+      "source": "https://stratigraphy.org/ICSchart/ChronostratChart2024-12.pdf"
+    },
+    {
+      "id": "extra-laboratory-glassware",
+      "category": "Science",
+      "prompt": "Name an item of laboratory glassware.",
+      "curatedAnswers": 63,
+      "curatedAliases": 19,
+      "dictionaryForms": 0,
+      "knownAnswers": 63,
+      "acceptedSpellings": 82
+    },
+    {
+      "id": "extra-board-games",
+      "category": "Culture",
+      "prompt": "Name a tabletop board game.",
+      "curatedAnswers": 98,
+      "curatedAliases": 11,
+      "dictionaryForms": 0,
+      "knownAnswers": 98,
+      "acceptedSpellings": 109
+    },
+    {
+      "id": "extra-nineteenth-century-novels",
+      "category": "Culture",
+      "prompt": "Name a novel first published before 1900.",
+      "curatedAnswers": 111,
+      "curatedAliases": 20,
+      "dictionaryForms": 0,
+      "knownAnswers": 111,
+      "acceptedSpellings": 131
+    },
+    {
+      "id": "extra-best-picture-films",
+      "category": "Culture",
+      "prompt": "Name a film that won the Best Picture Oscar.",
+      "curatedAnswers": 98,
+      "curatedAliases": 7,
+      "dictionaryForms": 0,
+      "knownAnswers": 98,
+      "acceptedSpellings": 105,
+      "source": "https://www.oscars.org/oscars/ceremonies"
+    },
+    {
+      "id": "extra-summer-olympic-sports",
+      "category": "Culture",
+      "prompt": "Name a sport contested at the Summer Olympics.",
+      "curatedAnswers": 69,
+      "curatedAliases": 16,
+      "dictionaryForms": 0,
+      "knownAnswers": 69,
+      "acceptedSpellings": 85
+    },
+    {
+      "id": "extra-spielberg-films",
+      "category": "Culture",
+      "prompt": "Name a film directed by Steven Spielberg.",
+      "curatedAnswers": 37,
+      "curatedAliases": 14,
+      "dictionaryForms": 0,
+      "knownAnswers": 37,
+      "acceptedSpellings": 51
+    },
+    {
+      "id": "extra-early-civilizations",
+      "category": "Culture",
+      "prompt": "Name a civilization or archaeological culture that began before 1 CE.",
+      "curatedAnswers": 81,
+      "curatedAliases": 46,
+      "dictionaryForms": 0,
+      "knownAnswers": 81,
+      "acceptedSpellings": 127
+    },
+    {
+      "id": "extra-renaissance-painters",
+      "category": "Culture",
+      "prompt": "Name a Renaissance painter.",
+      "curatedAnswers": 75,
+      "curatedAliases": 41,
+      "dictionaryForms": 0,
+      "knownAnswers": 75,
+      "acceptedSpellings": 116
+    },
+    {
+      "id": "extra-stage-musicals",
+      "category": "Culture",
+      "prompt": "Name a stage musical.",
+      "curatedAnswers": 103,
+      "curatedAliases": 9,
+      "dictionaryForms": 0,
+      "knownAnswers": 103,
+      "acceptedSpellings": 112
+    },
+    {
+      "id": "extra-fictional-detectives",
+      "category": "Culture",
+      "prompt": "Name a fictional detective or amateur sleuth.",
+      "curatedAnswers": 83,
+      "curatedAliases": 24,
+      "dictionaryForms": 0,
+      "knownAnswers": 83,
+      "acceptedSpellings": 107
+    },
+    {
+      "id": "extra-italian-dishes",
+      "category": "Food",
+      "prompt": "Name a dish associated with Italian cuisine.",
+      "curatedAnswers": 70,
+      "curatedAliases": 7,
+      "dictionaryForms": 0,
+      "knownAnswers": 70,
+      "acceptedSpellings": 77
+    },
+    {
+      "id": "extra-japanese-dishes",
+      "category": "Food",
+      "prompt": "Name a dish associated with Japanese cuisine.",
+      "curatedAnswers": 76,
+      "curatedAliases": 5,
+      "dictionaryForms": 0,
+      "knownAnswers": 76,
+      "acceptedSpellings": 81
+    },
+    {
+      "id": "extra-indian-dishes",
+      "category": "Food",
+      "prompt": "Name a dish associated with Indian cuisine.",
+      "curatedAnswers": 95,
+      "curatedAliases": 6,
+      "dictionaryForms": 0,
+      "knownAnswers": 95,
+      "acceptedSpellings": 101
+    },
+    {
+      "id": "extra-mexican-dishes",
+      "category": "Food",
+      "prompt": "Name a dish associated with Mexican cuisine.",
+      "curatedAnswers": 82,
+      "curatedAliases": 10,
+      "dictionaryForms": 0,
+      "knownAnswers": 82,
+      "acceptedSpellings": 92
+    },
+    {
+      "id": "extra-desserts",
+      "category": "Food",
+      "prompt": "Name a dessert.",
+      "curatedAnswers": 98,
+      "curatedAliases": 10,
+      "dictionaryForms": 0,
+      "knownAnswers": 98,
+      "acceptedSpellings": 108
+    },
+    {
+      "id": "extra-edible-nuts-seeds",
+      "category": "Food",
+      "prompt": "Name an edible nut or seed.",
+      "curatedAnswers": 46,
+      "curatedAliases": 10,
+      "dictionaryForms": 0,
+      "knownAnswers": 46,
+      "acceptedSpellings": 56
+    },
+    {
+      "id": "extra-grains",
+      "category": "Food",
+      "prompt": "Name a cereal grain or pseudocereal used as food.",
+      "curatedAnswers": 37,
+      "curatedAliases": 5,
+      "dictionaryForms": 0,
+      "knownAnswers": 37,
+      "acceptedSpellings": 42
+    },
+    {
+      "id": "extra-cooking-methods",
+      "category": "Food",
+      "prompt": "Name a cooking method.",
+      "curatedAnswers": 58,
+      "curatedAliases": 21,
+      "dictionaryForms": 0,
+      "knownAnswers": 58,
+      "acceptedSpellings": 79
+    },
+    {
+      "id": "extra-sauces-condiments",
+      "category": "Food",
+      "prompt": "Name a sauce or condiment.",
+      "curatedAnswers": 94,
+      "curatedAliases": 17,
+      "dictionaryForms": 0,
+      "knownAnswers": 94,
+      "acceptedSpellings": 111
+    },
+    {
+      "id": "extra-texture-adjectives",
+      "category": "Words",
+      "prompt": "Name an English adjective describing a surface or texture.",
+      "curatedAnswers": 101,
+      "curatedAliases": 3,
+      "dictionaryForms": 0,
+      "knownAnswers": 101,
+      "acceptedSpellings": 104
+    },
+    {
+      "id": "extra-movement-verbs",
+      "category": "Words",
+      "prompt": "Name an English verb describing bodily movement.",
+      "curatedAnswers": 146,
+      "curatedAliases": 1,
+      "dictionaryForms": 0,
+      "knownAnswers": 146,
+      "acceptedSpellings": 147
+    },
+    {
+      "id": "extra-emotion-words",
+      "category": "Words",
+      "prompt": "Name an English word for an emotion or feeling.",
+      "curatedAnswers": 125,
+      "curatedAliases": 1,
+      "dictionaryForms": 0,
+      "knownAnswers": 125,
+      "acceptedSpellings": 126
+    },
+    {
+      "id": "extra-two-dimensional-shapes",
+      "category": "Words",
+      "prompt": "Name a two-dimensional geometric shape.",
+      "curatedAnswers": 79,
+      "curatedAliases": 12,
+      "dictionaryForms": 0,
+      "knownAnswers": 79,
+      "acceptedSpellings": 91
+    },
+    {
+      "id": "extra-animal-collectives",
+      "category": "Words",
+      "prompt": "Name a collective noun used for a group of animals.",
+      "curatedAnswers": 66,
+      "curatedAliases": 69,
+      "dictionaryForms": 0,
+      "knownAnswers": 66,
+      "acceptedSpellings": 135
+    },
+    {
+      "id": "extra-building-types",
+      "category": "Words",
+      "prompt": "Name an English word for a type of building.",
+      "curatedAnswers": 123,
+      "curatedAliases": 8,
+      "dictionaryForms": 0,
+      "knownAnswers": 123,
+      "acceptedSpellings": 131
+    },
+    {
+      "id": "extra-weather-words",
+      "category": "Words",
+      "prompt": "Name a natural weather phenomenon.",
+      "curatedAnswers": 96,
+      "curatedAliases": 9,
+      "dictionaryForms": 0,
+      "knownAnswers": 96,
+      "acceptedSpellings": 105
+    },
+    {
+      "id": "extra-beauty-adjectives",
+      "category": "Words",
+      "prompt": "Name an English adjective meaning beautiful or attractive.",
+      "curatedAnswers": 68,
+      "curatedAliases": 3,
+      "dictionaryForms": 0,
+      "knownAnswers": 68,
+      "acceptedSpellings": 71
+    },
+    {
+      "id": "extra-blue-shades",
+      "category": "Words",
+      "prompt": "Name a shade of blue.",
+      "curatedAnswers": 87,
+      "curatedAliases": 9,
+      "dictionaryForms": 0,
+      "knownAnswers": 87,
+      "acceptedSpellings": 96
+    },
+    {
+      "id": "words-ending-ness",
+      "category": "Words",
+      "prompt": "Name an English word ending in “ness”.",
+      "curatedAnswers": 46,
+      "curatedAliases": 0,
+      "dictionaryForms": 2407,
+      "knownAnswers": 2407,
+      "acceptedSpellings": 2407
+    },
+    {
+      "id": "words-ending-ing",
+      "category": "Words",
+      "prompt": "Name an English word ending in “ing”.",
+      "curatedAnswers": 52,
+      "curatedAliases": 0,
+      "dictionaryForms": 8725,
+      "knownAnswers": 8727,
+      "acceptedSpellings": 8727
+    },
+    {
+      "id": "words-ending-tion",
+      "category": "Words",
+      "prompt": "Name an English word ending in “tion”.",
+      "curatedAnswers": 48,
+      "curatedAliases": 0,
+      "dictionaryForms": 2342,
+      "knownAnswers": 2342,
+      "acceptedSpellings": 2342
+    }
+  ]
+}

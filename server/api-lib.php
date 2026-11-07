@@ -102,7 +102,7 @@ function krillion_fingerprint($prompt, $config) {
 function krillion_lexical_rejection($prompt, $candidate) {
     if (!is_string($candidate)) return true;
     $id = isset($prompt['id']) ? $prompt['id'] : '';
-    $singleWordIds = array('culture-palindromes', 'culture-silent-initials', 'culture-double-o', 'culture-qu-words', 'culture-z-words', 'culture-ph-words', 'culture-less-words', 'culture-double-e', 'culture-five-letter-animals');
+    $singleWordIds = array('culture-palindromes', 'culture-silent-initials', 'culture-double-o', 'culture-qu-words', 'culture-z-words', 'culture-ph-words', 'culture-less-words', 'culture-double-e', 'culture-five-letter-animals', 'words-ending-ness', 'words-ending-ing', 'words-ending-tion');
     if (!in_array($id, $singleWordIds, true) && $id !== 'culture-sciences') return false;
     // Ignore harmless wrapping punctuation, but never join words or letters
     // separated by spaces/hyphens when checking an adjacent-letter rule.
@@ -112,6 +112,9 @@ function krillion_lexical_rejection($prompt, $candidate) {
     if ($id === 'culture-qu-words') return strpos($form, 'qu') !== 0;
     if ($id === 'culture-z-words') return strpos($form, 'z') !== 0;
     if ($id === 'culture-less-words') return substr($form, -4) !== 'less';
+    foreach (array('words-ending-ness' => 'ness', 'words-ending-ing' => 'ing', 'words-ending-tion' => 'tion') as $promptId => $ending) {
+        if ($id === $promptId) return substr($form, -strlen($ending)) !== $ending;
+    }
     if ($id === 'culture-sciences') return substr($form, -5) !== 'ology';
     foreach (array('culture-double-o' => 'oo', 'culture-double-e' => 'ee', 'culture-ph-words' => 'ph') as $promptId => $letters) {
         if ($id === $promptId) return strpos($form, $letters) === false;
@@ -122,10 +125,10 @@ function krillion_lexical_rejection($prompt, $candidate) {
     return false; // Silent-initial pronunciation must be judged semantically.
 }
 
-/* Dictionary membership proves only the seven pure word-and-letter prompts.
+/* Dictionary membership proves only the ten pure word-and-letter prompts.
  * It cannot establish silent pronunciation, animal identity, or scientificity. */
 function krillion_dictionary_answer($prompt, $candidate, $config) {
-    $ids = array('culture-palindromes', 'culture-double-o', 'culture-qu-words', 'culture-z-words', 'culture-ph-words', 'culture-less-words', 'culture-double-e');
+    $ids = array('culture-palindromes', 'culture-double-o', 'culture-qu-words', 'culture-z-words', 'culture-ph-words', 'culture-less-words', 'culture-double-e', 'words-ending-ness', 'words-ending-ing', 'words-ending-tion');
     if (!isset($prompt['id']) || !in_array($prompt['id'], $ids, true) || krillion_lexical_rejection($prompt, $candidate)) return null;
     $lexeme = preg_replace('/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/u', '', trim($candidate));
     $key = preg_replace_callback('/[\p{L}\p{M}]+/u', function ($match) { return krillion_normalize($match[0]); }, $lexeme);

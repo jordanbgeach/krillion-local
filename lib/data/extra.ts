@@ -249,7 +249,7 @@ export const extraPrompts: Prompt[] = [
     "mammal-orders",
     "Nature",
     "Name a living mammal order.",
-    "A currently recognized taxonomic order containing living mammals qualifies. Scientific order names and established names for the whole order count; a single member species does not.",
+    "An order containing living mammals recognized by a major taxonomic authority qualifies. Cetacea and Artiodactyla are both accepted across commonly used classification systems. Scientific names and established names for the whole order count; a single member species does not.",
     {
       10: "Primates;Carnivora;Rodentia=Rodents",
       15: "Chiroptera=Bats",

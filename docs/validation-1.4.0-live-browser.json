@@ -1,0 +1,61 @@
+{
+  "version": "1.4.0",
+  "url": "https://jordangeach.com/krillion/",
+  "dictionaryForms": 30000,
+  "prompts": 108,
+  "curatedAnswers": 7507,
+  "wordBank": {
+    "initialRows": 80,
+    "initialStatus": "Showing 80 of 8,727 matches\nShow 80 more",
+    "expandedRows": 160,
+    "punctuationVariants": [
+      "back-pedaling60",
+      "backpedaling30"
+    ],
+    "photMatches": [
+      "photocoagulating100",
+      "photodisintegrating100",
+      "photodissociating100",
+      "photoionizing100",
+      "photolithographing100",
+      "photolysing100",
+      "photolyzing100",
+      "photooxidizing100",
+      "photoreactivating100",
+      "photoreducing100",
+      "photosetting100",
+      "photoshopping100",
+      "telephotographing100",
+      "microphotographing85",
+      "photoaging85",
+      "photocomposing85",
+      "photoduplicating85",
+      "photomapping85",
+      "photosensitising85",
+      "photosensitizing85",
+      "phototyping85",
+      "photoengraving60",
+      "photofinishing60",
+      "photostatting60",
+      "photosynthesising60",
+      "photosynthesizing60",
+      "rephotographing60",
+      "phototypesetting30",
+      "photocopying15",
+      "photographing15",
+      "photoing15"
+    ]
+  },
+  "playedAnswer": {
+    "promptId": "words-ending-ing",
+    "input": "backpedaling",
+    "score": 30,
+    "source": "instant dictionary",
+    "descentMetres": 300
+  },
+  "finalSettings": {
+    "mode": "Unlimited",
+    "timer": 25,
+    "replaySeed": ""
+  }
+}

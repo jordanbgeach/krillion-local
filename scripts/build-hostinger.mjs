@@ -31,17 +31,11 @@ for (const filename of ["api.php", "api-lib.php"]) {
     path.join(output, filename),
   );
 }
-const [{ worldPrompts }, { culturePrompts }, { extraPrompts }] =
-  await Promise.all([
-    import(new URL("../lib/data/world.ts", import.meta.url).href),
-    import(new URL("../lib/data/culture.ts", import.meta.url).href),
-    import(new URL("../lib/data/extra.ts", import.meta.url).href),
-  ]);
+const { builtInPrompts } = await import(
+  new URL("../lib/data/index.ts", import.meta.url).href
+);
 const promptBank = Object.fromEntries(
-  [...worldPrompts, ...culturePrompts, ...extraPrompts].map((prompt) => [
-    prompt.id,
-    prompt,
-  ]),
+  builtInPrompts.map((prompt) => [prompt.id, prompt]),
 );
 await writeFile(
   path.join(output, "prompt-bank.json"),

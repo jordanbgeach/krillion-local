@@ -2,6 +2,8 @@ import type { Prompt } from "../types";
 
 // Original practice bank. Scores are manually estimated familiarity tiers,
 // not official Krillion rankings or measured player frequencies.
+// Species-name checks: ASM Mammal Diversity Database v2.5 (2026),
+// https://www.mammaldiversity.org/ and https://doi.org/10.5281/zenodo.17033774.
 export const worldPrompts: Prompt[] = [
   {
     id: "world-single-word-states",
@@ -514,6 +516,66 @@ export const worldPrompts: Prompt[] = [
         score: 100,
         aliases: ["São Tomé and Príncipe"],
       },
+      {
+        name: "Cote d Ivoire",
+        score: 30,
+        aliases: ["Ivory Coast"],
+      },
+      {
+        name: "Congo",
+        score: 30,
+        aliases: ["Republic of the Congo"],
+      },
+      {
+        name: "Malawi",
+        score: 30,
+      },
+      {
+        name: "Somalia",
+        score: 30,
+      },
+      {
+        name: "Central African Republic",
+        score: 60,
+        aliases: ["CAR"],
+      },
+      {
+        name: "Equatorial Guinea",
+        score: 60,
+      },
+      {
+        name: "Gambia",
+        score: 60,
+        aliases: ["The Gambia"],
+      },
+      {
+        name: "Guinea",
+        score: 60,
+      },
+      {
+        name: "Liberia",
+        score: 60,
+      },
+      {
+        name: "Seychelles",
+        score: 60,
+      },
+      {
+        name: "Sierra Leone",
+        score: 60,
+      },
+      {
+        name: "South Sudan",
+        score: 60,
+      },
+      {
+        name: "Togo",
+        score: 60,
+      },
+      {
+        name: "Guinea-Bissau",
+        score: 85,
+      },
     ],
     source: "https://www.un.org/en/about-us/member-states",
   },
@@ -1010,6 +1072,45 @@ export const worldPrompts: Prompt[] = [
         name: "Valletta",
         score: 100,
       },
+      {
+        name: "Moscow",
+        score: 30,
+      },
+      {
+        name: "Bern",
+        score: 30,
+        aliases: ["Berne"],
+      },
+      {
+        name: "Luxembourg",
+        score: 30,
+        aliases: ["Luxembourg City"],
+      },
+      {
+        name: "Minsk",
+        score: 60,
+      },
+      {
+        name: "Monaco",
+        score: 60,
+      },
+      {
+        name: "San Marino",
+        score: 60,
+      },
+      {
+        name: "Vatican City",
+        score: 60,
+      },
+      {
+        name: "Andorra la Vella",
+        score: 85,
+      },
+      {
+        name: "Pristina",
+        score: 85,
+        aliases: ["Prishtina"],
+      },
     ],
   },
   {
@@ -1183,6 +1284,27 @@ export const worldPrompts: Prompt[] = [
         name: "Naypyidaw",
         score: 100,
         aliases: ["Nay Pyi Taw"],
+      },
+      {
+        name: "Jakarta",
+        score: 30,
+      },
+      {
+        name: "Male",
+        score: 30,
+      },
+      {
+        name: "Colombo",
+        score: 30,
+      },
+      {
+        name: "Nicosia",
+        score: 30,
+      },
+      {
+        name: "Sri Jayewardenepura Kotte",
+        score: 85,
+        aliases: ["Sri Jayawardenepura Kotte", "Kotte"],
       },
     ],
   },
@@ -1415,6 +1537,134 @@ export const worldPrompts: Prompt[] = [
           "Lake Clark National Park and Preserve",
         ],
       },
+      {
+        name: "Mammoth Cave",
+        score: 30,
+        aliases: ["Mammoth Cave National Park"],
+      },
+      {
+        name: "Mesa Verde",
+        score: 30,
+        aliases: ["Mesa Verde National Park"],
+      },
+      {
+        name: "Mount Rainier",
+        score: 30,
+        aliases: ["Mount Rainier National Park"],
+      },
+      {
+        name: "Saguaro",
+        score: 30,
+        aliases: ["Saguaro National Park"],
+      },
+      {
+        name: "Kings Canyon",
+        score: 30,
+        aliases: ["Kings Canyon National Park"],
+      },
+      {
+        name: "Channel Islands",
+        score: 30,
+        aliases: ["Channel Islands National Park"],
+      },
+      {
+        name: "Great Sand Dunes",
+        score: 30,
+        aliases: [
+          "Great Sand Dunes National Park",
+          "Great Sand Dunes National Park and Preserve",
+        ],
+      },
+      {
+        name: "White Sands",
+        score: 30,
+        aliases: ["White Sands National Park"],
+      },
+      {
+        name: "Black Canyon of the Gunnison",
+        score: 60,
+        aliases: ["Black Canyon of the Gunnison National Park"],
+      },
+      {
+        name: "Cuyahoga Valley",
+        score: 60,
+        aliases: ["Cuyahoga Valley National Park"],
+      },
+      {
+        name: "Gateway Arch",
+        score: 60,
+        aliases: ["Gateway Arch National Park"],
+      },
+      {
+        name: "Glacier Bay",
+        score: 60,
+        aliases: [
+          "Glacier Bay National Park",
+          "Glacier Bay National Park and Preserve",
+        ],
+      },
+      {
+        name: "Indiana Dunes",
+        score: 60,
+        aliases: ["Indiana Dunes National Park"],
+      },
+      {
+        name: "Katmai",
+        score: 60,
+        aliases: ["Katmai National Park", "Katmai National Park and Preserve"],
+      },
+      {
+        name: "Kenai Fjords",
+        score: 60,
+        aliases: ["Kenai Fjords National Park"],
+      },
+      {
+        name: "New River Gorge",
+        score: 60,
+        aliases: [
+          "New River Gorge National Park",
+          "New River Gorge National Park and Preserve",
+        ],
+      },
+      {
+        name: "North Cascades",
+        score: 60,
+        aliases: ["North Cascades National Park"],
+      },
+      {
+        name: "Theodore Roosevelt",
+        score: 60,
+        aliases: ["Theodore Roosevelt National Park"],
+      },
+      {
+        name: "Virgin Islands",
+        score: 60,
+        aliases: ["Virgin Islands National Park"],
+      },
+      {
+        name: "Wind Cave",
+        score: 60,
+        aliases: ["Wind Cave National Park"],
+      },
+      {
+        name: "American Samoa",
+        score: 85,
+        aliases: ["National Park of American Samoa"],
+      },
+      {
+        name: "Wrangell-St Elias",
+        score: 85,
+        aliases: [
+          "Wrangell Saint Elias",
+          "Wrangell-St Elias National Park",
+          "Wrangell-St Elias National Park and Preserve",
+        ],
+      },
+      {
+        name: "Chiricahua",
+        score: 85,
+        aliases: ["Chiricahua National Park"],
+      },
     ],
     source: "https://www.nps.gov/aboutus/national-park-system.htm",
   },
@@ -1572,9 +1822,425 @@ export const worldPrompts: Prompt[] = [
         score: 100,
         aliases: ["Xolo"],
       },
-      { name: "Aidi", score: 85, aliases: ["Atlas Mountain Dog"] },
-      { name: "Akbash Dog", score: 85, aliases: ["Akbash"] },
-      { name: "Kangal Dog", score: 60, aliases: ["Kangal"] },
+      {
+        name: "Aidi",
+        score: 85,
+        aliases: ["Atlas Mountain Dog"],
+      },
+      {
+        name: "Akbash Dog",
+        score: 85,
+        aliases: ["Akbash"],
+      },
+      {
+        name: "Kangal Dog",
+        score: 60,
+        aliases: ["Kangal"],
+      },
+      {
+        name: "Pug",
+        score: 10,
+      },
+      {
+        name: "Greyhound",
+        score: 10,
+      },
+      {
+        name: "Maltese",
+        score: 10,
+      },
+      {
+        name: "Whippet",
+        score: 30,
+      },
+      {
+        name: "Bichon Frise",
+        score: 30,
+      },
+      {
+        name: "Great Pyrenees",
+        score: 30,
+      },
+      {
+        name: "Bernese Mountain Dog",
+        score: 30,
+      },
+      {
+        name: "Saint Bernard",
+        score: 30,
+        aliases: ["St Bernard"],
+      },
+      {
+        name: "Newfoundland",
+        score: 30,
+      },
+      {
+        name: "Shiba Inu",
+        score: 30,
+      },
+      {
+        name: "Belgian Malinois",
+        score: 30,
+      },
+      {
+        name: "Bloodhound",
+        score: 30,
+      },
+      {
+        name: "Weimaraner",
+        score: 30,
+      },
+      {
+        name: "Vizsla",
+        score: 30,
+      },
+      {
+        name: "Rhodesian Ridgeback",
+        score: 30,
+      },
+      {
+        name: "Afghan Hound",
+        score: 30,
+      },
+      {
+        name: "Irish Setter",
+        score: 30,
+      },
+      {
+        name: "English Setter",
+        score: 30,
+      },
+      {
+        name: "Pointer",
+        score: 30,
+        aliases: ["English Pointer"],
+      },
+      {
+        name: "Papillon",
+        score: 30,
+      },
+      {
+        name: "Pekingese",
+        score: 30,
+      },
+      {
+        name: "Airedale Terrier",
+        score: 60,
+      },
+      {
+        name: "Scottish Terrier",
+        score: 60,
+      },
+      {
+        name: "West Highland White Terrier",
+        score: 60,
+        aliases: ["Westie"],
+      },
+      {
+        name: "Wire Fox Terrier",
+        score: 60,
+      },
+      {
+        name: "Soft Coated Wheaten Terrier",
+        score: 60,
+      },
+      {
+        name: "Portuguese Water Dog",
+        score: 60,
+      },
+      {
+        name: "Irish Wolfhound",
+        score: 60,
+      },
+      {
+        name: "Saluki",
+        score: 60,
+      },
+      {
+        name: "Dogue de Bordeaux",
+        score: 60,
+      },
+      {
+        name: "Bullmastiff",
+        score: 60,
+      },
+      {
+        name: "Bull Terrier",
+        score: 60,
+      },
+      {
+        name: "Staffordshire Bull Terrier",
+        score: 60,
+      },
+      {
+        name: "American Staffordshire Terrier",
+        score: 60,
+      },
+      {
+        name: "Miniature Schnauzer",
+        score: 60,
+      },
+      {
+        name: "Giant Schnauzer",
+        score: 60,
+      },
+      {
+        name: "Standard Schnauzer",
+        score: 60,
+      },
+      {
+        name: "Pembroke Welsh Corgi",
+        score: 60,
+      },
+      {
+        name: "Cardigan Welsh Corgi",
+        score: 60,
+      },
+      {
+        name: "Alaskan Malamute",
+        score: 60,
+      },
+      {
+        name: "Australian Cattle Dog",
+        score: 60,
+        aliases: ["Blue Heeler"],
+      },
+      {
+        name: "Australian Terrier",
+        score: 60,
+      },
+      {
+        name: "Bearded Collie",
+        score: 60,
+      },
+      {
+        name: "Belgian Tervuren",
+        score: 60,
+      },
+      {
+        name: "Belgian Sheepdog",
+        score: 60,
+      },
+      {
+        name: "Briard",
+        score: 60,
+      },
+      {
+        name: "Brittany",
+        score: 60,
+      },
+      {
+        name: "Cairn Terrier",
+        score: 60,
+      },
+      {
+        name: "Chinese Crested",
+        score: 60,
+      },
+      {
+        name: "Affenpinscher",
+        score: 85,
+      },
+      {
+        name: "American Eskimo Dog",
+        score: 85,
+      },
+      {
+        name: "Anatolian Shepherd Dog",
+        score: 85,
+      },
+      {
+        name: "Bedlington Terrier",
+        score: 85,
+      },
+      {
+        name: "Black Russian Terrier",
+        score: 85,
+      },
+      {
+        name: "Border Terrier",
+        score: 85,
+      },
+      {
+        name: "Bouvier des Flandres",
+        score: 85,
+      },
+      {
+        name: "Clumber Spaniel",
+        score: 85,
+      },
+      {
+        name: "Curly-Coated Retriever",
+        score: 85,
+      },
+      {
+        name: "Dandie Dinmont Terrier",
+        score: 85,
+      },
+      {
+        name: "Field Spaniel",
+        score: 85,
+      },
+      {
+        name: "Finnish Spitz",
+        score: 85,
+      },
+      {
+        name: "Flat-Coated Retriever",
+        score: 85,
+      },
+      {
+        name: "Gordon Setter",
+        score: 85,
+      },
+      {
+        name: "Irish Terrier",
+        score: 85,
+      },
+      {
+        name: "Irish Water Spaniel",
+        score: 85,
+      },
+      {
+        name: "Norwich Terrier",
+        score: 85,
+      },
+      {
+        name: "Norfolk Terrier",
+        score: 85,
+      },
+      {
+        name: "Otterhound",
+        score: 85,
+      },
+      {
+        name: "Pharaoh Hound",
+        score: 85,
+      },
+      {
+        name: "Plott Hound",
+        score: 85,
+      },
+      {
+        name: "Polish Lowland Sheepdog",
+        score: 85,
+      },
+      {
+        name: "Puli",
+        score: 85,
+      },
+      {
+        name: "Pumi",
+        score: 85,
+      },
+      {
+        name: "Schipperke",
+        score: 85,
+      },
+      {
+        name: "Scottish Deerhound",
+        score: 85,
+      },
+      {
+        name: "Sealyham Terrier",
+        score: 85,
+      },
+      {
+        name: "Silky Terrier",
+        score: 85,
+      },
+      {
+        name: "Skye Terrier",
+        score: 85,
+      },
+      {
+        name: "Sloughi",
+        score: 85,
+      },
+      {
+        name: "Spinone Italiano",
+        score: 85,
+      },
+      {
+        name: "Sussex Spaniel",
+        score: 85,
+      },
+      {
+        name: "Tibetan Mastiff",
+        score: 85,
+      },
+      {
+        name: "Tibetan Spaniel",
+        score: 85,
+      },
+      {
+        name: "Tibetan Terrier",
+        score: 85,
+      },
+      {
+        name: "Welsh Springer Spaniel",
+        score: 85,
+      },
+      {
+        name: "Welsh Terrier",
+        score: 85,
+      },
+      {
+        name: "Bergamasco Sheepdog",
+        score: 100,
+      },
+      {
+        name: "Cesky Terrier",
+        score: 100,
+      },
+      {
+        name: "Chinook",
+        score: 100,
+      },
+      {
+        name: "Cirneco dell Etna",
+        score: 100,
+      },
+      {
+        name: "Entlebucher Mountain Dog",
+        score: 100,
+      },
+      {
+        name: "Glen of Imaal Terrier",
+        score: 100,
+      },
+      {
+        name: "Ibizan Hound",
+        score: 100,
+      },
+      {
+        name: "Icelandic Sheepdog",
+        score: 100,
+      },
+      {
+        name: "Norwegian Lundehund",
+        score: 100,
+      },
+      {
+        name: "Petit Basset Griffon Vendeen",
+        score: 100,
+      },
+      {
+        name: "Portuguese Podengo Pequeno",
+        score: 100,
+      },
+      {
+        name: "Pyrenean Shepherd",
+        score: 100,
+      },
+      {
+        name: "Swedish Vallhund",
+        score: 100,
+      },
+      {
+        name: "Wirehaired Pointing Griffon",
+        score: 100,
+      },
     ],
     source: "https://www.akc.org/dog-breeds/",
   },
@@ -1725,6 +2391,112 @@ export const worldPrompts: Prompt[] = [
         name: "Singapura",
         score: 100,
       },
+      {
+        name: "Bombay",
+        score: 30,
+      },
+      {
+        name: "Himalayan",
+        score: 30,
+      },
+      {
+        name: "Turkish Van",
+        score: 30,
+      },
+      {
+        name: "Snowshoe",
+        score: 30,
+      },
+      {
+        name: "American Bobtail",
+        score: 30,
+      },
+      {
+        name: "British Longhair",
+        score: 60,
+      },
+      {
+        name: "Burmilla",
+        score: 60,
+      },
+      {
+        name: "Colorpoint Shorthair",
+        score: 60,
+      },
+      {
+        name: "European Burmese",
+        score: 60,
+      },
+      {
+        name: "Oriental Longhair",
+        score: 60,
+      },
+      {
+        name: "Ragamuffin",
+        score: 60,
+      },
+      {
+        name: "Pixiebob",
+        score: 60,
+      },
+      {
+        name: "Savannah",
+        score: 60,
+      },
+      {
+        name: "Munchkin",
+        score: 60,
+      },
+      {
+        name: "Toyger",
+        score: 60,
+      },
+      {
+        name: "Chausie",
+        score: 85,
+      },
+      {
+        name: "Kurilian Bobtail",
+        score: 85,
+      },
+      {
+        name: "Nebelung",
+        score: 85,
+      },
+      {
+        name: "Scottish Straight",
+        score: 85,
+      },
+      {
+        name: "Toybob",
+        score: 85,
+      },
+      {
+        name: "Sokoke",
+        score: 85,
+      },
+      {
+        name: "American Wirehair",
+        score: 85,
+      },
+      {
+        name: "Donskoy",
+        score: 85,
+        aliases: ["Don Sphynx"],
+      },
+      {
+        name: "Peterbald",
+        score: 85,
+      },
+      {
+        name: "Khao Manee",
+        score: 100,
+      },
+      {
+        name: "Napoleon",
+        score: 100,
+        aliases: ["Minuet"],
+      },
     ],
     source: "https://cfa.org/breeds/",
   },
@@ -1861,6 +2633,163 @@ export const worldPrompts: Prompt[] = [
       },
       {
         name: "Pyjama Shark",
+        score: 100,
+      },
+      {
+        name: "Blacktip Shark",
+        score: 30,
+      },
+      {
+        name: "Spinner Shark",
+        score: 30,
+      },
+      {
+        name: "Grey Reef Shark",
+        score: 30,
+        aliases: ["Gray Reef Shark"],
+      },
+      {
+        name: "Caribbean Reef Shark",
+        score: 30,
+      },
+      {
+        name: "Smooth Hammerhead",
+        score: 30,
+      },
+      {
+        name: "Scalloped Hammerhead",
+        score: 30,
+      },
+      {
+        name: "Common Thresher",
+        score: 30,
+        aliases: ["Common Thresher Shark"],
+      },
+      {
+        name: "Silvertip Shark",
+        score: 60,
+      },
+      {
+        name: "Dusky Shark",
+        score: 60,
+      },
+      {
+        name: "Night Shark",
+        score: 60,
+      },
+      {
+        name: "Atlantic Sharpnose Shark",
+        score: 60,
+      },
+      {
+        name: "Pacific Sharpnose Shark",
+        score: 60,
+      },
+      {
+        name: "Blacknose Shark",
+        score: 60,
+      },
+      {
+        name: "Smalltail Shark",
+        score: 60,
+      },
+      {
+        name: "Finetooth Shark",
+        score: 60,
+      },
+      {
+        name: "Longfin Mako",
+        score: 60,
+        aliases: ["Longfin Mako Shark"],
+      },
+      {
+        name: "Bigeye Thresher",
+        score: 60,
+      },
+      {
+        name: "Pelagic Thresher",
+        score: 60,
+      },
+      {
+        name: "Bluntnose Sixgill Shark",
+        score: 60,
+      },
+      {
+        name: "Broadnose Sevengill Shark",
+        score: 60,
+      },
+      {
+        name: "Pacific Sleeper Shark",
+        score: 60,
+      },
+      {
+        name: "Winghead Shark",
+        score: 85,
+      },
+      {
+        name: "Scoophead",
+        score: 85,
+      },
+      {
+        name: "Scalloped Bonnethead",
+        score: 85,
+      },
+      {
+        name: "Spotted Wobbegong",
+        score: 85,
+      },
+      {
+        name: "Tasselled Wobbegong",
+        score: 85,
+        aliases: ["Tasseled Wobbegong"],
+      },
+      {
+        name: "Ornate Wobbegong",
+        score: 85,
+      },
+      {
+        name: "Prickly Shark",
+        score: 85,
+      },
+      {
+        name: "Horn Shark",
+        score: 85,
+      },
+      {
+        name: "Crested Bullhead Shark",
+        score: 85,
+      },
+      {
+        name: "Japanese Bullhead Shark",
+        score: 85,
+      },
+      {
+        name: "School Shark",
+        score: 85,
+        aliases: ["Tope Shark"],
+      },
+      {
+        name: "Angular Roughshark",
+        score: 100,
+      },
+      {
+        name: "Brown Shyshark",
+        score: 100,
+      },
+      {
+        name: "Puffadder Shyshark",
+        score: 100,
+      },
+      {
+        name: "Dwarf Lanternshark",
+        score: 100,
+      },
+      {
+        name: "Viper Dogfish",
+        score: 100,
+      },
+      {
+        name: "Bigeye Sixgill Shark",
         score: 100,
       },
     ],
@@ -2003,6 +2932,207 @@ export const worldPrompts: Prompt[] = [
       },
       {
         name: "Sunbeam Snake",
+        score: 100,
+      },
+      {
+        name: "Western Hognose Snake",
+        score: 30,
+      },
+      {
+        name: "Eastern Hognose Snake",
+        score: 30,
+      },
+      {
+        name: "California Kingsnake",
+        score: 30,
+      },
+      {
+        name: "Scarlet Kingsnake",
+        score: 30,
+      },
+      {
+        name: "Eastern Indigo Snake",
+        score: 30,
+      },
+      {
+        name: "Timber Rattlesnake",
+        score: 30,
+      },
+      {
+        name: "Prairie Rattlesnake",
+        score: 30,
+      },
+      {
+        name: "Sidewinder",
+        score: 30,
+      },
+      {
+        name: "Common Krait",
+        score: 30,
+      },
+      {
+        name: "Texas Indigo Snake",
+        score: 60,
+      },
+      {
+        name: "Speckled Kingsnake",
+        score: 60,
+      },
+      {
+        name: "Western Ratsnake",
+        score: 60,
+      },
+      {
+        name: "Pine Snake",
+        score: 60,
+      },
+      {
+        name: "Prairie Kingsnake",
+        score: 60,
+      },
+      {
+        name: "Rough Green Snake",
+        score: 60,
+      },
+      {
+        name: "Smooth Green Snake",
+        score: 60,
+      },
+      {
+        name: "Ring-Necked Snake",
+        score: 60,
+        aliases: ["Ringneck Snake"],
+      },
+      {
+        name: "Northern Water Snake",
+        score: 60,
+      },
+      {
+        name: "Diamondback Water Snake",
+        score: 60,
+      },
+      {
+        name: "Banded Water Snake",
+        score: 60,
+      },
+      {
+        name: "Mojave Rattlesnake",
+        score: 60,
+      },
+      {
+        name: "Mangrove Snake",
+        score: 60,
+      },
+      {
+        name: "Brown Tree Snake",
+        score: 60,
+      },
+      {
+        name: "Paradise Tree Snake",
+        score: 60,
+      },
+      {
+        name: "Yellow-Lipped Sea Krait",
+        score: 60,
+        aliases: ["Banded Sea Krait"],
+      },
+      {
+        name: "Olive Sea Snake",
+        score: 60,
+      },
+      {
+        name: "Malayan Krait",
+        score: 60,
+      },
+      {
+        name: "Banded Krait",
+        score: 60,
+      },
+      {
+        name: "Sharp-Tailed Snake",
+        score: 85,
+      },
+      {
+        name: "Eastern Green Mamba",
+        score: 85,
+        aliases: ["Dendroaspis angusticeps"],
+      },
+      {
+        name: "Western Green Mamba",
+        score: 85,
+      },
+      {
+        name: "False Water Cobra",
+        score: 85,
+      },
+      {
+        name: "Yellow Anaconda",
+        score: 85,
+      },
+      {
+        name: "Cuban Boa",
+        score: 85,
+      },
+      {
+        name: "Jamaican Boa",
+        score: 85,
+      },
+      {
+        name: "Rainbow Boa",
+        score: 85,
+      },
+      {
+        name: "Rosy Boa",
+        score: 85,
+      },
+      {
+        name: "Rubber Boa",
+        score: 85,
+      },
+      {
+        name: "Dumerils Boa",
+        score: 85,
+      },
+      {
+        name: "Woma Python",
+        score: 85,
+      },
+      {
+        name: "Black-Headed Python",
+        score: 85,
+      },
+      {
+        name: "Childrens Python",
+        score: 85,
+      },
+      {
+        name: "Spotted Python",
+        score: 85,
+      },
+      {
+        name: "Elephant Trunk Snake",
+        score: 100,
+      },
+      {
+        name: "Little File Snake",
+        score: 100,
+        aliases: ["Acrochordus granulatus"],
+      },
+      {
+        name: "Dragon Snake",
+        score: 100,
+      },
+      {
+        name: "Red-Tailed Green Ratsnake",
+        score: 100,
+      },
+      {
+        name: "Ornate Flying Snake",
+        score: 100,
+        aliases: ["Golden Tree Snake", "Chrysopelea ornata"],
+      },
+      {
+        name: "Blunt-Headed Tree Snake",
         score: 100,
       },
     ],
@@ -2160,6 +3290,257 @@ export const worldPrompts: Prompt[] = [
       },
       {
         name: "Vulturine Guineafowl",
+        score: 100,
+      },
+      {
+        name: "House Finch",
+        score: 30,
+      },
+      {
+        name: "American Goldfinch",
+        score: 30,
+      },
+      {
+        name: "European Goldfinch",
+        score: 30,
+      },
+      {
+        name: "European Starling",
+        score: 30,
+      },
+      {
+        name: "Common Blackbird",
+        score: 30,
+      },
+      {
+        name: "American Crow",
+        score: 30,
+      },
+      {
+        name: "Common Raven",
+        score: 30,
+      },
+      {
+        name: "Eurasian Magpie",
+        score: 30,
+        aliases: ["Common Magpie"],
+      },
+      {
+        name: "White Stork",
+        score: 30,
+      },
+      {
+        name: "Snowy Owl",
+        score: 30,
+      },
+      {
+        name: "Golden Eagle",
+        score: 30,
+      },
+      {
+        name: "Emu",
+        score: 30,
+      },
+      {
+        name: "King Penguin",
+        score: 30,
+      },
+      {
+        name: "Adelie Penguin",
+        score: 30,
+      },
+      {
+        name: "Gentoo Penguin",
+        score: 30,
+      },
+      {
+        name: "Scarlet Macaw",
+        score: 30,
+      },
+      {
+        name: "Toco Toucan",
+        score: 30,
+      },
+      {
+        name: "Wood Duck",
+        score: 30,
+      },
+      {
+        name: "Mandarin Duck",
+        score: 30,
+      },
+      {
+        name: "Black Stork",
+        score: 60,
+      },
+      {
+        name: "Great Grey Owl",
+        score: 60,
+        aliases: ["Great Gray Owl"],
+      },
+      {
+        name: "Eurasian Eagle-Owl",
+        score: 60,
+      },
+      {
+        name: "Harpy Eagle",
+        score: 60,
+      },
+      {
+        name: "Andean Condor",
+        score: 60,
+      },
+      {
+        name: "California Condor",
+        score: 60,
+      },
+      {
+        name: "Southern Cassowary",
+        score: 60,
+      },
+      {
+        name: "Greater Rhea",
+        score: 60,
+      },
+      {
+        name: "Little Penguin",
+        score: 60,
+        aliases: ["Fairy Penguin"],
+      },
+      {
+        name: "Macaroni Penguin",
+        score: 60,
+      },
+      {
+        name: "Hyacinth Macaw",
+        score: 60,
+      },
+      {
+        name: "Great Spotted Woodpecker",
+        score: 60,
+      },
+      {
+        name: "Downy Woodpecker",
+        score: 60,
+      },
+      {
+        name: "Pileated Woodpecker",
+        score: 60,
+      },
+      {
+        name: "Atlantic Canary",
+        score: 60,
+        aliases: ["Canary"],
+      },
+      {
+        name: "Zebra Finch",
+        score: 60,
+      },
+      {
+        name: "Gouldian Finch",
+        score: 60,
+      },
+      {
+        name: "Budgerigar",
+        score: 60,
+        aliases: ["Budgie"],
+      },
+      {
+        name: "Cockatiel",
+        score: 60,
+      },
+      {
+        name: "Sulphur-Crested Cockatoo",
+        score: 60,
+        aliases: ["Sulfur-Crested Cockatoo"],
+      },
+      {
+        name: "Kea",
+        score: 60,
+      },
+      {
+        name: "Greater Roadrunner",
+        score: 60,
+      },
+      {
+        name: "Victoria Crowned Pigeon",
+        score: 85,
+      },
+      {
+        name: "Nicobar Pigeon",
+        score: 85,
+      },
+      {
+        name: "Greater Superb Bird-of-Paradise",
+        score: 85,
+        aliases: ["Lophorina superba"],
+      },
+      {
+        name: "Magnificent Frigatebird",
+        score: 85,
+      },
+      {
+        name: "Wandering Albatross",
+        score: 85,
+      },
+      {
+        name: "Blue-Footed Booby",
+        score: 85,
+      },
+      {
+        name: "Red-Footed Booby",
+        score: 85,
+      },
+      {
+        name: "Northern Gannet",
+        score: 85,
+      },
+      {
+        name: "Eurasian Spoonbill",
+        score: 85,
+      },
+      {
+        name: "Black-Necked Swan",
+        score: 85,
+      },
+      {
+        name: "Hoatzin",
+        score: 85,
+      },
+      {
+        name: "Great Bustard",
+        score: 85,
+      },
+      {
+        name: "Kori Bustard",
+        score: 85,
+      },
+      {
+        name: "Lesser Flamingo",
+        score: 85,
+      },
+      {
+        name: "Snow Goose",
+        score: 85,
+      },
+      {
+        name: "Bar-Headed Goose",
+        score: 85,
+      },
+      {
+        name: "Kagu",
+        score: 100,
+      },
+      {
+        name: "Ibisbill",
+        score: 100,
+      },
+      {
+        name: "Wallcreeper",
+        score: 100,
+      },
+      {
+        name: "Crested Ibis",
         score: 100,
       },
     ],
@@ -2323,6 +3704,237 @@ export const worldPrompts: Prompt[] = [
         score: 100,
         aliases: ["Agathis australis"],
       },
+      {
+        name: "Norway Maple",
+        score: 30,
+      },
+      {
+        name: "Silver Maple",
+        score: 30,
+      },
+      {
+        name: "Northern Red Oak",
+        score: 30,
+        aliases: ["Red Oak"],
+      },
+      {
+        name: "Pin Oak",
+        score: 30,
+      },
+      {
+        name: "Paper Birch",
+        score: 30,
+      },
+      {
+        name: "European Ash",
+        score: 30,
+        aliases: ["Common Ash"],
+      },
+      {
+        name: "Common Hazel",
+        score: 30,
+        aliases: ["Hazel"],
+      },
+      {
+        name: "Black Locust",
+        score: 30,
+      },
+      {
+        name: "Honey Locust",
+        score: 30,
+      },
+      {
+        name: "Southern Magnolia",
+        score: 30,
+      },
+      {
+        name: "Olive Tree",
+        score: 30,
+        aliases: ["Olive"],
+      },
+      {
+        name: "Peach Tree",
+        score: 30,
+        aliases: ["Peach"],
+      },
+      {
+        name: "Almond Tree",
+        score: 30,
+        aliases: ["Almond"],
+      },
+      {
+        name: "Common Fig",
+        score: 30,
+        aliases: ["Fig Tree"],
+      },
+      {
+        name: "Silver Fir",
+        score: 60,
+        aliases: ["European Silver Fir"],
+      },
+      {
+        name: "Noble Fir",
+        score: 60,
+      },
+      {
+        name: "Western Redcedar",
+        score: 60,
+      },
+      {
+        name: "Atlantic White Cedar",
+        score: 60,
+      },
+      {
+        name: "Eastern Redcedar",
+        score: 60,
+      },
+      {
+        name: "Deodar Cedar",
+        score: 60,
+      },
+      {
+        name: "Cedar of Lebanon",
+        score: 60,
+        aliases: ["Lebanon Cedar"],
+      },
+      {
+        name: "Sweet Chestnut",
+        score: 60,
+      },
+      {
+        name: "American Chestnut",
+        score: 60,
+      },
+      {
+        name: "White Poplar",
+        score: 60,
+      },
+      {
+        name: "Black Poplar",
+        score: 60,
+      },
+      {
+        name: "Royal Poinciana",
+        score: 60,
+        aliases: ["Flamboyant Tree"],
+      },
+      {
+        name: "Rainbow Eucalyptus",
+        score: 60,
+      },
+      {
+        name: "River Red Gum",
+        score: 60,
+      },
+      {
+        name: "English Walnut",
+        score: 60,
+        aliases: ["Persian Walnut"],
+      },
+      {
+        name: "Common Rowan",
+        score: 60,
+        aliases: ["Rowan"],
+      },
+      {
+        name: "European Holly",
+        score: 60,
+        aliases: ["Common Holly"],
+      },
+      {
+        name: "Wych Elm",
+        score: 85,
+      },
+      {
+        name: "Japanese Cedar",
+        score: 85,
+        aliases: ["Sugi"],
+      },
+      {
+        name: "Bunya Pine",
+        score: 85,
+      },
+      {
+        name: "Norfolk Island Pine",
+        score: 85,
+      },
+      {
+        name: "Brazilian Rosewood",
+        score: 85,
+      },
+      {
+        name: "African Baobab",
+        score: 85,
+      },
+      {
+        name: "Indian Banyan",
+        score: 85,
+        aliases: ["Banyan"],
+      },
+      {
+        name: "Sacred Fig",
+        score: 85,
+        aliases: ["Peepal Tree", "Bodhi Tree"],
+      },
+      {
+        name: "Sausage Tree",
+        score: 85,
+      },
+      {
+        name: "Kapok Tree",
+        score: 85,
+        aliases: ["Kapok"],
+      },
+      {
+        name: "Indian Neem",
+        score: 85,
+        aliases: ["Neem"],
+      },
+      {
+        name: "Senegal Mahogany",
+        score: 85,
+        aliases: ["Khaya senegalensis"],
+      },
+      {
+        name: "Osage Orange",
+        score: 85,
+      },
+      {
+        name: "Kentucky Coffeetree",
+        score: 85,
+      },
+      {
+        name: "Water Tupelo",
+        score: 85,
+      },
+      {
+        name: "Black Tupelo",
+        score: 85,
+      },
+      {
+        name: "Franklin Tree",
+        score: 100,
+        aliases: ["Franklinia"],
+      },
+      {
+        name: "Dove Tree",
+        score: 100,
+        aliases: ["Handkerchief Tree"],
+      },
+      {
+        name: "Blue Jacaranda",
+        score: 100,
+        aliases: ["Jacaranda"],
+      },
+      {
+        name: "Desert Ironwood",
+        score: 100,
+      },
+      {
+        name: "Giant Baobab",
+        score: 100,
+        aliases: ["Grandidiers Baobab"],
+      },
     ],
   },
   {
@@ -2445,6 +4057,202 @@ export const worldPrompts: Prompt[] = [
         name: "Rajah Brooke's Birdwing",
         score: 100,
       },
+      {
+        name: "Small Copper",
+        score: 30,
+      },
+      {
+        name: "Small Heath",
+        score: 30,
+      },
+      {
+        name: "Meadow Brown",
+        score: 30,
+      },
+      {
+        name: "Gatekeeper",
+        score: 30,
+      },
+      {
+        name: "Ringlet",
+        score: 30,
+      },
+      {
+        name: "Marbled White",
+        score: 30,
+      },
+      {
+        name: "Large White",
+        score: 30,
+      },
+      {
+        name: "Green-Veined White",
+        score: 30,
+      },
+      {
+        name: "Common Rose",
+        score: 30,
+      },
+      {
+        name: "Common Mormon",
+        score: 30,
+      },
+      {
+        name: "Black Swallowtail",
+        score: 30,
+      },
+      {
+        name: "Spicebush Swallowtail",
+        score: 30,
+      },
+      {
+        name: "Pipevine Swallowtail",
+        score: 30,
+      },
+      {
+        name: "Brown Argus",
+        score: 60,
+      },
+      {
+        name: "Large Heath",
+        score: 60,
+      },
+      {
+        name: "Cloudless Sulphur",
+        score: 60,
+      },
+      {
+        name: "Orange Sulphur",
+        score: 60,
+      },
+      {
+        name: "Clouded Sulphur",
+        score: 60,
+      },
+      {
+        name: "Green Hairstreak",
+        score: 60,
+      },
+      {
+        name: "Purple Hairstreak",
+        score: 60,
+      },
+      {
+        name: "White-Letter Hairstreak",
+        score: 60,
+      },
+      {
+        name: "Duke of Burgundy",
+        score: 60,
+      },
+      {
+        name: "Silver-Washed Fritillary",
+        score: 60,
+      },
+      {
+        name: "Dark Green Fritillary",
+        score: 60,
+      },
+      {
+        name: "Silver-Studded Blue",
+        score: 60,
+      },
+      {
+        name: "Chalkhill Blue",
+        score: 60,
+      },
+      {
+        name: "Adonis Blue",
+        score: 60,
+      },
+      {
+        name: "Holly Blue",
+        score: 60,
+      },
+      {
+        name: "Small Blue",
+        score: 60,
+      },
+      {
+        name: "High Brown Fritillary",
+        score: 85,
+      },
+      {
+        name: "Small Pearl-Bordered Fritillary",
+        score: 85,
+      },
+      {
+        name: "Large Blue",
+        score: 85,
+      },
+      {
+        name: "Grizzled Skipper",
+        score: 85,
+      },
+      {
+        name: "Dingy Skipper",
+        score: 85,
+      },
+      {
+        name: "Large Skipper",
+        score: 85,
+      },
+      {
+        name: "Small Skipper",
+        score: 85,
+      },
+      {
+        name: "Essex Skipper",
+        score: 85,
+      },
+      {
+        name: "Crimson Rose",
+        score: 85,
+      },
+      {
+        name: "Tailed Jay",
+        score: 85,
+      },
+      {
+        name: "Great Mormon",
+        score: 85,
+      },
+      {
+        name: "Common Jezebel",
+        score: 85,
+      },
+      {
+        name: "Common Tiger",
+        score: 85,
+      },
+      {
+        name: "Blue Tiger",
+        score: 85,
+      },
+      {
+        name: "Plain Tiger",
+        score: 85,
+      },
+      {
+        name: "Red Lacewing",
+        score: 85,
+      },
+      {
+        name: "Palos Verdes Blue",
+        score: 100,
+      },
+      {
+        name: "Queen of Spain Fritillary",
+        score: 100,
+      },
+      {
+        name: "Bath White",
+        score: 100,
+      },
+      {
+        name: "Purple-Shot Copper",
+        score: 100,
+      },
     ],
   },
   {
@@ -2456,112 +4264,132 @@ export const worldPrompts: Prompt[] = [
       {
         name: "Koala",
         score: 10,
+        aliases: ["Phascolarctos cinereus"],
       },
       {
         name: "Red Kangaroo",
         score: 10,
+        aliases: ["Osphranter rufus"],
       },
       {
         name: "Tasmanian Devil",
         score: 10,
+        aliases: ["Sarcophilus harrisii"],
       },
       {
         name: "Quokka",
         score: 10,
+        aliases: ["Setonix brachyurus"],
       },
       {
         name: "Common Wombat",
         score: 10,
+        aliases: ["Vombatus ursinus"],
       },
       {
         name: "Sugar Glider",
         score: 15,
+        aliases: ["Petaurus breviceps"],
       },
       {
         name: "Virginia Opossum",
         score: 15,
+        aliases: ["Didelphis virginiana"],
       },
       {
         name: "Eastern Grey Kangaroo",
         score: 30,
-        aliases: ["Eastern Gray Kangaroo"],
+        aliases: ["Eastern Gray Kangaroo", "Macropus giganteus"],
       },
       {
         name: "Western Grey Kangaroo",
         score: 30,
-        aliases: ["Western Gray Kangaroo"],
+        aliases: ["Western Gray Kangaroo", "Macropus fuliginosus"],
       },
       {
         name: "Red-Necked Wallaby",
         score: 30,
+        aliases: ["Notamacropus rufogriseus"],
       },
       {
         name: "Numbat",
         score: 30,
+        aliases: ["Myrmecobius fasciatus"],
       },
       {
         name: "Greater Bilby",
         score: 30,
-        aliases: ["Bilby"],
+        aliases: ["Bilby", "Macrotis lagotis"],
       },
       {
         name: "Southern Hairy-Nosed Wombat",
         score: 30,
+        aliases: ["Lasiorhinus latifrons"],
       },
       {
         name: "Northern Hairy-Nosed Wombat",
         score: 30,
+        aliases: ["Lasiorhinus krefftii"],
       },
       {
         name: "Common Brushtail Possum",
         score: 60,
+        aliases: ["Common Brush-Tailed Possum", "Trichosurus vulpecula"],
       },
       {
         name: "Common Ringtail Possum",
         score: 60,
+        aliases: ["Eastern Ring-Tailed Possum", "Pseudocheirus peregrinus"],
       },
       {
         name: "Tiger Quoll",
         score: 60,
-        aliases: ["Spotted-Tailed Quoll"],
+        aliases: ["Spotted-Tailed Quoll", "Dasyurus maculatus"],
       },
       {
         name: "Eastern Quoll",
         score: 60,
+        aliases: ["Dasyurus viverrinus"],
       },
       {
         name: "Yellow-Footed Rock-Wallaby",
         score: 60,
+        aliases: ["Petrogale xanthopus"],
       },
       {
         name: "Lumholtz Tree-Kangaroo",
         score: 60,
-        aliases: ["Lumholtz's Tree-Kangaroo"],
+        aliases: ["Lumholtz's Tree-Kangaroo", "Dendrolagus lumholtzi"],
       },
       {
         name: "Honey Possum",
         score: 85,
+        aliases: ["Tarsipes rostratus"],
       },
       {
         name: "Water Opossum",
         score: 85,
-        aliases: ["Yapok"],
+        aliases: ["Yapok", "Chironectes minimus"],
       },
       {
         name: "Western Barred Bandicoot",
         score: 85,
+        aliases: ["Perameles bougainville"],
       },
       {
         name: "Mountain Pygmy Possum",
         score: 100,
+        aliases: ["Burramys parvus"],
       },
       {
         name: "Striped Possum",
         score: 100,
+        aliases: ["Dactylopsila trivirgata"],
       },
       {
         name: "Northern Bettong",
         score: 100,
+        aliases: ["Bettongia tropica"],
       },
       {
         name: "Thylacine",
@@ -2572,7 +4400,235 @@ export const worldPrompts: Prompt[] = [
           "Thylacinus cynocephalus",
         ],
       },
+      {
+        name: "Tammar Wallaby",
+        score: 30,
+        aliases: ["Notamacropus eugenii"],
+      },
+      {
+        name: "Agile Wallaby",
+        score: 30,
+        aliases: ["Notamacropus agilis"],
+      },
+      {
+        name: "Parma Wallaby",
+        score: 30,
+        aliases: ["Notamacropus parma"],
+      },
+      {
+        name: "Swamp Wallaby",
+        score: 30,
+        aliases: ["Wallabia bicolor"],
+      },
+      {
+        name: "Antilopine Kangaroo",
+        score: 30,
+        aliases: ["Osphranter antilopinus"],
+      },
+      {
+        name: "Common Wallaroo",
+        score: 30,
+        aliases: ["Euro", "Osphranter robustus"],
+      },
+      {
+        name: "Northern Quoll",
+        score: 30,
+        aliases: ["Dasyurus hallucatus"],
+      },
+      {
+        name: "Western Quoll",
+        score: 30,
+        aliases: ["Chuditch", "Dasyurus geoffroii"],
+      },
+      {
+        name: "Eastern Bettong",
+        score: 30,
+        aliases: ["Bettongia gaimardi"],
+      },
+      {
+        name: "Long-Nosed Potoroo",
+        score: 30,
+        aliases: ["Potorous tridactylus"],
+      },
+      {
+        name: "Bridled Nail-Tail Wallaby",
+        score: 60,
+        aliases: [
+          "Bridled Nail-Tailed Wallaby",
+          "Onychogalea frenata",
+          "Onychogalea fraenata",
+        ],
+      },
+      {
+        name: "Northern Nail-Tail Wallaby",
+        score: 60,
+        aliases: [
+          "Northern Nail-Tailed Wallaby",
+          "Onychogalea annulicauda",
+          "Onychogalea unguifera",
+        ],
+      },
+      {
+        name: "Western Brush Wallaby",
+        score: 60,
+        aliases: ["Notamacropus irma"],
+      },
+      {
+        name: "Black-Striped Wallaby",
+        score: 60,
+        aliases: ["Notamacropus dorsalis"],
+      },
+      {
+        name: "Rufous Bettong",
+        score: 60,
+        aliases: ["Aepyprymnus rufescens"],
+      },
+      {
+        name: "Brush-Tailed Bettong",
+        score: 60,
+        aliases: ["Woylie"],
+      },
+      {
+        name: "Long-Footed Potoroo",
+        score: 60,
+        aliases: ["Potorous longipes"],
+      },
+      {
+        name: "Musky Rat-Kangaroo",
+        score: 60,
+        aliases: ["Hypsiprymnodon moschatus"],
+      },
+      {
+        name: "Red-Legged Pademelon",
+        score: 60,
+        aliases: ["Thylogale stigmatica"],
+      },
+      {
+        name: "Red-Bellied Pademelon",
+        score: 60,
+        aliases: ["Tasmanian Pademelon", "Thylogale billardierii"],
+      },
+      {
+        name: "Red-Necked Pademelon",
+        score: 60,
+        aliases: ["Thylogale thetis"],
+      },
+      {
+        name: "Common Spotted Cuscus",
+        score: 60,
+        aliases: ["Spilocuscus maculatus"],
+      },
+      {
+        name: "Ground Cuscus",
+        score: 60,
+        aliases: ["Phalanger gymnotis"],
+      },
+      {
+        name: "Sulawesi Bear Cuscus",
+        score: 60,
+        aliases: ["Ailurops ursinus"],
+      },
+      {
+        name: "Southern Brown Bandicoot",
+        score: 60,
+        aliases: ["Isoodon obesulus"],
+      },
+      {
+        name: "Long-Nosed Bandicoot",
+        score: 60,
+        aliases: ["Perameles nasuta"],
+      },
+      {
+        name: "Northern Brown Bandicoot",
+        score: 60,
+        aliases: ["Isoodon macrourus"],
+      },
+      {
+        name: "Gilberts Potoroo",
+        score: 85,
+        aliases: ["Potorous gilbertii"],
+      },
+      {
+        name: "Dibbler",
+        score: 85,
+        aliases: ["Parantechinus apicalis"],
+      },
+      {
+        name: "Kowari",
+        score: 85,
+        aliases: ["Dasyuroides byrnei"],
+      },
+      {
+        name: "Julia Creek Dunnart",
+        score: 85,
+        aliases: ["Sminthopsis douglasi"],
+      },
+      {
+        name: "Fat-Tailed Dunnart",
+        score: 85,
+        aliases: ["Sminthopsis crassicaudata"],
+      },
+      {
+        name: "Brush-Tailed Phascogale",
+        score: 85,
+        aliases: ["Phascogale tapoatafa"],
+      },
+      {
+        name: "Red-Tailed Phascogale",
+        score: 85,
+        aliases: ["Phascogale calurus"],
+      },
+      {
+        name: "Yellow-Footed Antechinus",
+        score: 85,
+        aliases: ["Antechinus flavipes"],
+      },
+      {
+        name: "Brown Antechinus",
+        score: 85,
+        aliases: ["Antechinus stuartii"],
+      },
+      {
+        name: "Rufous Hare-Wallaby",
+        score: 85,
+        aliases: ["Mala", "Lagorchestes hirsutus"],
+      },
+      {
+        name: "Eastern Barred Bandicoot",
+        score: 100,
+        aliases: ["Perameles gunnii"],
+      },
+      {
+        name: "Long-Tailed Dunnart",
+        score: 100,
+        aliases: [
+          "Greater Long-Tailed Dunnart",
+          "Antechinomys longicaudatus",
+          "Sminthopsis longicaudata",
+        ],
+      },
+      {
+        name: "Crest-Tailed Mulgara",
+        score: 100,
+        aliases: ["Dasycercus cristicauda"],
+      },
+      {
+        name: "Brush-Tailed Mulgara",
+        score: 100,
+        aliases: ["Dasycercus blythi"],
+      },
+      {
+        name: "Southern Marsupial Mole",
+        score: 100,
+        aliases: ["Notoryctes typhlops"],
+      },
+      {
+        name: "Northern Marsupial Mole",
+        score: 100,
+        aliases: ["Notoryctes caurinus"],
+      },
     ],
+    source: "https://www.mammaldiversity.org/",
   },
   {
     id: "world-pasta-shapes",
@@ -2714,6 +4770,7 @@ export const worldPrompts: Prompt[] = [
       {
         name: "Campanelle",
         score: 100,
+        aliases: ["Gigli"],
       },
       {
         name: "Cencioni",
@@ -2725,6 +4782,190 @@ export const worldPrompts: Prompt[] = [
       },
       {
         name: "Radiatori",
+        score: 100,
+      },
+      {
+        name: "Tortelloni",
+        score: 30,
+      },
+      {
+        name: "Cappelletti",
+        score: 30,
+      },
+      {
+        name: "Cavatelli",
+        score: 30,
+      },
+      {
+        name: "Rotelle",
+        score: 30,
+        aliases: ["Ruote", "Wagon Wheel Pasta"],
+      },
+      {
+        name: "Anelli",
+        score: 30,
+      },
+      {
+        name: "Acini di Pepe",
+        score: 30,
+      },
+      {
+        name: "Tagliolini",
+        score: 30,
+        aliases: ["Taglierini"],
+      },
+      {
+        name: "Spaghettini",
+        score: 30,
+      },
+      {
+        name: "Spaghettoni",
+        score: 30,
+      },
+      {
+        name: "Tubetti",
+        score: 30,
+      },
+      {
+        name: "Mezze Maniche",
+        score: 60,
+      },
+      {
+        name: "Calamarata",
+        score: 60,
+      },
+      {
+        name: "Bigoli",
+        score: 60,
+      },
+      {
+        name: "Pici",
+        score: 60,
+      },
+      {
+        name: "Busiate",
+        score: 60,
+      },
+      {
+        name: "Strozzapreti",
+        score: 60,
+      },
+      {
+        name: "Fileja",
+        score: 60,
+      },
+      {
+        name: "Malloreddus",
+        score: 60,
+        aliases: ["Gnocchetti Sardi"],
+      },
+      {
+        name: "Strascinati",
+        score: 60,
+      },
+      {
+        name: "Scialatielli",
+        score: 60,
+      },
+      {
+        name: "Lagane",
+        score: 60,
+      },
+      {
+        name: "Maltagliati",
+        score: 60,
+      },
+      {
+        name: "Quadretti",
+        score: 60,
+      },
+      {
+        name: "Anellini",
+        score: 60,
+      },
+      {
+        name: "Sedani",
+        score: 60,
+      },
+      {
+        name: "Lumache",
+        score: 60,
+      },
+      {
+        name: "Lumaconi",
+        score: 60,
+      },
+      {
+        name: "Fregola",
+        score: 60,
+        aliases: ["Fregula"],
+      },
+      {
+        name: "Lasagnette",
+        score: 60,
+      },
+      {
+        name: "Cappellacci",
+        score: 85,
+      },
+      {
+        name: "Pansotti",
+        score: 85,
+      },
+      {
+        name: "Caramelle",
+        score: 85,
+      },
+      {
+        name: "Fazzoletti",
+        score: 85,
+      },
+      {
+        name: "Riccioli",
+        score: 85,
+      },
+      {
+        name: "Manicotti",
+        score: 85,
+      },
+      {
+        name: "Sagnarelli",
+        score: 85,
+      },
+      {
+        name: "Tripoline",
+        score: 85,
+      },
+      {
+        name: "Capunti",
+        score: 85,
+      },
+      {
+        name: "Corallini",
+        score: 85,
+      },
+      {
+        name: "Testaroli",
+        score: 100,
+      },
+      {
+        name: "Sorpresine",
+        score: 100,
+      },
+      {
+        name: "Lorighittas",
+        score: 100,
+      },
+      {
+        name: "Culurgiones",
+        score: 100,
+      },
+      {
+        name: "Casoncelli",
+        score: 100,
+      },
+      {
+        name: "Tortelli",
         score: 100,
       },
     ],
@@ -2888,8 +5129,292 @@ export const worldPrompts: Prompt[] = [
         score: 100,
         aliases: ["Tête de Moine"],
       },
-      { name: "Blue Cheese", score: 15, aliases: ["Bleu Cheese"] },
-      { name: "Cream Cheese", score: 10 },
+      {
+        name: "Blue Cheese",
+        score: 15,
+        aliases: ["Bleu Cheese"],
+      },
+      {
+        name: "Cream Cheese",
+        score: 10,
+      },
+      {
+        name: "Fontina",
+        score: 30,
+      },
+      {
+        name: "Red Leicester",
+        score: 30,
+      },
+      {
+        name: "Double Gloucester",
+        score: 30,
+      },
+      {
+        name: "Wensleydale",
+        score: 30,
+      },
+      {
+        name: "Cheshire",
+        score: 30,
+      },
+      {
+        name: "Lancashire",
+        score: 30,
+      },
+      {
+        name: "Caerphilly",
+        score: 30,
+      },
+      {
+        name: "Jarlsberg",
+        score: 30,
+      },
+      {
+        name: "Oaxaca",
+        score: 30,
+        aliases: ["Queso Oaxaca"],
+      },
+      {
+        name: "Queso Fresco",
+        score: 30,
+      },
+      {
+        name: "Queso Blanco",
+        score: 30,
+      },
+      {
+        name: "Panela",
+        score: 30,
+        aliases: ["Queso Panela"],
+      },
+      {
+        name: "Manouri",
+        score: 30,
+      },
+      {
+        name: "Graviera",
+        score: 30,
+      },
+      {
+        name: "Kefalotyri",
+        score: 30,
+      },
+      {
+        name: "Kasseri",
+        score: 30,
+      },
+      {
+        name: "Mizithra",
+        score: 30,
+      },
+      {
+        name: "Montasio",
+        score: 60,
+      },
+      {
+        name: "Piave",
+        score: 60,
+      },
+      {
+        name: "Robiola",
+        score: 60,
+      },
+      {
+        name: "Stracchino",
+        score: 60,
+      },
+      {
+        name: "Crescenza",
+        score: 60,
+      },
+      {
+        name: "Dolcelatte",
+        score: 60,
+      },
+      {
+        name: "Sage Derby",
+        score: 60,
+      },
+      {
+        name: "Saint Paulin",
+        score: 60,
+        aliases: ["St Paulin"],
+      },
+      {
+        name: "Saint Nectaire",
+        score: 60,
+      },
+      {
+        name: "Pont l Eveque",
+        score: 60,
+      },
+      {
+        name: "Livarot",
+        score: 60,
+      },
+      {
+        name: "Epoisses",
+        score: 60,
+      },
+      {
+        name: "Langres",
+        score: 60,
+      },
+      {
+        name: "Chaource",
+        score: 60,
+      },
+      {
+        name: "Coulommiers",
+        score: 60,
+      },
+      {
+        name: "Neufchatel",
+        score: 60,
+      },
+      {
+        name: "Brunost",
+        score: 60,
+      },
+      {
+        name: "Danablu",
+        score: 60,
+      },
+      {
+        name: "Esrom",
+        score: 60,
+      },
+      {
+        name: "Tilsit",
+        score: 60,
+      },
+      {
+        name: "Butterkase",
+        score: 60,
+      },
+      {
+        name: "Handkase",
+        score: 60,
+      },
+      {
+        name: "Harzer",
+        score: 60,
+      },
+      {
+        name: "Chihuahua",
+        score: 60,
+        aliases: ["Queso Chihuahua"],
+      },
+      {
+        name: "Anthotyro",
+        score: 60,
+      },
+      {
+        name: "Telemea",
+        score: 60,
+      },
+      {
+        name: "Sirene",
+        score: 60,
+      },
+      {
+        name: "Oscypek",
+        score: 60,
+      },
+      {
+        name: "Bryndza",
+        score: 60,
+      },
+      {
+        name: "Crottin de Chavignol",
+        score: 85,
+      },
+      {
+        name: "Valencay",
+        score: 85,
+      },
+      {
+        name: "Sainte Maure de Touraine",
+        score: 85,
+      },
+      {
+        name: "Picodon",
+        score: 85,
+      },
+      {
+        name: "Rocamadour",
+        score: 85,
+      },
+      {
+        name: "Pouligny Saint Pierre",
+        score: 85,
+      },
+      {
+        name: "Selles sur Cher",
+        score: 85,
+      },
+      {
+        name: "Banon",
+        score: 85,
+      },
+      {
+        name: "Brocciu",
+        score: 85,
+      },
+      {
+        name: "Brin d Amour",
+        score: 85,
+      },
+      {
+        name: "Casu Marzu",
+        score: 85,
+      },
+      {
+        name: "Cantal",
+        score: 85,
+      },
+      {
+        name: "Salers",
+        score: 85,
+      },
+      {
+        name: "Fourme d Ambert",
+        score: 85,
+      },
+      {
+        name: "Vacherin Mont d Or",
+        score: 100,
+        aliases: ["Mont d’Or"],
+      },
+      {
+        name: "Vacherin Fribourgeois",
+        score: 100,
+      },
+      {
+        name: "Zamorano",
+        score: 100,
+      },
+      {
+        name: "Idiazabal",
+        score: 100,
+      },
+      {
+        name: "Serra da Estrela",
+        score: 100,
+      },
+      {
+        name: "Azeitao",
+        score: 100,
+      },
+      {
+        name: "Roncal",
+        score: 100,
+      },
+      {
+        name: "Mahón",
+        score: 100,
+      },
     ],
   },
   {
@@ -3057,6 +5582,232 @@ export const worldPrompts: Prompt[] = [
         name: "Soursop",
         score: 100,
       },
+      {
+        name: "Tangerine",
+        score: 30,
+      },
+      {
+        name: "Clementine",
+        score: 30,
+      },
+      {
+        name: "Mandarin",
+        score: 30,
+      },
+      {
+        name: "Papaya",
+        score: 30,
+      },
+      {
+        name: "Dragon Fruit",
+        score: 30,
+        aliases: ["Pitaya"],
+      },
+      {
+        name: "Kumquat",
+        score: 30,
+      },
+      {
+        name: "Blackcurrant",
+        score: 30,
+      },
+      {
+        name: "Redcurrant",
+        score: 30,
+      },
+      {
+        name: "Gooseberry",
+        score: 30,
+      },
+      {
+        name: "Mulberry",
+        score: 30,
+      },
+      {
+        name: "Nectarine",
+        score: 30,
+      },
+      {
+        name: "Cantaloupe",
+        score: 30,
+      },
+      {
+        name: "Honeydew Melon",
+        score: 30,
+      },
+      {
+        name: "Elderberry",
+        score: 60,
+      },
+      {
+        name: "Boysenberry",
+        score: 60,
+      },
+      {
+        name: "Loganberry",
+        score: 60,
+      },
+      {
+        name: "Cloudberry",
+        score: 60,
+      },
+      {
+        name: "Lingonberry",
+        score: 60,
+      },
+      {
+        name: "Salmonberry",
+        score: 60,
+      },
+      {
+        name: "Huckleberry",
+        score: 60,
+      },
+      {
+        name: "Feijoa",
+        score: 60,
+        aliases: ["Pineapple Guava"],
+      },
+      {
+        name: "Tamarillo",
+        score: 60,
+      },
+      {
+        name: "Loquat",
+        score: 60,
+      },
+      {
+        name: "Medlar",
+        score: 60,
+      },
+      {
+        name: "Yuzu",
+        score: 60,
+      },
+      {
+        name: "Calamansi",
+        score: 60,
+      },
+      {
+        name: "Longan",
+        score: 60,
+      },
+      {
+        name: "Langsat",
+        score: 60,
+      },
+      {
+        name: "Sapodilla",
+        score: 60,
+      },
+      {
+        name: "Mamey Sapote",
+        score: 60,
+      },
+      {
+        name: "White Sapote",
+        score: 60,
+      },
+      {
+        name: "Black Sapote",
+        score: 60,
+      },
+      {
+        name: "Tamarind",
+        score: 60,
+      },
+      {
+        name: "Jostaberry",
+        score: 85,
+      },
+      {
+        name: "Ugli Fruit",
+        score: 85,
+      },
+      {
+        name: "Pepino",
+        score: 85,
+      },
+      {
+        name: "Physalis",
+        score: 85,
+        aliases: ["Cape Gooseberry", "Goldenberry"],
+      },
+      {
+        name: "Saskatoon Berry",
+        score: 85,
+      },
+      {
+        name: "Serviceberry",
+        score: 85,
+      },
+      {
+        name: "Sea Buckthorn",
+        score: 85,
+      },
+      {
+        name: "Aronia",
+        score: 85,
+        aliases: ["Chokeberry"],
+      },
+      {
+        name: "Whitecurrant",
+        score: 85,
+      },
+      {
+        name: "Naranjilla",
+        score: 85,
+      },
+      {
+        name: "Marionberry",
+        score: 85,
+      },
+      {
+        name: "Miracle Fruit",
+        score: 85,
+      },
+      {
+        name: "Acerola",
+        score: 85,
+        aliases: ["Barbados Cherry"],
+      },
+      {
+        name: "Pulasan",
+        score: 100,
+      },
+      {
+        name: "Santol",
+        score: 100,
+      },
+      {
+        name: "Cupuacu",
+        score: 100,
+      },
+      {
+        name: "Camu Camu",
+        score: 100,
+      },
+      {
+        name: "Surinam Cherry",
+        score: 100,
+      },
+      {
+        name: "Bilimbi",
+        score: 100,
+      },
+      {
+        name: "Rose Apple",
+        score: 100,
+      },
+      {
+        name: "Wax Apple",
+        score: 100,
+      },
+      {
+        name: "Mamoncillo",
+        score: 100,
+        aliases: ["Spanish Lime"],
+      },
     ],
   },
   {
@@ -3168,7 +5919,7 @@ export const worldPrompts: Prompt[] = [
       {
         name: "Bok Choy",
         score: 60,
-        aliases: ["Pak Choi"],
+        aliases: ["Pak Choi", "Pak Choy"],
       },
       {
         name: "Celeriac",
@@ -3231,11 +5982,246 @@ export const worldPrompts: Prompt[] = [
         name: "Skirret",
         score: 100,
       },
-      { name: "Mushroom", score: 10, aliases: ["Mushrooms"] },
-      { name: "Button Mushroom", score: 15, aliases: ["White Mushroom"] },
-      { name: "Shiitake", score: 30, aliases: ["Shiitake Mushroom"] },
-      { name: "Oyster Mushroom", score: 30 },
-      { name: "Sweetcorn", score: 10, aliases: ["Sweet Corn", "Corn"] },
+      {
+        name: "Mushroom",
+        score: 10,
+        aliases: ["Mushrooms"],
+      },
+      {
+        name: "Button Mushroom",
+        score: 15,
+        aliases: ["White Mushroom"],
+      },
+      {
+        name: "Shiitake",
+        score: 30,
+        aliases: ["Shiitake Mushroom"],
+      },
+      {
+        name: "Oyster Mushroom",
+        score: 30,
+      },
+      {
+        name: "Sweetcorn",
+        score: 10,
+        aliases: ["Sweet Corn", "Corn"],
+      },
+      {
+        name: "Green Bean",
+        score: 30,
+        aliases: ["French Bean"],
+      },
+      {
+        name: "Pea",
+        score: 30,
+        aliases: ["Garden Pea"],
+      },
+      {
+        name: "Snow Pea",
+        score: 30,
+      },
+      {
+        name: "Sugar Snap Pea",
+        score: 30,
+      },
+      {
+        name: "Pumpkin",
+        score: 30,
+      },
+      {
+        name: "Butternut Squash",
+        score: 30,
+      },
+      {
+        name: "Acorn Squash",
+        score: 30,
+      },
+      {
+        name: "Spaghetti Squash",
+        score: 30,
+      },
+      {
+        name: "Daikon",
+        score: 30,
+      },
+      {
+        name: "Yam",
+        score: 30,
+      },
+      {
+        name: "Taro",
+        score: 30,
+      },
+      {
+        name: "Arugula",
+        score: 30,
+        aliases: ["Rocket"],
+      },
+      {
+        name: "Watercress",
+        score: 30,
+      },
+      {
+        name: "Collard Greens",
+        score: 30,
+      },
+      {
+        name: "Mustard Greens",
+        score: 30,
+      },
+      {
+        name: "Chayote",
+        score: 60,
+      },
+      {
+        name: "Water Chestnut",
+        score: 60,
+      },
+      {
+        name: "Romanesco",
+        score: 60,
+      },
+      {
+        name: "Turnip Greens",
+        score: 60,
+      },
+      {
+        name: "Beet Greens",
+        score: 60,
+      },
+      {
+        name: "Endive",
+        score: 60,
+      },
+      {
+        name: "Radicchio",
+        score: 60,
+      },
+      {
+        name: "Escarole",
+        score: 60,
+      },
+      {
+        name: "Chicory",
+        score: 60,
+      },
+      {
+        name: "Bamboo Shoot",
+        score: 60,
+        aliases: ["Bamboo Shoots"],
+      },
+      {
+        name: "Hearts of Palm",
+        score: 60,
+        aliases: ["Heart of Palm"],
+      },
+      {
+        name: "Nopales",
+        score: 60,
+        aliases: ["Nopal"],
+      },
+      {
+        name: "Tomatillo",
+        score: 60,
+      },
+      {
+        name: "Mizuna",
+        score: 60,
+      },
+      {
+        name: "Tatsoi",
+        score: 60,
+      },
+      {
+        name: "Komatsuna",
+        score: 60,
+      },
+      {
+        name: "Broccoli Rabe",
+        score: 60,
+        aliases: ["Rapini"],
+      },
+      {
+        name: "Sea Kale",
+        score: 85,
+      },
+      {
+        name: "Cardoon",
+        score: 85,
+      },
+      {
+        name: "Crosne",
+        score: 85,
+        aliases: ["Chinese Artichoke"],
+      },
+      {
+        name: "Jicama",
+        score: 85,
+      },
+      {
+        name: "Scorzonera",
+        score: 85,
+        aliases: ["Black Salsify"],
+      },
+      {
+        name: "Malanga",
+        score: 85,
+      },
+      {
+        name: "Arracacha",
+        score: 85,
+      },
+      {
+        name: "Ulluco",
+        score: 85,
+      },
+      {
+        name: "Mache",
+        score: 85,
+        aliases: ["Corn Salad"],
+      },
+      {
+        name: "Orach",
+        score: 85,
+      },
+      {
+        name: "Purslane",
+        score: 85,
+      },
+      {
+        name: "Dandelion Greens",
+        score: 85,
+      },
+      {
+        name: "Amaranth Greens",
+        score: 85,
+      },
+      {
+        name: "Good King Henry",
+        score: 100,
+      },
+      {
+        name: "New Zealand Spinach",
+        score: 100,
+      },
+      {
+        name: "Water Spinach",
+        score: 100,
+        aliases: ["Kangkong"],
+      },
+      {
+        name: "Pea Shoots",
+        score: 100,
+      },
+      {
+        name: "Samphire",
+        score: 100,
+        aliases: ["Marsh Samphire"],
+      },
+      {
+        name: "Moringa Leaves",
+        score: 100,
+      },
     ],
   },
   {
@@ -3351,6 +6337,144 @@ export const worldPrompts: Prompt[] = [
         name: "Vietnamese Coriander",
         score: 100,
         aliases: ["Rau Ram"],
+      },
+      {
+        name: "Fennel Fronds",
+        score: 30,
+        aliases: ["Fennel Leaves"],
+      },
+      {
+        name: "Garlic Chives",
+        score: 30,
+      },
+      {
+        name: "Thai Basil",
+        score: 30,
+      },
+      {
+        name: "Holy Basil",
+        score: 30,
+        aliases: ["Tulsi"],
+      },
+      {
+        name: "Pandan",
+        score: 30,
+        aliases: ["Pandan Leaf"],
+      },
+      {
+        name: "Makrut Lime Leaf",
+        score: 30,
+        aliases: ["Makrut Lime Leaves", "Kaffir Lime Leaf"],
+      },
+      {
+        name: "Lemon Basil",
+        score: 60,
+      },
+      {
+        name: "Lemon Thyme",
+        score: 60,
+      },
+      {
+        name: "Anise Hyssop",
+        score: 60,
+      },
+      {
+        name: "Hyssop",
+        score: 60,
+      },
+      {
+        name: "Sweet Cicely",
+        score: 60,
+      },
+      {
+        name: "Salad Burnet",
+        score: 60,
+      },
+      {
+        name: "Borage",
+        score: 60,
+      },
+      {
+        name: "Nasturtium",
+        score: 60,
+      },
+      {
+        name: "Mitsuba",
+        score: 60,
+        aliases: ["Japanese Parsley"],
+      },
+      {
+        name: "Lemon Myrtle",
+        score: 60,
+      },
+      {
+        name: "Winter Savory",
+        score: 60,
+      },
+      {
+        name: "Mugwort",
+        score: 60,
+      },
+      {
+        name: "Mexican Tarragon",
+        score: 60,
+      },
+      {
+        name: "Sweet Woodruff",
+        score: 85,
+      },
+      {
+        name: "Rice Paddy Herb",
+        score: 85,
+      },
+      {
+        name: "Fish Mint",
+        score: 85,
+      },
+      {
+        name: "Wild Betel Leaf",
+        score: 85,
+        aliases: ["La Lot"],
+      },
+      {
+        name: "Clove Basil",
+        score: 85,
+        aliases: ["Scent Leaf"],
+      },
+      {
+        name: "Costmary",
+        score: 85,
+      },
+      {
+        name: "Turkish Oregano",
+        score: 85,
+      },
+      {
+        name: "Cuban Oregano",
+        score: 85,
+      },
+      {
+        name: "Hoja Santa",
+        score: 85,
+        aliases: ["Mexican Pepperleaf"],
+      },
+      {
+        name: "Pápalo",
+        score: 100,
+        aliases: ["Bolivian Coriander", "Quirquina"],
+      },
+      {
+        name: "Kinh Gioi",
+        score: 100,
+        aliases: ["Vietnamese Balm"],
+      },
+      {
+        name: "Lemon Geranium",
+        score: 100,
+      },
+      {
+        name: "Mountain Pepper Leaf",
+        score: 100,
       },
     ],
   },
@@ -3496,6 +6620,111 @@ export const worldPrompts: Prompt[] = [
       },
       {
         name: "Mahleb",
+        score: 100,
+        aliases: ["Mahlab"],
+      },
+      {
+        name: "White Pepper",
+        score: 30,
+      },
+      {
+        name: "Black Cardamom",
+        score: 30,
+      },
+      {
+        name: "Green Peppercorn",
+        score: 30,
+        aliases: ["Green Peppercorns"],
+      },
+      {
+        name: "Dried Chili",
+        score: 30,
+        aliases: ["Dried Chilli"],
+      },
+      {
+        name: "Chipotle",
+        score: 30,
+      },
+      {
+        name: "Galangal",
+        score: 30,
+      },
+      {
+        name: "Pink Peppercorn",
+        score: 30,
+        aliases: ["Pink Peppercorns"],
+      },
+      {
+        name: "Amchoor",
+        score: 30,
+        aliases: ["Amchur"],
+      },
+      {
+        name: "Urfa Pepper",
+        score: 60,
+        aliases: ["Urfa Biber"],
+      },
+      {
+        name: "Aleppo Pepper",
+        score: 60,
+      },
+      {
+        name: "Cubeb",
+        score: 60,
+      },
+      {
+        name: "Grains of Selim",
+        score: 60,
+      },
+      {
+        name: "Fingerroot",
+        score: 60,
+      },
+      {
+        name: "Sand Ginger",
+        score: 60,
+        aliases: ["Kencur"],
+      },
+      {
+        name: "Dried Lime",
+        score: 60,
+        aliases: ["Loomi"],
+      },
+      {
+        name: "Anardana",
+        score: 60,
+      },
+      {
+        name: "Kokum",
+        score: 60,
+      },
+      {
+        name: "Safflower",
+        score: 60,
+      },
+      {
+        name: "Voatsiperifery",
+        score: 85,
+      },
+      {
+        name: "Zedoary",
+        score: 85,
+        aliases: ["White Turmeric"],
+      },
+      {
+        name: "Tonka Bean",
+        score: 85,
+      },
+      {
+        name: "Calabash Nutmeg",
+        score: 85,
+      },
+      {
+        name: "Prekese",
+        score: 85,
+      },
+      {
+        name: "Timur Pepper",
         score: 100,
       },
     ],
@@ -3659,6 +6888,231 @@ export const worldPrompts: Prompt[] = [
         score: 100,
         aliases: ["Tunnbröd"],
       },
+      {
+        name: "Pretzel",
+        score: 30,
+        aliases: ["Brezel"],
+      },
+      {
+        name: "Panettone",
+        score: 30,
+      },
+      {
+        name: "Pandoro",
+        score: 30,
+      },
+      {
+        name: "Babka",
+        score: 30,
+      },
+      {
+        name: "Stollen",
+        score: 30,
+      },
+      {
+        name: "Simit",
+        score: 30,
+      },
+      {
+        name: "Khachapuri",
+        score: 30,
+      },
+      {
+        name: "Pide",
+        score: 30,
+      },
+      {
+        name: "Manakish",
+        score: 30,
+      },
+      {
+        name: "Breadstick",
+        score: 30,
+        aliases: ["Grissini"],
+      },
+      {
+        name: "Pan de Coco",
+        score: 30,
+      },
+      {
+        name: "Pao de Queijo",
+        score: 30,
+      },
+      {
+        name: "Somun",
+        score: 60,
+      },
+      {
+        name: "Lepinja",
+        score: 60,
+      },
+      {
+        name: "Malawach",
+        score: 60,
+      },
+      {
+        name: "Yufka",
+        score: 60,
+      },
+      {
+        name: "Khobz",
+        score: 60,
+      },
+      {
+        name: "Taboon",
+        score: 60,
+      },
+      {
+        name: "Laffa",
+        score: 60,
+      },
+      {
+        name: "Obi Non",
+        score: 60,
+      },
+      {
+        name: "Sheermal",
+        score: 60,
+      },
+      {
+        name: "Taftan",
+        score: 60,
+        aliases: ["Taftoon"],
+      },
+      {
+        name: "Sangak",
+        score: 60,
+      },
+      {
+        name: "Barbari",
+        score: 60,
+      },
+      {
+        name: "Shoti",
+        score: 60,
+        aliases: ["Shotis Puri"],
+      },
+      {
+        name: "Pao Frances",
+        score: 60,
+      },
+      {
+        name: "Bolo do Caco",
+        score: 60,
+      },
+      {
+        name: "Bolo Levedo",
+        score: 60,
+      },
+      {
+        name: "Pane Carasau",
+        score: 60,
+      },
+      {
+        name: "Pane di Altamura",
+        score: 60,
+      },
+      {
+        name: "Pane Siciliano",
+        score: 60,
+      },
+      {
+        name: "Pane Toscano",
+        score: 60,
+      },
+      {
+        name: "Pan de Cristal",
+        score: 60,
+      },
+      {
+        name: "Ensaymada",
+        score: 60,
+      },
+      {
+        name: "Kulich",
+        score: 60,
+      },
+      {
+        name: "Himbasha",
+        score: 85,
+        aliases: ["Ambasha"],
+      },
+      {
+        name: "Kisra",
+        score: 85,
+      },
+      {
+        name: "Dabo",
+        score: 85,
+      },
+      {
+        name: "Gurasa",
+        score: 85,
+      },
+      {
+        name: "Aish Baladi",
+        score: 85,
+      },
+      {
+        name: "Pogača",
+        score: 85,
+      },
+      {
+        name: "Zopf",
+        score: 85,
+      },
+      {
+        name: "Vánočka",
+        score: 85,
+      },
+      {
+        name: "Tsoureki",
+        score: 85,
+      },
+      {
+        name: "Colomba",
+        score: 85,
+      },
+      {
+        name: "Bublik",
+        score: 85,
+      },
+      {
+        name: "Boortsog",
+        score: 85,
+      },
+      {
+        name: "Balep Korkun",
+        score: 85,
+      },
+      {
+        name: "Non",
+        score: 100,
+      },
+      {
+        name: "Tandir Non",
+        score: 100,
+      },
+      {
+        name: "Luchi",
+        score: 100,
+      },
+      {
+        name: "Bhakri",
+        score: 100,
+      },
+      {
+        name: "Akki Roti",
+        score: 100,
+      },
+      {
+        name: "Bajra Roti",
+        score: 100,
+      },
+      {
+        name: "Makki di Roti",
+        score: 100,
+      },
     ],
   },
   {
@@ -3772,6 +7226,7 @@ export const worldPrompts: Prompt[] = [
       {
         name: "Hyacinth Bean",
         score: 85,
+        aliases: ["Lablab Bean"],
       },
       {
         name: "Lupin Bean",
@@ -3785,6 +7240,7 @@ export const worldPrompts: Prompt[] = [
       {
         name: "Grass Pea",
         score: 100,
+        aliases: ["Chickling Pea"],
       },
       {
         name: "Horse Gram",
@@ -3797,7 +7253,112 @@ export const worldPrompts: Prompt[] = [
       {
         name: "Winged Bean",
         score: 100,
+        aliases: ["Goa Bean"],
+      },
+      {
+        name: "Green Bean",
+        score: 30,
+        aliases: ["French Bean", "Haricot Vert"],
+      },
+      {
+        name: "Red Lentil",
+        score: 30,
+      },
+      {
+        name: "Green Lentil",
+        score: 30,
+      },
+      {
+        name: "Brown Lentil",
+        score: 30,
+      },
+      {
+        name: "Great Northern Bean",
+        score: 30,
+      },
+      {
+        name: "Flageolet Bean",
+        score: 30,
+      },
+      {
+        name: "Yardlong Bean",
+        score: 30,
+        aliases: ["Asparagus Bean"],
+      },
+      {
+        name: "Black Gram",
+        score: 30,
+        aliases: ["Urad Bean", "Urd Bean"],
+      },
+      {
+        name: "Puy Lentil",
+        score: 60,
+        aliases: ["French Green Lentil"],
+      },
+      {
+        name: "Beluga Lentil",
+        score: 60,
+      },
+      {
+        name: "Anasazi Bean",
+        score: 60,
+      },
+      {
+        name: "Jacobs Cattle Bean",
+        score: 60,
+      },
+      {
+        name: "Yellow Eye Bean",
+        score: 60,
+      },
+      {
+        name: "Rice Bean",
+        score: 60,
+      },
+      {
+        name: "Sword Bean",
+        score: 60,
+      },
+      {
+        name: "Jack Bean",
+        score: 60,
+      },
+      {
+        name: "Guar",
+        score: 60,
+        aliases: ["Cluster Bean"],
+      },
+      {
+        name: "African Yam Bean",
+        score: 85,
+      },
+      {
+        name: "Marama Bean",
+        score: 85,
+        aliases: ["Morama Bean"],
+      },
+      {
+        name: "Kerstings Groundnut",
+        score: 85,
+      },
+      {
+        name: "Appaloosa Bean",
+        score: 85,
+      },
+      {
+        name: "Coco Bean",
+        score: 85,
+      },
+      {
+        name: "Field Pea",
+        score: 85,
+      },
+      {
+        name: "Velvet Bean",
+        score: 85,
       },
     ],
+    source:
+      "https://www.fao.org/fao-who-codexalimentarius/sh-proxy/es/?lnk=1&url=https%253A%252F%252Fworkspace.fao.org%252Fsites%252Fcodex%252FMeetings%252FCX-718-49%252FWD%252Fpr49_06e.pdf",
   },
 ];

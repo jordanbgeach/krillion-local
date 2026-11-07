@@ -35,7 +35,7 @@ function question(
   };
 }
 
-export const culturePrompts: Prompt[] = [
+const originalCulturePrompts: Prompt[] = [
   question(
     "constellations",
     "Science",
@@ -446,3 +446,181 @@ export const culturePrompts: Prompt[] = [
     },
   ),
 ];
+
+// Further independent curation. Finite domains remain finite: 88 constellations,
+// 24 SI prefixes, 29 named SI units, and 39 surviving attributed Shakespeare plays.
+// Verse-form references: https://poets.org/glossary and
+// https://www.poetryfoundation.org/education/glossary/fixed-and-unfixed-forms
+// Norse divine figures: Snorri's primary text, Gylfaginning,
+// https://vsnrweb-publications.org.uk/PrologueandGylfaginning.unicode.pdf
+const cultureAdditions: Record<string, Answer[]> = {
+  "culture-sciences": bank({
+    30: "Dermatology;Oncology;Pharmacology;Pathology;Radiology;Toxicology;Cosmology;Criminology;Geochronology",
+    60: "Oceanology;Rheumatology;Hematology=Haematology;Nephrology;Hepatology;Urology;Gynecology=Gynaecology;Ophthalmology;Audiology;Gerontology;Odontology",
+    85: "Sedimentology;Geomorphology;Climatology;Pedology;Petrology;Astrobiology;Selenology;Areology;Tribology;Rheology;Chronobiology;Neurobiology;Parasitology;Bacteriology;Protozoology",
+    100: "Lepidopterology;Coleopterology;Carcinology;Helminthology;Diatomology;Phycology;Arachnology;Cetology",
+  }),
+  "culture-scientists": bank({
+    15: "Thomas Edison=Edison;Alexander Graham Bell=Bell;Alexander Fleming=Fleming",
+    30: "Blaise Pascal=Pascal;René Descartes=Rene Descartes=Descartes;Pierre de Fermat=Fermat;James Watt=Watt;Robert Boyle=Boyle;Max Planck=Planck;Edwin Hubble=Hubble",
+    60: "William Harvey=Harvey;Andreas Vesalius=Vesalius;Antonie van Leeuwenhoek=Leeuwenhoek;Robert Koch=Koch;Joseph Lister=Lister;John Dalton=Dalton;Henry Cavendish=Cavendish;Thomas Young=Young;Pierre-Simon Laplace=Laplace;Alexander von Humboldt=Humboldt;James Hutton=Hutton;Charles Lyell=Lyell;William Thomson=Lord Kelvin=Kelvin",
+    85: "Mary Somerville=Somerville;Annie Jump Cannon=Cannon;Williamina Fleming;Dorothea Klumpke=Klumpke;Arthur Eddington=Eddington;Karl Schwarzschild=Schwarzschild;Harlow Shapley=Shapley;Louis de Broglie=de Broglie;Max Born=Born;Erwin Schrödinger=Erwin Schrodinger=Schrodinger;Joseph Priestley=Priestley;Carl Wilhelm Scheele=Scheele;Svante Arrhenius=Arrhenius",
+    100: "Jöns Jacob Berzelius=Jons Jacob Berzelius=Berzelius;Jacobus Henricus van 't Hoff=Van 't Hoff;Johannes Diderik van der Waals=Van der Waals;Irène Joliot-Curie=Irene Joliot-Curie;Pierre Curie;Élie Metchnikoff=Elie Metchnikoff=Metchnikoff;Dmitri Ivanovsky=Ivanovsky;Maria Gaetana Agnesi=Agnesi;Sofia Kovalevskaya=Kovalevskaya",
+  }),
+  "culture-muscles": bank({
+    30: "Gluteus medius;Gluteus minimus;External oblique;Internal oblique;Transversus abdominis;Erector spinae;Pelvic floor",
+    60: "Tensor fasciae latae;Iliopsoas;Iliacus;Psoas major;Psoas minor;Vastus intermedius;Adductor longus;Adductor brevis;Adductor magnus;Pectineus;Tibialis posterior;Fibularis longus=Peroneus longus;Fibularis brevis=Peroneus brevis;Extensor digitorum longus;Flexor digitorum longus;Flexor hallucis longus;Extensor hallucis longus",
+    85: "Serratus anterior;Rhomboid major;Rhomboid minor;Levator scapulae;Splenius capitis;Splenius cervicis;Semispinalis capitis;Longus colli;Longus capitis;Scalene=Scalenes;Digastric;Mylohyoid;Geniohyoid;Stylohyoid;Sternohyoid;Omohyoid;Sternothyroid;Thyrohyoid;Platysma;Zygomaticus major;Zygomaticus minor;Frontalis;Occipitalis;Procerus;Nasalis;Mentalis;Risorius",
+    100: "Ciliary muscle;Sphincter pupillae;Dilator pupillae;Arrector pili;Dartos;Cremaster;Detrusor=Detrusor muscle;Internal anal sphincter;External anal sphincter;External urethral sphincter;Superior tarsal muscle;Orbitalis;Levator ani;Coccygeus;Obturator internus;Obturator externus;Quadratus femoris;Superior gemellus;Inferior gemellus",
+  }),
+  "culture-shakespeare": bank({
+    100: "Edward III=King Edward III=The Reign of King Edward III",
+  }),
+  "culture-composers": bank({
+    30: "George Gershwin=Gershwin;Edward Elgar=Elgar;Gustav Holst=Holst;Jean Sibelius=Sibelius;Sergei Prokofiev=Prokofiev;Claudio Monteverdi=Monteverdi;Henry Purcell=Purcell",
+    60: "Anton Bruckner=Bruckner;Bedřich Smetana=Bedrich Smetana=Smetana;Leoš Janáček=Leos Janacek=Janacek;Béla Bartók=Bela Bartok=Bartok;Zoltán Kodály=Zoltan Kodaly=Kodaly;Carl Nielsen=Nielsen;Alexander Scriabin=Scriabin;Ralph Vaughan Williams=Vaughan Williams;Arnold Schoenberg=Schoenberg;Alban Berg=Berg;Anton Webern=Webern;Manuel de Falla=de Falla;Isaac Albéniz=Isaac Albeniz=Albeniz;Enrique Granados=Granados;Francis Poulenc=Poulenc;Paul Hindemith=Hindemith",
+    85: "Hugo Wolf;Arthur Honegger=Honegger;Darius Milhaud=Milhaud;William Grant Still;Heitor Villa-Lobos=Villa-Lobos;Carlos Chávez=Carlos Chavez=Chavez;Silvestre Revueltas=Revueltas;Louis Moreau Gottschalk=Gottschalk;Giovanni Pierluigi da Palestrina=Palestrina;Orlando di Lasso=Orlande de Lassus=Lassus;Josquin des Prez=Josquin;John Dowland=Dowland;William Byrd=Byrd;Thomas Tallis=Tallis;Jean-Philippe Rameau=Rameau;Jean-Baptiste Lully=Lully;Arcangelo Corelli=Corelli;Georg Philipp Telemann=Telemann",
+    100: "Guillaume Dufay=Dufay;Guillaume de Machaut=Machaut;Domenico Scarlatti;Alessandro Scarlatti;Carl Philipp Emanuel Bach=C. P. E. Bach;Johann Christian Bach=J. C. Bach;Charles-Valentin Alkan=Alkan;Cécile Chaminade=Cecile Chaminade=Chaminade",
+  }),
+  "culture-art-movements": bank({
+    30: "Mannerism;Naturalism;Folk art;Gothic art;Byzantine art",
+    60: "Neo-Impressionism;Social realism;Socialist realism;Regionalism;Color field painting=Colour field painting;Hard-edge painting;Fluxus;Land art;Installation art;Performance art;Body art;Outsider art;Art brut",
+    85: "New Objectivity=Neue Sachlichkeit;Neo-Expressionism;Neo-Dada;Postminimalism=Post-Minimalism;Light and Space;Purism;Divisionism;Cubo-Futurism;Vienna Secession;Superflat;Neo-Geo;Biedermeier;Nazarene movement;Hudson River School;Ashcan School;Pre-Raphaelitism=Pre-Raphaelite movement",
+    100: "Spatialism;Lettrism;Gutai;Nouveau Réalisme=Nouveau Realisme;Supports/Surfaces;Dansaekhwa;Antipodeans;Figuration Libre",
+  }),
+  "culture-poetic-forms": bank({
+    30: "Aubade;Dirge;Carol;Pastoral;Epistle;Tercet;Sestet;Octave",
+    60: "Abecedarian;Epithalamion=Epithalamium;Madrigal;Mock epic;Renga;Haibun;Senryu;Double dactyl;Diamante;Ballad stanza;Alliterative verse;Syllabic verse",
+    85: "Choka=Chōka;Sedoka;Katauta;Dodoitsu;Terzanelle;Rondelet;Rondeau redoublé=Rondeau redouble;Sicilian octave;Sicilian sestet;Burns stanza=Standard Habbie;Tail rhyme;Alcaic stanza;Sapphic stanza;Common meter=Common metre",
+    100: "Aisling;Bob and wheel;Englyn;Cywydd;Ae freislighe;Dán díreach=Dan direach",
+  }),
+  "culture-norse-deities": bank({
+    60: "Aegir=Ægir;Ran=Rán;Jord=Jörð=Jorth;Hoenir=Hœnir",
+    85: "Dagr=Dag;Nott=Nótt;Dellingr=Delling;Vili;Ve=Vé;Buri=Búri;Borr=Bor;Rindr=Rind;Gerd=Gerðr=Gerdr",
+    100: "Lodur=Lóðurr=Lodurr",
+  }),
+  "culture-palindromes": bank({
+    10: "Did;Mum;Bob;Gag;Gig;Pup",
+    15: "Bib;Pip;Tot;Dud;Yay;Huh",
+    30: "Eve;Eke;Ere;Sis;Tat;Tut;Aha;Oho",
+    60: "Pap;Pep;Nan",
+    85: "Alula;Kinnikinnik",
+  }),
+};
+
+// English constellation names from NASA's table and standard English forms.
+const constellationAliases: Record<string, string[]> = {
+  Andromeda: ["Chained Maiden"],
+  Antlia: ["Air Pump"],
+  Apus: ["Bird of Paradise"],
+  Aquarius: ["Water Bearer"],
+  Aquila: ["Eagle"],
+  Ara: ["Altar"],
+  Aries: ["Ram"],
+  Auriga: ["Charioteer"],
+  Boötes: ["Herdsman"],
+  Caelum: ["Chisel"],
+  Camelopardalis: ["Giraffe"],
+  Cancer: ["Crab"],
+  "Canes Venatici": ["Hunting Dogs"],
+  "Canis Major": ["Great Dog", "Big Dog"],
+  "Canis Minor": ["Little Dog", "Small Dog"],
+  Capricornus: ["Sea Goat"],
+  Carina: ["Keel"],
+  Cassiopeia: ["Queen"],
+  Centaurus: ["Centaur"],
+  Cepheus: ["King"],
+  Cetus: ["Whale", "Sea Monster"],
+  Chamaeleon: ["Chameleon"],
+  Circinus: ["Compasses"],
+  Columba: ["Dove"],
+  "Coma Berenices": ["Berenice's Hair"],
+  "Corona Australis": ["Southern Crown"],
+  "Corona Borealis": ["Northern Crown"],
+  Corvus: ["Crow"],
+  Crater: ["Cup"],
+  Crux: ["Cross"],
+  Cygnus: ["Swan"],
+  Delphinus: ["Dolphin"],
+  Dorado: ["Dolphinfish", "Swordfish"],
+  Draco: ["Dragon"],
+  Equuleus: ["Little Horse"],
+  Eridanus: ["River"],
+  Fornax: ["Furnace"],
+  Gemini: ["Twins"],
+  Grus: ["Crane"],
+  Horologium: ["Clock"],
+  Hydra: ["Water Snake"],
+  Hydrus: ["Little Water Snake"],
+  Indus: ["Indian"],
+  Lacerta: ["Lizard"],
+  Leo: ["Lion"],
+  "Leo Minor": ["Little Lion"],
+  Lepus: ["Hare"],
+  Libra: ["Scales"],
+  Lupus: ["Wolf"],
+  Lyra: ["Lyre"],
+  Mensa: ["Table Mountain"],
+  Microscopium: ["Microscope"],
+  Monoceros: ["Unicorn"],
+  Musca: ["Fly"],
+  Norma: ["Carpenter's Square"],
+  Octans: ["Octant"],
+  Ophiuchus: ["Serpent Bearer"],
+  Pavo: ["Peacock"],
+  Pegasus: ["Winged Horse"],
+  Pictor: ["Painter's Easel"],
+  Pisces: ["Fishes", "Fish"],
+  "Piscis Austrinus": ["Southern Fish"],
+  Puppis: ["Stern"],
+  Pyxis: ["Compass"],
+  Reticulum: ["Reticle"],
+  Sagitta: ["Arrow"],
+  Sagittarius: ["Archer"],
+  Scorpius: ["Scorpion"],
+  Scutum: ["Shield"],
+  Serpens: ["Serpent"],
+  Sextans: ["Sextant"],
+  Taurus: ["Bull"],
+  Telescopium: ["Telescope"],
+  Triangulum: ["Triangle"],
+  "Triangulum Australe": ["Southern Triangle"],
+  Tucana: ["Toucan"],
+  "Ursa Major": ["Great Bear"],
+  "Ursa Minor": ["Little Bear"],
+  Vela: ["Sails"],
+  Virgo: ["Maiden", "Virgin"],
+  Volans: ["Flying Fish"],
+  Vulpecula: ["Fox", "Little Fox"],
+};
+const normalizeName = (value: string) =>
+  value
+    .normalize("NFKD")
+    .replace(/\p{M}/gu, "")
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}]/gu, "");
+export const culturePrompts: Prompt[] = originalCulturePrompts.map((prompt) => {
+  const answers = [...prompt.answers, ...(cultureAdditions[prompt.id] ?? [])];
+  if (prompt.id === "culture-constellations") {
+    return {
+      ...prompt,
+      answers: answers.map((answer) => {
+        const aliases = [
+          ...(answer.aliases ?? []),
+          ...(constellationAliases[answer.name] ?? []),
+        ];
+        const seen = new Set([normalizeName(answer.name)]);
+        return {
+          ...answer,
+          aliases: aliases.filter((alias) => {
+            const normalized = normalizeName(alias);
+            if (seen.has(normalized)) return false;
+            seen.add(normalized);
+            return true;
+          }),
+        };
+      }),
+    };
+  }
+  return { ...prompt, answers };
+});

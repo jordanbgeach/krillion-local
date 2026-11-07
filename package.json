@@ -1,6 +1,6 @@
 {
   "name": "krillion-local",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "private": true,
   "engines": {
     "node": ">=22.13.0"
@@ -13,6 +13,7 @@
     "start": "python3 scripts/serve.py",
     "test": "node --experimental-strip-types --test tests/*.test.mjs",
     "typecheck": "tsc --noEmit",
+    "audit:bank": "node --experimental-strip-types scripts/audit-coverage.mjs",
     "build:hostinger": "node --experimental-strip-types scripts/build-hostinger.mjs"
   },
   "dependencies": {

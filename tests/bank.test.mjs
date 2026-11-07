@@ -3,9 +3,15 @@ import assert from "node:assert/strict";
 import { worldPrompts } from "../lib/data/world.ts";
 import { culturePrompts } from "../lib/data/culture.ts";
 import { extraPrompts } from "../lib/data/extra.ts";
-import { normalizeAnswer, matchAnswer, selectPrompts } from "../lib/engine.ts";
+import { builtInPrompts } from "../lib/data/index.ts";
+import {
+  normalizeAnswer,
+  matchAnswer,
+  selectPrompts,
+  checkPromptConstraints,
+} from "../lib/engine.ts";
 
-const bank = [...worldPrompts, ...culturePrompts, ...extraPrompts];
+const bank = builtInPrompts;
 const categories = [
   "Geography",
   "Nature",
@@ -77,6 +83,11 @@ test("built-in answer banks have valid scores and unambiguous normalized aliases
         `${prompt.id}: invalid score ${answer.score}`,
       );
       for (const name of [answer.name, ...(answer.aliases ?? [])]) {
+        assert.equal(
+          checkPromptConstraints(prompt, name),
+          null,
+          `${prompt.id}: listed names must obey literal prompt rules (${name})`,
+        );
         const normalized = normalizeAnswer(name);
         assert.ok(normalized.length, `${prompt.id}: empty normalized name`);
         assert.ok(

@@ -4,15 +4,15 @@ An unofficial, independently built local recreation of [Krillion](https://krilli
 
 **Play online:** [jordangeach.com/krillion](https://jordangeach.com/krillion/).
 
-![Krillion live on jordangeach.com](docs/krillion-1.3.0-live.jpg)
+![Krillion live on jordangeach.com](docs/krillion-1.4.0-live.jpg)
 
 Players can run this recreation with no ads, account, or per-run limits. The bundled game works offline; optional Jev AI checking uses the website owner’s server-side TypeSafe key. Its artwork, interface, and curated question bank were built independently. It does not connect to the official game's servers or unlock paid content.
 
 Source repository: [jordanbgeach/krillion-local](https://github.com/jordanbgeach/krillion-local).
 
-105 bundled prompts • 3,014 curated canonical answers • 6 categories • Unlimited runs
+108 bundled prompts • 7,507 curated canonical answers • 1,601 aliases • Unlimited runs
 
-**Version 1.3.0 is live.** It adds 54 prompts, saved prompt rotation, and 17,705 dictionary forms for seven word prompts. See the [1.3.0 release notes](docs/release-notes-1.3.0.md).
+**Version 1.4.0 is live.** The dictionary now contains exactly **30,000 word forms** for ten literal word prompts, and answer banks are searchable in full. See the [1.4.0 release notes](docs/release-notes-1.4.0.md) and [per-prompt coverage audit](docs/word-bank-coverage-1.4.0.json).
 
 ## Run locally
 
@@ -73,7 +73,7 @@ The highest possible seven-round score is 700 points, or 7,000 metres.
 
 There is no play counter, paywall, or daily restriction on Unlimited mode. For random dives, a saved cycle bag uses every eligible prompt before drawing from the next cycle. The draw also avoids the previous seven prompts when alternatives remain and balances the available categories. Rotation is saved when a dive starts, so seeded, daily, and abandoned starts are remembered across reloads. Each category combination keeps a separate cycle bag. Explicit replays reproduce the requested seven prompts.
 
-The 105-prompt bank is finite, so prompts eventually repeat. The next cycle reshuffles its groups, and custom prompts can expand the pool.
+The 108-prompt bank is finite, so prompts eventually repeat. The next cycle reshuffles its groups, and custom prompts can expand the pool.
 
 The curated scores are **manually estimated familiarity bands**, dictionary scores use **SCOWL inclusion bands**, and learned Jev scores are **AI familiarity estimates**. None is measured player popularity or Krillion’s official ranking. Curated scores take priority over dictionary or AI estimates. With AI available, unlisted answers can be checked against the actual prompt and added to the learned bank. Without AI, curated answers, matching dictionary forms, and previously learned answers remain available locally. Prompt notes explain the scope. Exact matching accepts normalized names and aliases, including accents, spacing, and punctuation differences where the prompt allows them. Nearby spellings are suggestions only.
 
@@ -81,9 +81,17 @@ Word-form prompts also enforce their stated structural rules before scoring: req
 
 ## Dictionary-backed word prompts
 
-Seven pure letter prompts use 17,705 exact forms compiled from SCOWL: words beginning with `qu` or `z`, ending in `less`, containing adjacent `oo`, `ee`, or `ph`, and single-word palindromes. Membership and the prompt’s literal rule are both checked. These matches run instantly in the browser, work offline, and are mirrored on the PHP server without consuming inference quota. Curated answers retain their original scores. For example, `Catastrophically` is a dictionary-backed `ph` answer worth 30 points.
+Ten literal word prompts use exactly **30,000 dictionary-attested forms** compiled from SCOWL: words beginning with `qu` or `z`, ending in `less`, `ness`, `ing`, or `tion`, containing adjacent `oo`, `ee`, or `ph`, and single-word palindromes. A word can satisfy several prompts; overlapping matches are not counted as additional dictionary forms. Membership and the prompt’s literal rule are both checked. Matching runs locally in the browser, works offline, and is mirrored on the PHP server without consuming inference quota.
+
+The original 17,705 dictionary forms retain all their scores. Curated answers take priority, followed by dictionary evidence, previously learned answers, and Jev. Dictionary spellings retain their own scores: `backpedaling` scores 30 and `back-pedaling` scores 60 for the `ing` prompt.
 
 This is a finite dictionary subset, not an exhaustive list of every valid English word. Unknown words and answers needing semantic knowledge can still reach Jev. Dictionary membership does not establish an animal’s identity, a scientific field, or a silent initial letter. See the [dictionary provenance, scoring, and regeneration instructions](server/dictionary/README.md) and [SCOWL license](server/dictionary/SCOWL-LICENSE.txt).
+
+## Explore the full answer bank
+
+Open **Explore answer bank** in the field guide or a round reveal to browse curated answers, aliases, learned answers, and applicable dictionary forms. The list initially shows 80 rows; **Show 80 more** reveals the next page. Search covers the whole list, including entries beyond the displayed rows. Sorting and search indexes are cached to keep the larger banks responsive.
+
+The catalog has 7,507 curated canonical answers and 1,601 aliases across 108 prompts. The median is 68 curated answers per prompt, and 98 prompts have at least 40. These counts describe bundled entries rather than a promise of exhaustive coverage. Finite topics can be smaller: official SI prefixes number 24, named SI units 29, and surviving attributed Shakespeare plays 39. The chemical-element prompt currently has 16 curated entries and can send further answers to Jev. The [coverage audit](docs/word-bank-coverage-1.4.0.json) lists each prompt’s curated, alias, and dictionary counts; regenerate it with `npm run audit:bank`.
 
 ## Custom question format
 
@@ -134,7 +142,7 @@ Hosted browser saves belong to the `https://jordangeach.com` origin and are sepa
 
 The server calls [TypeSafe’s System One API](https://docs.typesafe.ai/api/system-one) with one validity question and one rarity-tier question together. Jev is a decision model: it evaluates answers supplied by players instead of generating new trivia questions or word lists. Accepted candidates grow a cached, shared answer bank, with a local copy for fast repeat checks.
 
-Exact curated names, aliases, and eligible dictionary forms are checked immediately in the browser. Other submitted answers get one deduplicated check; no judgment requests are made while you type. The availability badge is advisory, so a stale status result cannot prevent a submitted answer from reaching the backend. Structural word-rule failures are handled before AI inference.
+Browser and PHP checking use the same order: curated names and aliases, dictionary evidence, learned answers, then Jev for further submitted answers. Curated and dictionary matches are immediate local lookups. AI checks are deduplicated; no judgment requests are made while you type. The availability badge is advisory, so a stale status result cannot prevent a submitted answer from reaching the backend. Structural word-rule failures are handled before AI inference.
 
 A submitted AI check briefly pauses the prompt timer while the answer is locked. Rejected, uncertain, or unavailable checks preserve your unused time so you can try another answer. Uncertain and service-error results offer an explicit retry; rate-limit errors show a waiting period. Service failures are never treated as proof that the answer is invalid. Jev can still make factual mistakes, and its rarity scores remain estimates. First-check timing depends on Hostinger, the network, and TypeSafe.
 
@@ -149,6 +157,8 @@ VITE_KRILLION_AI_ENDPOINT=https://your-domain.example/krillion/api.php
 Then rebuild with `npm run build:local`. Without an endpoint override, local play stays local and continues with the bundled bank if no PHP service is present. API request limits apply to new server judgments; cached, curated, and dictionary-backed answers do not spend inference requests. Repeated runs themselves remain unlimited.
 
 ## Recorded verification
+
+Version 1.4.0 passed 43 Node tests, 120 PHP 7.2 assertions, type checking, and both production builds. Checks preserved the original 17,705 dictionary scores and 2,557 legacy curated name/score pairs. All 225 live server checks passed, including two curated answers from every one of the 108 prompts, dictionary variants, and spelling-rule failures. Published assets and data match the builds. Live browser checks verified immediate 30-point scoring of `backpedaling`, pagination from 80 to 160 rows, and full-bank search retaining `back-pedaling` at 60 points alongside `backpedaling` at 30. See the [deployment validation](docs/validation-1.4.0.json) and [browser checks](docs/validation-1.4.0-live-browser.json).
 
 Version 1.3.0 passed 40 Node tests, 107 PHP 7.2 assertions, both production builds, and 23 live answer checks. The published assets, 105-prompt bank, and dictionary match the built files. Browser checks verified four distinct abandoned starts on the live site across a reload, immediate scoring of `Photocopying`, an exact seven-prompt encoded replay in the local preview, and a fresh **Dive again**. See the [deployment validation](docs/validation-1.3.0.json). AI validity and familiarity remain model judgments.
 
@@ -167,6 +177,7 @@ Known and already learned answers use the immediate browser lookup. The measured
 ```sh
 npm test
 npm run typecheck
+npm run audit:bank
 npm run build:local
 ```
 

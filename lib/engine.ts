@@ -68,6 +68,9 @@ export function checkPromptConstraints(
     "culture-five-letter-animals": { letters: 5 },
     "culture-sciences": { suffix: "ology", allowPhrase: true },
     "culture-silent-initials": {},
+    "words-ending-ness": { suffix: "ness" },
+    "words-ending-ing": { suffix: "ing" },
+    "words-ending-tion": { suffix: "tion" },
   };
   const rule = rules[prompt.id];
   if (!rule) return null;

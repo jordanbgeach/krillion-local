@@ -1,0 +1,162 @@
+{
+  "date": "2026-11-07",
+  "site": "https://jordangeach.com/krillion/",
+  "model": "jev-1.14.0",
+  "freshChecks": 8,
+  "freshMedianRoundtripMs": 277.5,
+  "freshMinRoundtripMs": 255,
+  "freshMaxRoundtripMs": 407,
+  "validAccepted": 4,
+  "invalidRejected": 3,
+  "invalidUncertain": 1,
+  "invalidAccepted": 0,
+  "checks": [
+    {
+      "promptId": "world-african-countries",
+      "answer": "Guinea",
+      "expected": true,
+      "http": 200,
+      "roundtripMs": 407,
+      "judgment": {
+        "status": "accepted",
+        "answer": "Guinea",
+        "score": 30,
+        "source": "ai",
+        "confidence": 0.99,
+        "elapsedMs": 105
+      }
+    },
+    {
+      "promptId": "world-african-countries",
+      "answer": "Japan",
+      "expected": false,
+      "http": 200,
+      "roundtripMs": 272,
+      "judgment": {
+        "status": "rejected",
+        "answer": null,
+        "score": 0,
+        "source": "ai",
+        "confidence": 0.99,
+        "elapsedMs": 76
+      }
+    },
+    {
+      "promptId": "culture-double-o",
+      "answer": "Toothbrush",
+      "expected": true,
+      "http": 200,
+      "roundtripMs": 262,
+      "judgment": {
+        "status": "accepted",
+        "answer": "Toothbrush",
+        "score": 15,
+        "source": "ai",
+        "confidence": 0.96,
+        "elapsedMs": 95
+      }
+    },
+    {
+      "promptId": "culture-double-o",
+      "answer": "Microscope",
+      "expected": false,
+      "http": 200,
+      "roundtripMs": 282,
+      "judgment": {
+        "status": "rejected",
+        "answer": null,
+        "score": 0,
+        "source": "ai",
+        "confidence": 0.91,
+        "elapsedMs": 93
+      }
+    },
+    {
+      "promptId": "culture-qu-words",
+      "answer": "Quicksilver",
+      "expected": true,
+      "http": 200,
+      "roundtripMs": 292,
+      "judgment": {
+        "status": "accepted",
+        "answer": "Quicksilver",
+        "score": 30,
+        "source": "ai",
+        "confidence": 0.98,
+        "elapsedMs": 104
+      }
+    },
+    {
+      "promptId": "culture-qu-words",
+      "answer": "Aquarium",
+      "expected": false,
+      "http": 200,
+      "roundtripMs": 316,
+      "judgment": {
+        "status": "rejected",
+        "answer": null,
+        "score": 0,
+        "source": "ai",
+        "confidence": 0.97,
+        "elapsedMs": 121
+      }
+    },
+    {
+      "promptId": "culture-less-words",
+      "answer": "Defenseless",
+      "expected": true,
+      "http": 200,
+      "roundtripMs": 273,
+      "judgment": {
+        "status": "accepted",
+        "answer": "Defenseless",
+        "score": 15,
+        "source": "ai",
+        "confidence": 0.93,
+        "elapsedMs": 94
+      }
+    },
+    {
+      "promptId": "culture-less-words",
+      "answer": "Homelessness",
+      "expected": false,
+      "http": 200,
+      "roundtripMs": 255,
+      "judgment": {
+        "status": "uncertain",
+        "answer": null,
+        "score": 0,
+        "source": "ai",
+        "confidence": 0,
+        "elapsedMs": 91
+      }
+    },
+    {
+      "promptId": "culture-double-o",
+      "answer": "Toothbrush",
+      "expected": true,
+      "http": 200,
+      "roundtripMs": 187,
+      "judgment": {
+        "status": "accepted",
+        "answer": "Toothbrush",
+        "score": 15,
+        "source": "cache",
+        "confidence": 0.96,
+        "elapsedMs": 3
+      }
+    }
+  ],
+  "browserChecks": [
+    {
+      "promptId": "culture-double-o",
+      "answer": "Zxqoozvplm",
+      "result": "rejected; no points; another answer allowed"
+    },
+    {
+      "promptId": "culture-double-o",
+      "answer": "Bookcase",
+      "result": "accepted; 15 points; learned answer bank updated"
+    }
+  ]
+}

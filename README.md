@@ -132,6 +132,14 @@ VITE_KRILLION_AI_ENDPOINT=https://your-domain.example/krillion/api.php
 
 Then rebuild with `npm run build:local`. Without an endpoint override, local play stays local and continues with the bundled bank if no PHP service is present. API request limits apply to new server judgments; cached and bundled answers do not spend inference requests. Repeated runs themselves remain unlimited.
 
+## Live AI verification
+
+TypeSafe Jev is enabled on [jordangeach.com/krillion](https://jordangeach.com/krillion/). On November 7, 2026, eight fresh checks measured **278 ms median end-to-end** from the test computer (255–407 ms). Four unlisted valid answers were accepted; three invalid answers were rejected and one remained uncertain, with no points awarded. An invented word was also rejected in the live browser. The accepted answer “Bookcase” earned 15 points and joined the learned bank.
+
+Known and already learned answers use the immediate browser lookup. The measured server-cache repeat took 3 ms on the backend, plus the network round trip. See [the recorded smoke checks](docs/ai-validation.json) and the live result below.
+
+![A real Jev-scored answer added to the bank](docs/krillion-ai-result.jpg)
+
 ## Development and checks
 
 ```sh

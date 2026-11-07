@@ -1,0 +1,42 @@
+<?php
+list($retryRoot, $retryConfig) = setup_test('explicit-retry'); $roots[] = $retryRoot;
+$retryCalls = 0;
+$retryTransport = function () use (&$retryCalls) { $retryCalls++; return $retryCalls === 1 ? fixture('uncertain') : fixture('accepted'); };
+$retryBody = array('promptId' => 'test-animals', 'answer' => 'Unclear Animal');
+check(krillion_check($retryBody, $retryConfig, 'retry-player', $retryTransport)['body']['status'] === 'uncertain', 'Initial uncertain result is cached.');
+check(krillion_check($retryBody, $retryConfig, 'retry-player', $retryTransport)['body']['source'] === 'cache' && $retryCalls === 1, 'Ordinary duplicate preserves uncertainty cache.');
+$retryBody['retry'] = 'true';
+check(krillion_check($retryBody, $retryConfig, 'retry-player', $retryTransport)['body']['source'] === 'cache' && $retryCalls === 1, 'Only a boolean retry flag can bypass uncertainty.');
+$retryBody['retry'] = true;
+$retried = krillion_check($retryBody, $retryConfig, 'retry-player', $retryTransport);
+check($retried['body']['status'] === 'accepted' && $retried['body']['source'] === 'ai' && $retryCalls === 2, 'Explicit retry makes a fresh provider call for cached uncertainty.');
+check(krillion_check($retryBody, $retryConfig, 'retry-player', $retryTransport)['body']['source'] === 'cache' && $retryCalls === 2, 'Accepted answer cannot be rejudged by retry flag.');
+$rejectedCalls = 0;
+$rejectTransport = function () use (&$rejectedCalls) { $rejectedCalls++; return fixture('rejected'); };
+$rejectBody = array('promptId' => 'test-animals', 'answer' => 'Not A Real Animal');
+krillion_check($rejectBody, $retryConfig, 'retry-player', $rejectTransport);
+$rejectBody['retry'] = true;
+check(krillion_check($rejectBody, $retryConfig, 'retry-player', $rejectTransport)['body']['status'] === 'rejected' && $rejectedCalls === 1, 'Retry never bypasses a rejected decision.');
+
+list($retryLimitRoot, $retryLimited) = setup_test('retry-limited'); $roots[] = $retryLimitRoot;
+$retryLimited['ipMinute'] = 1;
+$unclearBody = array('promptId' => 'test-animals', 'answer' => 'Unclear Creature');
+krillion_check($unclearBody, $retryLimited, 'limited-player', function () { return fixture('uncertain'); });
+$unclearBody['retry'] = true;
+$limitedRetry = krillion_check($unclearBody, $retryLimited, 'limited-player', $retryTransport);
+check($limitedRetry['http'] === 429 && $limitedRetry['body']['status'] === 'uncertain' && $retryCalls === 2, 'Explicit retry still obeys normal inference quotas.');
+
+list($retryParallelRoot, $retryParallel) = setup_test('parallel-retry'); $roots[] = $retryParallelRoot;
+krillion_storage($retryParallel);
+$retryPrompt = krillion_bank_load($retryParallel)['test-animals'];
+$retryHash = hash('sha256', krillion_fingerprint($retryPrompt, $retryParallel) . '|' . krillion_normalize('Arctic Fox'));
+krillion_atomic_write($retryParallel['privateDir'] . '/decisions/' . $retryHash . '.json', array('expires' => time() + 30, 'createdAt' => microtime(true) - 10, 'http' => 200, 'response' => krillion_response('uncertain', null, 0, 'ai', 0, microtime(true))));
+$retryCommand = escapeshellarg(PHP_BINARY) . ' ' . escapeshellarg(__DIR__ . '/concurrent.php') . ' ' . escapeshellarg($retryParallelRoot) . ' retry uncertain';
+$retryProcess1 = proc_open($retryCommand, $descriptors, $retryPipes1); $retryProcess2 = proc_open($retryCommand, $descriptors, $retryPipes2);
+fclose($retryPipes1[0]); fclose($retryPipes2[0]);
+$retryResult1 = stream_get_contents($retryPipes1[1]); $retryResult2 = stream_get_contents($retryPipes2[1]);
+$retryError1 = stream_get_contents($retryPipes1[2]); $retryError2 = stream_get_contents($retryPipes2[2]);
+foreach (array($retryPipes1[1],$retryPipes1[2],$retryPipes2[1],$retryPipes2[2]) as $pipe) fclose($pipe);
+check(proc_close($retryProcess1) === 0 && proc_close($retryProcess2) === 0 && $retryError1 === '' && $retryError2 === '', 'Concurrent retry fixture workers succeed.');
+check((int) file_get_contents($retryParallelRoot . '/calls.txt') === 1, 'Concurrent explicit retries deduplicate even when the new result remains uncertain.');
+check(json_decode($retryResult1, true)['body']['status'] === 'uncertain' && json_decode($retryResult2, true)['body']['status'] === 'uncertain', 'Concurrent retries share the fresh uncertain decision without forcing acceptance.');

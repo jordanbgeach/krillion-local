@@ -3061,3 +3061,582 @@ textarea::placeholder {
     font-size: 8px;
   }
 }
+
+/* A continuous ocean world moves past the diver as the score adds metres. */
+.depth-scene {
+  --surface: clamp(165px, 25dvh, 215px);
+  background: #041829;
+  overflow: hidden;
+}
+.depth-scene .ocean-world {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(var(--surface) + 5400px);
+  will-change: transform;
+  background: linear-gradient(
+    180deg,
+    #a5d2d8 0,
+    #b6dbdb calc(var(--surface) - 1px),
+    #155d7b var(--surface),
+    #10516e calc(var(--surface) + 124px),
+    #0a3c5b calc(var(--surface) + 620px),
+    #06243d calc(var(--surface) + 2480px),
+    #04192e calc(var(--surface) + 3720px),
+    #020f21 calc(var(--surface) + 4550px)
+  );
+}
+.depth-scene .sky {
+  height: var(--surface);
+  opacity: 1;
+  background: linear-gradient(#9eced644, #d5e8db44);
+}
+.depth-scene .sea-surface {
+  top: calc(var(--surface) - 4px);
+  height: 9px;
+  background: #226982;
+  animation: surface-shimmer 5s ease-in-out infinite;
+}
+.depth-scene .light-beam {
+  top: var(--surface);
+  height: 650px;
+  background: linear-gradient(#a8e3da12, #89d6d000);
+  animation: beam-sway 11s ease-in-out infinite alternate;
+  transform-origin: top center;
+}
+.depth-scene .ocean-grid {
+  inset: var(--surface) 0 0;
+  background-size: 80px 80px;
+}
+.ocean-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6800px;
+  will-change: transform;
+  pointer-events: none;
+}
+.ocean-speck {
+  position: absolute;
+  display: block;
+  background: #94cad16b;
+  animation: particle-glimmer 4s ease-in-out infinite;
+}
+.ocean-landmark {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #91bdc16b;
+  font: 7px var(--pixel);
+  letter-spacing: 1px;
+  max-width: 215px;
+  line-height: 1.8;
+  white-space: normal;
+}
+.ocean-landmark.left {
+  left: 4%;
+}
+.ocean-landmark.right {
+  right: 5%;
+  flex-direction: row-reverse;
+  text-align: right;
+}
+.ocean-landmark small {
+  font: 8px var(--body);
+  letter-spacing: 1px;
+  display: block;
+  margin-top: 6px;
+  color: #81c1ca66;
+}
+.landmark-line {
+  display: block;
+  width: 26px;
+  height: 1px;
+  background: #86b8bf55;
+  flex-shrink: 0;
+}
+.ocean-fish {
+  position: absolute;
+  display: flex;
+  gap: 19px;
+  animation: fish-cruise 15s ease-in-out infinite;
+  opacity: 0.75;
+}
+.ocean-fish b {
+  width: 19px;
+  height: 8px;
+  display: block;
+  background: #021d32b3;
+  clip-path: polygon(
+    0 25%,
+    12% 25%,
+    12% 0,
+    75% 0,
+    75% 25%,
+    100% 0,
+    100% 100%,
+    75% 75%,
+    75% 100%,
+    12% 100%,
+    12% 75%,
+    0 75%
+  );
+}
+.ocean-fish b:nth-child(2) {
+  transform: translateY(16px) scale(0.75);
+}
+.ocean-fish b:nth-child(3) {
+  transform: translateY(-8px) scale(0.6);
+}
+.ocean-fish.reverse b {
+  rotate: y 180deg;
+}
+.ocean-fish:nth-of-type(3n) b {
+  background: #6a9d9c45;
+}
+.deep-jelly {
+  position: absolute;
+  width: 27px;
+  height: 50px;
+  animation: jelly-pulse 5s ease-in-out infinite;
+  opacity: 0.55;
+  filter: drop-shadow(0 0 7px #93d8cf30);
+}
+.deep-jelly > span {
+  display: block;
+  background: #8bc5c5;
+  width: 27px;
+  height: 18px;
+  clip-path: polygon(
+    0 40%,
+    15% 40%,
+    15% 15%,
+    30% 15%,
+    30% 0,
+    70% 0,
+    70% 15%,
+    85% 15%,
+    85% 40%,
+    100% 40%,
+    100% 100%,
+    0 100%
+  );
+}
+.deep-jelly i {
+  position: absolute;
+  top: 18px;
+  left: 4px;
+  width: 2px;
+  height: 22px;
+  background: #8fd1c5;
+  animation: tentacle-drift 3s ease-in-out infinite alternate;
+}
+.deep-jelly i:nth-of-type(2) {
+  left: 13px;
+  height: 31px;
+  animation-delay: -1s;
+}
+.deep-jelly i:nth-of-type(3) {
+  left: 22px;
+  height: 24px;
+  animation-delay: -2s;
+}
+.ocean-glow {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: #7ee0c2;
+  box-shadow: 0 0 10px #6cddc877;
+  animation: bioluminescence 5s ease-in-out infinite;
+}
+.trench-floor {
+  position: absolute;
+  top: calc(var(--surface) + 4520px);
+  width: 100%;
+  height: 250px;
+  left: 0;
+}
+.reef-parallax {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+  pointer-events: none;
+}
+.shallow-reef {
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+  width: 100%;
+  height: 160px;
+}
+.descent-craft {
+  position: absolute;
+  left: 5%;
+  top: 48%;
+  width: 110px;
+  z-index: 4;
+  pointer-events: none;
+  filter: drop-shadow(0 8px 0 #001a2b33);
+}
+.descent-craft .submarine {
+  width: 100%;
+  filter: none;
+}
+.craft-body {
+  animation: craft-hover 5s ease-in-out infinite;
+  transform: rotate(-5deg);
+  transition: rotate 0.45s ease-out;
+}
+.descent-craft.diving .craft-body {
+  rotate: 20deg;
+  animation: craft-dive 0.45s ease-in-out infinite alternate;
+}
+.descent-craft > i {
+  display: block;
+  position: absolute;
+  border: 1px solid #b3e7df66;
+  width: 5px;
+  height: 5px;
+  left: -6px;
+  top: 45%;
+  animation: propeller-bubble 1.8s linear infinite;
+}
+.descent-craft > i:nth-of-type(2) {
+  top: 59%;
+  animation-delay: -0.5s;
+  width: 3px;
+  height: 3px;
+}
+.descent-craft > i:nth-of-type(3) {
+  top: 50%;
+  animation-delay: -1s;
+}
+.descent-craft > i:nth-of-type(4) {
+  top: 69%;
+  animation-delay: -1.4s;
+  width: 3px;
+  height: 3px;
+}
+.descent-craft.diving > i {
+  animation-duration: 0.45s;
+  border-color: #cff6e49a;
+}
+.descent-streaks {
+  position: absolute;
+  inset: 20% 0 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  overflow: hidden;
+}
+.travelling .descent-streaks {
+  opacity: 1;
+}
+.descent-streaks i {
+  position: absolute;
+  bottom: -100px;
+  width: 1px;
+  height: 65px;
+  background: linear-gradient(transparent, #b1e5de44, transparent);
+  animation: water-rush 0.5s linear infinite;
+  animation-play-state: paused;
+}
+.travelling .descent-streaks i {
+  animation-play-state: running;
+}
+.moving-ruler .depth-track {
+  background: none;
+  overflow: hidden;
+}
+.moving-ruler .depth-marker {
+  top: 14.2857%;
+  transition: none;
+}
+.moving-ruler .ruler-tick {
+  transition: none;
+}
+.moving-ruler .ruler-tick span {
+  font-size: 8px;
+}
+.moving-ruler .ruler-caption {
+  letter-spacing: 1px;
+}
+.dive-world.submerged .question-title,
+.dive-world.submerged .results-content > h1 {
+  color: #c9e9df;
+  text-shadow: 2px 3px 0 #031e31;
+}
+.dive-world.submerged .prompt-kicker,
+.dive-world.submerged .hud-center,
+.dive-world.submerged .reveal-content > .eyebrow,
+.dive-world.submerged .results-content > .eyebrow {
+  color: #8db9c1;
+}
+.is-descending .hud-box strong {
+  color: #c0f2de;
+  text-shadow: 0 0 14px #8ce0cd44;
+}
+.is-descending .hud-center > span:last-child {
+  color: #d8e8c7;
+  letter-spacing: 1px;
+}
+.is-descending .points-display {
+  animation: points-land 0.5s ease-out;
+}
+.swimming-sub {
+  display: none;
+}
+.next-button:disabled {
+  opacity: 1;
+  background: #294f5c;
+  color: #b5d6d0;
+  border-color: #5e8e96;
+  box-shadow: 0 3px 0 #153b4b;
+  cursor: wait;
+  font-size: 10px;
+}
+.answer-corrections {
+  margin: 12px 0 18px;
+  padding: 12px;
+  border: 1px solid #416a78;
+  background: #0b3043;
+}
+.answer-corrections > span {
+  font-size: 9px;
+  color: #89acb8;
+  display: block;
+  margin-bottom: 9px;
+}
+.answer-corrections > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.answer-corrections button {
+  padding: 7px 9px;
+  border: 1px solid #5c8b8e;
+  color: #bce6d6;
+  font-size: 10px;
+}
+.answer-corrections button:hover {
+  background: #214d5b;
+}
+.ai-retry {
+  font-size: 10px;
+  color: #bce4d4;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  padding: 1px 0 10px;
+}
+@keyframes surface-shimmer {
+  50% {
+    translate: 6px 1px;
+  }
+}
+@keyframes beam-sway {
+  from {
+    rotate: -3deg;
+    opacity: 0.6;
+  }
+  to {
+    rotate: 4deg;
+    opacity: 1;
+  }
+}
+@keyframes fish-cruise {
+  0%,
+  100% {
+    translate: -20px 0;
+  }
+  50% {
+    translate: 30px 8px;
+  }
+}
+@keyframes particle-glimmer {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.8;
+    translate: 2px -10px;
+  }
+}
+@keyframes jelly-pulse {
+  0%,
+  100% {
+    translate: 0 0;
+    scale: 1;
+  }
+  50% {
+    translate: 0 -18px;
+    scale: 1.04 0.96;
+  }
+}
+@keyframes tentacle-drift {
+  to {
+    translate: 2px 0;
+    scale: 1 0.85;
+  }
+}
+@keyframes bioluminescence {
+  0%,
+  100% {
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 0.8;
+    box-shadow: 0 0 16px #6cddc899;
+  }
+}
+@keyframes craft-hover {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -9px;
+  }
+}
+@keyframes craft-dive {
+  from {
+    translate: 0 -2px;
+  }
+  to {
+    translate: 2px 3px;
+  }
+}
+@keyframes propeller-bubble {
+  0% {
+    translate: 0 0;
+    opacity: 0.7;
+  }
+  100% {
+    translate: -40px -22px;
+    opacity: 0;
+  }
+}
+@keyframes water-rush {
+  to {
+    translate: 0 -950px;
+  }
+}
+@keyframes points-land {
+  from {
+    scale: 0.9;
+    opacity: 0.5;
+  }
+  to {
+    scale: 1;
+    opacity: 1;
+  }
+}
+@media (max-width: 1100px) {
+  .descent-craft {
+    left: 1%;
+    width: 85px;
+  }
+  .ocean-landmark {
+    font-size: 6px;
+    max-width: 145px;
+  }
+  .ocean-landmark.left {
+    left: 2%;
+  }
+  .ocean-landmark.right {
+    right: 4%;
+  }
+  .landmark-line {
+    width: 15px;
+  }
+}
+@media (max-width: 800px) {
+  .descent-craft {
+    left: 0;
+    width: 65px;
+  }
+  .ocean-landmark {
+    max-width: 110px;
+    font-size: 5px;
+    opacity: 0.75;
+  }
+  .moving-ruler .ruler-tick span {
+    font-size: 6px;
+  }
+  .shallow-reef {
+    height: 120px;
+  }
+}
+@media (max-width: 560px) {
+  .descent-craft {
+    left: 8px;
+    top: auto;
+    bottom: 105px;
+    width: 49px;
+  }
+  .descent-craft.diving {
+    left: calc(50% - 30px);
+    top: 103px;
+    bottom: auto;
+    width: 60px;
+  }
+  .ocean-landmark {
+    max-width: 90px;
+    font-size: 4px;
+    gap: 6px;
+  }
+  .ocean-landmark.right {
+    right: 4%;
+  }
+  .ocean-landmark.left {
+    left: 2%;
+  }
+  .ocean-landmark small {
+    font-size: 6px;
+    margin-top: 3px;
+  }
+  .landmark-line {
+    width: 8px;
+  }
+  .moving-ruler .ruler-tick span {
+    display: none;
+  }
+  .next-button:disabled {
+    font-size: 9px;
+  }
+  .shallow-reef {
+    height: 100px;
+  }
+  .descent-streaks {
+    opacity: 0;
+  }
+  .travelling .descent-streaks {
+    opacity: 0.6;
+  }
+}
+@media (max-width: 560px) {
+  .descent-craft,
+  .descent-craft.diving {
+    left: calc(50% - 26px);
+    top: 92px;
+    bottom: auto;
+    width: 52px;
+  }
+  .descent-craft:not(.diving) {
+    opacity: 0.4;
+  }
+  .descent-craft.diving {
+    opacity: 1;
+  }
+}
+.trench-ground {
+  position: absolute;
+  top: calc(var(--surface) + 4720px);
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #010916;
+}

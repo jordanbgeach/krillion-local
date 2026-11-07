@@ -4,13 +4,15 @@ An unofficial, independently built local recreation of [Krillion](https://krilli
 
 **Play online:** [jordangeach.com/krillion](https://jordangeach.com/krillion/).
 
-![Krillion live on jordangeach.com](docs/krillion-live.jpg)
+![Krillion live on jordangeach.com](docs/krillion-1.2.0-live.jpg)
 
 Players can run this recreation with no ads, account, or per-run limits. The bundled game works offline; optional Jev AI checking uses the website owner’s server-side TypeSafe key. Its artwork, interface, and curated question bank were built independently. It does not connect to the official game's servers or unlock paid content.
 
 Source repository: [jordanbgeach/krillion-local](https://github.com/jordanbgeach/krillion-local).
 
 51 bundled prompts • 2,127 accepted answers • 6 categories • Unlimited runs
+
+The 1.2.0 update adds submitted-answer AI checks, explicit spelling choices, and a moving ocean descent. See the [1.2.0 release notes](docs/release-notes-1.2.0.md).
 
 ## Run locally
 
@@ -52,7 +54,9 @@ The development address is [http://127.0.0.1:5173](http://127.0.0.1:5173). Devel
 - Review your dives in the logbook, and export your saves before moving computers or clearing browser storage.
 - Extend the game with custom questions and scores through the custom-bank tools.
 
-The default timed format is seven prompts with 25 seconds each. Type one answer and submit it before time runs out. After the reveal, inspect the local answer list to see what else you could have named.
+The default timed format is seven prompts with 25 seconds each. Type one answer and submit it before time runs out. Exact accepted names and aliases score immediately. Other submitted answers are checked against the prompt by Jev when the backend is available; they do not have to appear in the bundled list. The game never replaces your answer with a nearby spelling automatically. If it offers spelling suggestions, select one and submit it yourself.
+
+After an accepted answer, the depth counter and ruler move while the ocean camera descends past the surface, fish, landmarks, and deeper water. **Keep descending** becomes available when that movement finishes. The reduced-motion setting and your system’s reduced-motion preference snap directly to the new depth. After the reveal, inspect the answer bank to see what else you could have named.
 
 | Score | Tier       |
 | ----: | ---------- |
@@ -69,7 +73,9 @@ The highest possible seven-round score is 700 points, or 7,000 metres.
 
 There is no play counter, paywall, or daily restriction on Unlimited mode. The bundled question bank is finite, so prompts eventually repeat; shuffling and category selection create different runs. You can add your own prompts to keep expanding it.
 
-The bundled scores are **manually curated familiarity estimates**; learned Jev scores are **AI familiarity estimates**. Neither is measured player popularity or Krillion’s official ranking. With AI available, unlisted answers can be checked against the actual prompt and added to the learned bank. Without AI, the finite local bank determines what is accepted. Prompt notes explain the scope. Normalization accepts accents, spacing, and punctuation differences; conservative typo correction only accepts an unambiguous nearby answer.
+The bundled scores are **manually curated familiarity estimates**; learned Jev scores are **AI familiarity estimates**. Neither is measured player popularity or Krillion’s official ranking. With AI available, unlisted answers can be checked against the actual prompt and added to the learned bank. Without AI, the bundled and previously learned answers remain available locally. Prompt notes explain the scope. Exact matching accepts normalized names and aliases, including accents, spacing, and punctuation differences where the prompt allows them. Nearby spellings are suggestions only.
+
+Word-form prompts also enforce their stated structural rules before scoring: required prefixes or suffixes, adjacent letters, palindromes, single-word restrictions, or letter counts. For example, `colorless` fits a word ending in `less`, while `carelessness` does not. Passing a spelling rule does not by itself establish that an answer is a real word or fits the category. Old learned entries that violate these rules are excluded.
 
 ## Custom question format
 
@@ -95,9 +101,9 @@ Keep the answer sets accurate and include common alternatives. Imported banks ar
 
 ## Saves and privacy
 
-Progress, preferences, custom questions, and a copy of learned answers stay in your browser’s local storage. The game includes no analytics or advertising scripts. When AI checking is enabled, the current prompt and candidate answer are sent through the game’s backend to TypeSafe. The backend caches judgments and shares accepted answers; your dive history is not sent. The local Python launcher listens only on your computer’s loopback address.
+Progress, preferences, custom questions, and a copy of learned answers stay in your browser’s local storage. The game includes no analytics or advertising scripts. Only after you submit an unlisted answer are the current prompt and candidate sent through the game’s backend to TypeSafe; typing does not trigger judgment requests. The backend caches judgments and shares accepted answers; your dive history is not sent. The local Python launcher listens only on your computer’s loopback address.
 
-Browser storage is tied to the browser profile and exact local address. Keep using `http://127.0.0.1:4173` for the same save. Export your data before changing browsers, clearing site data, or switching machines. The export includes your custom questions and dive history.
+Browser storage is tied to the browser profile and exact local address. Keep using `http://127.0.0.1:4173` for the same save. Export your data before changing browsers, clearing site data, or switching machines. The export includes your custom questions, dive history, and learned answers.
 
 ## Deploy to Hostinger at /krillion
 
@@ -120,7 +126,9 @@ Hosted browser saves belong to the `https://jordangeach.com` origin and are sepa
 
 The server calls [TypeSafe’s System One API](https://docs.typesafe.ai/api/system-one) with one validity question and one rarity-tier question together. Jev is a decision model: it evaluates answers supplied by players instead of generating new trivia questions or word lists. Accepted candidates grow a cached, shared answer bank, with a local copy for fast repeat checks.
 
-Known answers are checked immediately in the browser. Unknown answers are checked in the background after typing settles, and submission reuses that request. A submitted AI check briefly pauses the prompt timer while the answer is locked. Network errors and uncertain judgments are reported separately from a rejected answer. No response-time guarantee is implied: first checks depend on Hostinger, the network, and TypeSafe.
+Exact known answers are checked immediately in the browser. Each submitted unlisted answer gets one deduplicated check; no judgment requests are made while you type. The availability badge is advisory, so a stale status result cannot prevent a submitted answer from reaching the backend. Structural word-rule failures are handled before AI inference.
+
+A submitted AI check briefly pauses the prompt timer while the answer is locked. Rejected, uncertain, or unavailable checks preserve your unused time so you can try another answer. Uncertain and service-error results offer an explicit retry; rate-limit errors show a waiting period. Service failures are never treated as proof that the answer is invalid. Jev can still make factual mistakes, and its rarity scores remain estimates. First-check timing depends on Hostinger, the network, and TypeSafe.
 
 On Hostinger, create `krillion-private/` **beside** `public_html/`, then put only the raw TypeSafe key in `krillion-private/api-key.txt`. Keep this folder outside the website. The PHP endpoint also accepts a `TYPESAFE_API_KEY` environment variable. The key is never bundled into JavaScript, sent to players, or committed to this repository. Server cache and rate counters live in that same private folder. See the backend documentation in `server/` for limits and failure handling.
 
@@ -132,9 +140,13 @@ VITE_KRILLION_AI_ENDPOINT=https://your-domain.example/krillion/api.php
 
 Then rebuild with `npm run build:local`. Without an endpoint override, local play stays local and continues with the bundled bank if no PHP service is present. API request limits apply to new server judgments; cached and bundled answers do not spend inference requests. Repeated runs themselves remain unlimited.
 
-## Live AI verification
+## Recorded AI verification
 
-TypeSafe Jev is enabled on [jordangeach.com/krillion](https://jordangeach.com/krillion/). On November 7, 2026, eight fresh checks measured **278 ms median end-to-end** from the test computer (255–407 ms). Four unlisted valid answers were accepted; three invalid answers were rejected and one remained uncertain, with no points awarded. An invented word was also rejected in the live browser. The accepted answer “Bookcase” earned 15 points and joined the learned bank.
+Version 1.2.0 passed 12 live regression checks after deployment, including unchanged acceptance of `Gambia` and `Powerless`, valid derived words, literal word-rule failures, and an invented word. A complete seven-round browser dive reached 7,000m with animated descent; the next timed round began with its full 25 seconds. Reduced motion and a 390px phone layout were also checked. See the [1.2.0 validation record](docs/validation-1.2.0.json).
+
+The following smoke-check measurements were recorded for the earlier AI integration, before the 1.2.0 client fixes. They are a historical sample, not a response-time guarantee for every answer.
+
+TypeSafe Jev was enabled on [jordangeach.com/krillion](https://jordangeach.com/krillion/). On November 7, 2026, eight fresh checks measured **278 ms median end-to-end** from the test computer (255–407 ms). Four unlisted valid answers were accepted; three invalid answers were rejected and one remained uncertain, with no points awarded. An invented word was also rejected in the live browser. The accepted answer “Bookcase” earned 15 points and joined the learned bank.
 
 Known and already learned answers use the immediate browser lookup. The measured server-cache repeat took 3 ms on the backend, plus the network round trip. See [the recorded smoke checks](docs/ai-validation.json) and the live result below.
 
@@ -148,7 +160,7 @@ npm run typecheck
 npm run build:local
 ```
 
-The standalone browser entry is `local-main.tsx`; the UI lives in `app/page.tsx` and `app/globals.css`. Matching, scoring, seeded selection, and import validation live in `lib/engine.ts`. Original question banks live in `lib/data/`.
+The standalone browser entry is `local-main.tsx`; the UI lives in `app/page.tsx` and `app/globals.css`. The ocean scene and depth-animation hook live in `components/ocean.tsx`. Exact matching, structural rules, scoring, seeded selection, and import validation live in `lib/engine.ts`. The AI client and learned-bank validation live in `lib/ai.ts`. Original question banks live in `lib/data/`.
 
 A [prebuilt local package](https://github.com/jordanbgeach/krillion-local/releases/latest) includes the browser game, Python server, and macOS launcher. Download and extract the whole package together; Python 3 is still needed, but Node.js is unnecessary to play the prebuilt copy. An optional GitHub Actions configuration lives in `.github/examples/check.yml`; move it to `.github/workflows/check.yml` if you enable workflow publishing on your GitHub credential.
 

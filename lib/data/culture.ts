@@ -40,7 +40,7 @@ export const culturePrompts: Prompt[] = [
     "constellations",
     "Science",
     "Name an official constellation.",
-    "Use a Latin name or an included familiar English name. The 88 IAU constellations are included; asterisms such as the Big Dipper are not constellations.",
+    "Use the Latin name or an established English name of one of the 88 IAU constellations. Asterisms such as the Big Dipper do not qualify.",
     {
       10: "Orion;Ursa Major=Great Bear;Ursa Minor=Little Bear;Leo;Scorpius=Scorpio",
       15: "Cassiopeia;Andromeda;Gemini;Aries;Taurus;Aquarius;Cancer;Libra;Virgo;Sagittarius;Capricornus=Capricorn;Pisces",
@@ -56,7 +56,7 @@ export const culturePrompts: Prompt[] = [
     "moons",
     "Science",
     "Name a natural moon in our Solar System.",
-    "Named natural satellites of planets or dwarf planets, including Earth’s Moon. This is a curated list; planets and spacecraft do not count.",
+    "Named natural satellites of planets or dwarf planets qualify, including Earth’s Moon. Common or official names count; planets and spacecraft do not qualify.",
     {
       10: "Moon=Luna;Titan;Europa",
       15: "Io;Ganymede;Callisto;Phobos;Deimos",
@@ -72,7 +72,7 @@ export const culturePrompts: Prompt[] = [
     "si-prefixes",
     "Science",
     "Name an official SI metric prefix.",
-    "Give the written prefix, not its symbol or a prefixed unit. Includes the four prefixes introduced in 2022.",
+    "Use the written name of an official SI prefix, including the four introduced in 2022. A prefix symbol or a prefixed unit does not qualify.",
     {
       10: "Kilo;Milli;Centi;Mega",
       15: "Nano;Giga;Micro",
@@ -88,7 +88,7 @@ export const culturePrompts: Prompt[] = [
     "si-units",
     "Science",
     "Name an SI base unit or a specially named SI derived unit.",
-    "Use the unit name. Includes the seven base units and 22 derived units with special names; excludes non-SI units such as the litre and mile.",
+    "SI base units and the 22 derived units with special names qualify. Common or official unit names count; bare symbols and non-SI units such as litre and mile do not.",
     {
       10: "Metre=Meter;Second;Kilogram;Watt;Volt",
       15: "Ampere=Amp;Kelvin;Joule;Newton;Hertz",
@@ -104,7 +104,7 @@ export const culturePrompts: Prompt[] = [
     "bones",
     "Science",
     "Name a bone in the adult human skeleton.",
-    "A specific bone or conventional named group, such as ribs or metacarpals. Informal names such as kneecap are accepted where listed.",
+    "Specific bones and conventional named bone groups, such as ribs or metacarpals, qualify. Standard anatomical names and common names such as kneecap are accepted.",
     {
       10: "Femur;Rib=Ribs;Skull=Cranium;Patella=Kneecap",
       15: "Tibia;Fibula;Humerus;Clavicle=Collarbone;Spine=Vertebral column",
@@ -119,7 +119,7 @@ export const culturePrompts: Prompt[] = [
     "sciences",
     "Science",
     "Name a field of science ending in “ology”.",
-    "A recognized science or scientific specialty. The answer must end in the letters “ology”; this local list includes common and specialized disciplines.",
+    "Use a recognized science or scientific specialty whose English name ends in the letters ology. Standard spelling variants qualify; nonscientific beliefs do not.",
     {
       10: "Biology;Geology;Psychology;Zoology",
       15: "Ecology;Archaeology=Archeology;Paleontology=Palaeontology;Sociology",
@@ -134,7 +134,7 @@ export const culturePrompts: Prompt[] = [
     "minerals",
     "Science",
     "Name a naturally occurring mineral.",
-    "Mineral species or familiar mineral varieties from this local bank. Rocks such as granite and manufactured materials do not count.",
+    "Naturally occurring mineral species, mineral varieties, and recognized mineral groups qualify. Rocks such as granite and manufactured materials do not qualify.",
     {
       10: "Quartz;Diamond;Gold;Salt=Halite",
       15: "Ruby;Sapphire;Emerald;Amethyst;Talc;Graphite",
@@ -149,7 +149,7 @@ export const culturePrompts: Prompt[] = [
     "scientists",
     "Science",
     "Name a scientist born before 1900.",
-    "Historical researchers in natural science, mathematics, or computing. Surnames and common full names are accepted for the people in this curated bank.",
+    "Researchers in natural science, mathematics, or computing who were born before 1900 qualify. Common surnames, familiar names, and full names are accepted.",
     {
       10: "Albert Einstein=Einstein;Isaac Newton=Newton;Charles Darwin=Darwin;Marie Curie=Curie",
       15: "Galileo Galilei=Galileo;Nikola Tesla=Tesla",
@@ -164,7 +164,7 @@ export const culturePrompts: Prompt[] = [
     "muscles",
     "Science",
     "Name a human muscle.",
-    "Specific named skeletal muscles and familiar muscle groups in this curated bank. Familiar names such as biceps and abs are accepted for the corresponding muscle.",
+    "Specific named human skeletal muscles and familiar muscle groups qualify. Anatomical names and common names such as biceps or abs are accepted.",
     {
       10: "Biceps brachii=Biceps;Triceps brachii=Triceps;Rectus abdominis=Abs",
       15: "Deltoid=Deltoids;Pectoralis major=Pecs;Gluteus maximus=Glutes;Quadriceps=Quadriceps femoris=Quads",
@@ -179,7 +179,7 @@ export const culturePrompts: Prompt[] = [
     "instruments",
     "Culture",
     "Name a musical instrument.",
-    "Acoustic, electric, and electronic instruments from this curated bank. Instrument families such as strings do not count by themselves.",
+    "Named acoustic, electric, or electronic musical instruments qualify. Generic ensemble sections such as strings do not identify an instrument.",
     {
       10: "Piano;Guitar;Violin;Drum=Drums;Flute",
       15: "Trumpet;Saxophone;Ukulele;Harp;Bagpipes;Didgeridoo",
@@ -194,7 +194,7 @@ export const culturePrompts: Prompt[] = [
     "greek-deities",
     "Culture",
     "Name a deity from Greek mythology.",
-    "Gods, goddesses, Titans, and personified divine figures in this curated bank. Roman-only names and mortal heroes are excluded.",
+    "Established gods, goddesses, Titans, and divine personifications from Greek mythology qualify. Solely Roman figures and solely mortal heroes do not qualify.",
     {
       10: "Zeus;Poseidon;Hades;Athena;Aphrodite",
       15: "Apollo;Artemis;Ares;Hermes;Hera;Dionysus",
@@ -209,7 +209,7 @@ export const culturePrompts: Prompt[] = [
     "shakespeare",
     "Culture",
     "Name a surviving play by William Shakespeare.",
-    "Complete titles and listed short forms are accepted. Collaborations are included; lost plays and poems are excluded.",
+    "Surviving plays attributed wholly or jointly to William Shakespeare qualify. Full titles and customary short titles are accepted; lost plays and poems do not qualify.",
     {
       10: "Hamlet;Macbeth;Romeo and Juliet=Romeo & Juliet",
       15: "Othello;King Lear;A Midsummer Night’s Dream=A Midsummer Nights Dream=Midsummer Nights Dream",
@@ -225,7 +225,7 @@ export const culturePrompts: Prompt[] = [
     "composers",
     "Culture",
     "Name a classical composer born before 1900.",
-    "Composers from the Western classical tradition. Listed surnames, familiar names, and full names are accepted.",
+    "Composers in the Western classical tradition who were born before 1900 qualify. Common surnames, familiar names, and full names are accepted.",
     {
       10: "Ludwig van Beethoven=Beethoven;Wolfgang Amadeus Mozart=Mozart;Johann Sebastian Bach=Bach;Pyotr Ilyich Tchaikovsky=Tchaikovsky",
       15: "Frédéric Chopin=Frederic Chopin=Chopin;Antonio Vivaldi=Vivaldi;Johann Pachelbel=Pachelbel;Claude Debussy=Debussy",
@@ -240,7 +240,7 @@ export const culturePrompts: Prompt[] = [
     "art-movements",
     "Culture",
     "Name a visual art movement or style.",
-    "Established movements and styles in painting, sculpture, or related visual arts. This curated list includes historical periods as well as modern movements.",
+    "Established movements and styles in painting, sculpture, or related visual arts qualify, including historical periods and modern movements. Individual artworks or artists do not qualify.",
     {
       10: "Impressionism;Surrealism;Cubism;Realism",
       15: "Renaissance;Baroque;Pop art;Abstract art=Abstraction",
@@ -255,7 +255,7 @@ export const culturePrompts: Prompt[] = [
     "poetic-forms",
     "Culture",
     "Name a poetic form or verse form.",
-    "Named poem forms, stanza patterns, and established verse structures in this curated bank. Individual poem titles and devices such as simile do not count.",
+    "Named poem forms, stanza patterns, and established verse structures qualify. Individual poem titles and literary devices such as simile do not qualify.",
     {
       10: "Haiku;Sonnet;Limerick;Free verse",
       15: "Ballad;Ode;Epic;Acrostic",
@@ -270,7 +270,7 @@ export const culturePrompts: Prompt[] = [
     "literary-genres",
     "Culture",
     "Name a literary genre or recognized subgenre.",
-    "Genres and forms of fiction, drama, or nonfiction. This curated list accepts named subgenres; individual book titles are excluded.",
+    "Recognized genres, subgenres, and forms of fiction, drama, or nonfiction qualify. Individual book or play titles do not qualify.",
     {
       10: "Fantasy;Science fiction=Sci-fi=Scifi;Romance;Horror;Mystery",
       15: "Thriller;Historical fiction;Comedy;Tragedy;Biography;Autobiography",
@@ -285,7 +285,7 @@ export const culturePrompts: Prompt[] = [
     "dances",
     "Culture",
     "Name a dance style.",
-    "Recognized social, folk, ballroom, or theatrical dance forms. This curated bank accepts both broad styles and named dances.",
+    "Recognized social, folk, ballroom, or theatrical dance forms qualify. Broad styles and individual named dances both count.",
     {
       10: "Ballet;Salsa;Tango;Waltz;Tap=Tap dance",
       15: "Hip-hop=Hip hop;Breakdance=Breaking=Breakdancing;Disco;Belly dance=Belly dancing;Flamenco",
@@ -300,7 +300,7 @@ export const culturePrompts: Prompt[] = [
     "norse-deities",
     "Culture",
     "Name a deity from Norse mythology.",
-    "Norse gods and goddesses, including divine figures of the Aesir and Vanir. Mortal heroes and modern fictional additions are excluded.",
+    "Established gods, goddesses, and divine figures in Norse mythology qualify, including the Aesir and Vanir. Mortal heroes and modern fictional additions do not qualify.",
     {
       10: "Odin;Thor;Loki",
       15: "Freya=Freyja;Heimdall;Balder=Baldr",
@@ -315,7 +315,7 @@ export const culturePrompts: Prompt[] = [
     "palindromes",
     "Words",
     "Name a single English word that is a palindrome.",
-    "The same letters read forwards and backwards. This curated word list ignores capitalization; multiword phrases are excluded.",
+    "Use a single English word whose letters read identically forward and backward. Ignore capitalization; multiword phrases do not qualify. Standard inflected or derived words count if they remain palindromes.",
     {
       10: "Racecar;Level;Madam;Mom;Dad",
       15: "Kayak;Radar;Civic;Noon;Pop",
@@ -330,7 +330,7 @@ export const culturePrompts: Prompt[] = [
     "silent-initials",
     "Words",
     "Name an English word with a silent first letter.",
-    "Use a common dictionary word whose initial letter is normally silent in standard English. This is a curated list; accents can vary.",
+    "Use an English dictionary word whose first written letter is unpronounced in a standard English pronunciation. Standard regional pronunciations may differ; inflected and derived words qualify if the first letter remains silent.",
     {
       10: "Knife;Knee;Knight;Know;Write;Wrong",
       15: "Gnome;Knot;Knock;Wrist;Psychology",
@@ -345,7 +345,7 @@ export const culturePrompts: Prompt[] = [
     "double-o",
     "Words",
     "Name an English word containing “oo”.",
-    "The letters oo must be adjacent. A curated bank of common dictionary words and a few less familiar finds; inflections are accepted only where listed.",
+    "Use a single English dictionary word containing adjacent letters oo. Standard inflected and derived words qualify when they retain those adjacent letters.",
     {
       10: "Book;Moon;Food;Good;Zoo;Cool",
       15: "Pool;School;Spoon;Room;Door;Floor;Foot;Boot;Wood",
@@ -360,7 +360,7 @@ export const culturePrompts: Prompt[] = [
     "qu-words",
     "Words",
     "Name an English word beginning with “qu”.",
-    "A single dictionary word starting with the letters qu. This curated bank includes common words and rarer vocabulary.",
+    "Use a single English dictionary word starting with the letters qu. Standard inflected and derived words qualify when they still start with qu.",
     {
       10: "Queen;Quick;Question;Quiet;Quiz",
       15: "Quack;Quilt;Quit;Quite;Quote;Quality",
@@ -375,7 +375,7 @@ export const culturePrompts: Prompt[] = [
     "z-words",
     "Words",
     "Name an English word beginning with “z”.",
-    "A single English dictionary word beginning with z. Proper names are excluded from this curated bank.",
+    "Use a single English dictionary word starting with z. Proper names do not qualify; standard inflected and derived words count when they still start with z.",
     {
       10: "Zebra;Zoo;Zero;Zombie;Zoom",
       15: "Zip;Zipper;Zone;Zigzag;Zinc;Zodiac",
@@ -390,7 +390,7 @@ export const culturePrompts: Prompt[] = [
     "ph-words",
     "Words",
     "Name an English word containing “ph”.",
-    "The adjacent letters ph must appear anywhere in the word. Proper names are excluded from this curated dictionary-word list.",
+    "Use a single English dictionary word containing adjacent letters ph anywhere. Proper names do not qualify; standard inflected and derived words count when they retain ph.",
     {
       10: "Phone;Photo;Elephant;Alphabet;Dolphin",
       15: "Phantom;Physics;Philosophy;Photography;Sphere;Trophy",
@@ -405,7 +405,7 @@ export const culturePrompts: Prompt[] = [
     "less-words",
     "Words",
     "Name an English word ending in “less”.",
-    "A single dictionary word ending with the letters less. This bank contains familiar adjectives and a few uncommon ones.",
+    "Use a single English dictionary word ending with the letters less. Standard inflected and derived words count only when the complete word still ends in less.",
     {
       10: "Hopeless;Useless;Careless;Endless;Fearless",
       15: "Harmless;Helpless;Homeless;Jobless;Speechless;Worthless;Restless",
@@ -420,7 +420,7 @@ export const culturePrompts: Prompt[] = [
     "double-e",
     "Words",
     "Name an English word containing “ee”.",
-    "The two e letters must be adjacent. Proper names are excluded from this curated dictionary-word bank.",
+    "Use a single English dictionary word containing adjacent letters ee. Proper names do not qualify; standard inflected and derived words count when they retain those adjacent letters.",
     {
       10: "Tree;Bee;See;Free;Green;Three",
       15: "Cheese;Feet;Knee;Queen;Sheep;Sleep;Sweet;Street",
@@ -435,7 +435,7 @@ export const culturePrompts: Prompt[] = [
     "five-letter-animals",
     "Words",
     "Name an animal whose English name has five letters.",
-    "Use a single five-letter common animal name. Singular forms only; this curated list includes mammals, birds, fish, and invertebrates.",
+    "Use a single English common animal name with exactly five letters. Singular names only; species names and broader animal-group names both qualify.",
     {
       10: "Tiger;Horse;Zebra;Shark;Whale",
       15: "Mouse;Sheep;Camel;Panda;Koala;Otter",

@@ -1,0 +1,134 @@
+{
+  "culture-sciences": {
+    "id": "culture-sciences",
+    "category": "Science",
+    "prompt": "Name a field of science ending in “ology”.",
+    "note": "Use a recognized science or scientific specialty whose English name ends in the letters ology. Standard spelling variants qualify; nonscientific beliefs do not.",
+    "answers": [
+      {
+        "name": "Biology",
+        "score": 10
+      }
+    ]
+  },
+  "culture-greek-deities": {
+    "id": "culture-greek-deities",
+    "category": "Culture",
+    "prompt": "Name a deity from Greek mythology.",
+    "note": "Established gods, goddesses, Titans, and divine personifications from Greek mythology qualify. Solely Roman figures and solely mortal heroes do not qualify.",
+    "answers": [
+      {
+        "name": "Zeus",
+        "score": 10
+      }
+    ]
+  },
+  "culture-palindromes": {
+    "id": "culture-palindromes",
+    "category": "Words",
+    "prompt": "Name a single English word that is a palindrome.",
+    "note": "Use a single English word whose letters read identically forward and backward. Ignore capitalization; multiword phrases do not qualify. Standard inflected or derived words count if they remain palindromes.",
+    "answers": [
+      {
+        "name": "Racecar",
+        "score": 10
+      }
+    ]
+  },
+  "culture-silent-initials": {
+    "id": "culture-silent-initials",
+    "category": "Words",
+    "prompt": "Name an English word with a silent first letter.",
+    "note": "Use an English dictionary word whose first written letter is unpronounced in a standard English pronunciation. Standard regional pronunciations may differ; inflected and derived words qualify if the first letter remains silent.",
+    "answers": [
+      {
+        "name": "Knife",
+        "score": 10
+      }
+    ]
+  },
+  "culture-double-o": {
+    "id": "culture-double-o",
+    "category": "Words",
+    "prompt": "Name an English word containing “oo”.",
+    "note": "Use a single English dictionary word containing adjacent letters oo. Standard inflected and derived words qualify when they retain those adjacent letters.",
+    "answers": [
+      {
+        "name": "Book",
+        "score": 10
+      }
+    ]
+  },
+  "culture-qu-words": {
+    "id": "culture-qu-words",
+    "category": "Words",
+    "prompt": "Name an English word beginning with “qu”.",
+    "note": "Use a single English dictionary word starting with the letters qu. Standard inflected and derived words qualify when they still start with qu.",
+    "answers": [
+      {
+        "name": "Queen",
+        "score": 10
+      }
+    ]
+  },
+  "culture-z-words": {
+    "id": "culture-z-words",
+    "category": "Words",
+    "prompt": "Name an English word beginning with “z”.",
+    "note": "Use a single English dictionary word starting with z. Proper names do not qualify; standard inflected and derived words count when they still start with z.",
+    "answers": [
+      {
+        "name": "Zebra",
+        "score": 10
+      }
+    ]
+  },
+  "culture-ph-words": {
+    "id": "culture-ph-words",
+    "category": "Words",
+    "prompt": "Name an English word containing “ph”.",
+    "note": "Use a single English dictionary word containing adjacent letters ph anywhere. Proper names do not qualify; standard inflected and derived words count when they retain ph.",
+    "answers": [
+      {
+        "name": "Phone",
+        "score": 10
+      }
+    ]
+  },
+  "culture-less-words": {
+    "id": "culture-less-words",
+    "category": "Words",
+    "prompt": "Name an English word ending in “less”.",
+    "note": "Use a single English dictionary word ending with the letters less. Standard inflected and derived words count only when the complete word still ends in less.",
+    "answers": [
+      {
+        "name": "Hopeless",
+        "score": 10
+      }
+    ]
+  },
+  "culture-double-e": {
+    "id": "culture-double-e",
+    "category": "Words",
+    "prompt": "Name an English word containing “ee”.",
+    "note": "Use a single English dictionary word containing adjacent letters ee. Proper names do not qualify; standard inflected and derived words count when they retain those adjacent letters.",
+    "answers": [
+      {
+        "name": "Tree",
+        "score": 10
+      }
+    ]
+  },
+  "culture-five-letter-animals": {
+    "id": "culture-five-letter-animals",
+    "category": "Words",
+    "prompt": "Name an animal whose English name has five letters.",
+    "note": "Use a single English common animal name with exactly five letters. Singular names only; species names and broader animal-group names both qualify.",
+    "answers": [
+      {
+        "name": "Tiger",
+        "score": 10
+      }
+    ]
+  }
+}

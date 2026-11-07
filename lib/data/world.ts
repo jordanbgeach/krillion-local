@@ -7,7 +7,7 @@ export const worldPrompts: Prompt[] = [
     id: "world-single-word-states",
     category: "Geography",
     prompt: "Name a U.S. state with a one-word name.",
-    note: "Use the full state name. The ten states whose names contain spaces are excluded.",
+    note: "Use the full name of a U.S. state written as one word. States whose full names contain spaces do not qualify.",
     answers: [
       {
         name: "California",
@@ -176,7 +176,7 @@ export const worldPrompts: Prompt[] = [
     id: "world-one-word-state-capitals",
     category: "Geography",
     prompt: "Name a U.S. state capital with a one-word name.",
-    note: "Use the usual English city name without the state. Capitals such as Salt Lake City and Santa Fe do not qualify.",
+    note: "Use the usual English city name as one word, without the state name. Multiword capitals such as Salt Lake City and Santa Fe do not qualify.",
     answers: [
       {
         name: "Austin",
@@ -348,7 +348,7 @@ export const worldPrompts: Prompt[] = [
     id: "world-african-countries",
     category: "Geography",
     prompt: "Name a UN member country in Africa.",
-    note: "A curated list of African sovereign countries, including island states. Not every valid country is included.",
+    note: "UN member countries in Africa qualify, including African island countries. Common English names and official country names are accepted; territories are excluded.",
     answers: [
       {
         name: "Egypt",
@@ -521,7 +521,7 @@ export const worldPrompts: Prompt[] = [
     id: "world-americas-countries",
     category: "Geography",
     prompt: "Name a UN member country in the Americas.",
-    note: "North America, Central America, South America and the Caribbean all count. Territories are excluded.",
+    note: "UN member countries in North America, Central America, South America, or the Caribbean qualify. Common English and official country names count; territories are excluded.",
     answers: [
       {
         name: "United States",
@@ -675,7 +675,7 @@ export const worldPrompts: Prompt[] = [
     id: "world-landlocked-countries",
     category: "Geography",
     prompt: "Name a landlocked UN member country.",
-    note: "Countries with no coastline on an ocean-connected sea count. A Caspian Sea shore does not make a country ocean-connected.",
+    note: "A UN member country with no coastline on an ocean-connected sea qualifies. A shore on the inland Caspian Sea does not make a country ocean-connected.",
     answers: [
       {
         name: "Switzerland",
@@ -861,7 +861,7 @@ export const worldPrompts: Prompt[] = [
     id: "world-european-capitals",
     category: "Geography",
     prompt: "Name a national capital city in Europe.",
-    note: "A curated list of national capitals wholly or partly in geographical Europe. Use the city, not its country.",
+    note: "Use the common or official name of a national capital city geographically in Europe. European capitals of transcontinental countries qualify; give the city rather than its country.",
     answers: [
       {
         name: "London",
@@ -1016,7 +1016,7 @@ export const worldPrompts: Prompt[] = [
     id: "world-asian-capitals",
     category: "Geography",
     prompt: "Name a national capital city in Asia.",
-    note: "A curated set of capital cities in geographical Asia. Some countries have more than one seat of government; listed aliases are accepted.",
+    note: "Use the common or official name of a city currently serving as a national capital in Asia. A country may have more than one capital or seat of government.",
     answers: [
       {
         name: "Tokyo",
@@ -1190,7 +1190,7 @@ export const worldPrompts: Prompt[] = [
     id: "world-us-national-parks",
     category: "Geography",
     prompt: "Name a U.S. national park.",
-    note: "A curated set of places formally designated National Park. The words National Park are optional; monuments and state parks are excluded.",
+    note: "A place formally designated a U.S. National Park qualifies, including parks in U.S. territories. The words National Park are optional; national monuments and state parks do not qualify.",
     answers: [
       {
         name: "Yellowstone",
@@ -1422,7 +1422,7 @@ export const worldPrompts: Prompt[] = [
     id: "world-dog-breeds",
     category: "Nature",
     prompt: "Name a recognized dog breed.",
-    note: "A curated set of breeds recognized by the American Kennel Club. Mixed-breed designer names are outside this bank.",
+    note: "Use a common or official name of a breed recognized by the American Kennel Club. Designer mixed breeds do not qualify.",
     answers: [
       {
         name: "Labrador Retriever",
@@ -1579,7 +1579,7 @@ export const worldPrompts: Prompt[] = [
     id: "world-cat-breeds",
     category: "Nature",
     prompt: "Name a pedigree cat breed.",
-    note: "A curated list of breeds recognized by major cat registries. Coat colors such as tabby and calico are not breeds.",
+    note: "Use a common or official name of a pedigree breed recognized by a major cat registry. Coat patterns or colors such as tabby and calico are not breeds.",
     answers: [
       {
         name: "Persian",
@@ -1729,7 +1729,7 @@ export const worldPrompts: Prompt[] = [
     id: "world-shark-species",
     category: "Nature",
     prompt: "Name a living species of shark.",
-    note: "Use a species common name, rather than a family such as hammerhead. This is a curated bank; extinct sharks are excluded.",
+    note: "Name a living shark species by its common or scientific name. Broad groups such as hammerhead, and extinct species, do not qualify.",
     answers: [
       {
         name: "Great White Shark",
@@ -1867,7 +1867,7 @@ export const worldPrompts: Prompt[] = [
     id: "world-snake-species",
     category: "Nature",
     prompt: "Name a living species of snake.",
-    note: "A curated list of species common names. Broad groups such as cobra or python alone do not count.",
+    note: "Name a living snake species by its common or scientific name. Broad groups such as cobra or python alone do not qualify.",
     answers: [
       {
         name: "King Cobra",
@@ -2008,7 +2008,7 @@ export const worldPrompts: Prompt[] = [
     id: "world-bird-species",
     category: "Nature",
     prompt: "Name a living species of bird.",
-    note: "A curated list of species common names. A broad group like eagle or penguin alone is not a species answer.",
+    note: "Name a living bird species by its common or scientific name. Broad groups such as eagle or penguin alone do not qualify.",
     answers: [
       {
         name: "Bald Eagle",
@@ -2166,7 +2166,7 @@ export const worldPrompts: Prompt[] = [
     id: "world-tree-species",
     category: "Nature",
     prompt: "Name a species of tree.",
-    note: "A curated bank of species with established English common names. Broad groups such as oak, pine or maple alone do not qualify.",
+    note: "Common or scientific names of tree species qualify. Broad groups such as oak, pine, or maple alone do not identify a species.",
     answers: [
       {
         name: "English Oak",
@@ -2326,7 +2326,7 @@ export const worldPrompts: Prompt[] = [
     id: "world-butterfly-species",
     category: "Nature",
     prompt: "Name a species of butterfly.",
-    note: "Use a species common name. This curated bank includes butterflies from several continents; moths and broad families are excluded.",
+    note: "Common or scientific names of butterfly species qualify. Moths and broad butterfly families do not qualify.",
     answers: [
       {
         name: "Monarch",
@@ -2448,7 +2448,7 @@ export const worldPrompts: Prompt[] = [
     id: "world-marsupial-species",
     category: "Nature",
     prompt: "Name a species of marsupial.",
-    note: "A curated bank of living marsupial species. Broad groups such as kangaroo or opossum alone are excluded.",
+    note: "Name a living marsupial species by its common or scientific name. Broad groups such as kangaroo or opossum alone, and extinct species, do not qualify.",
     answers: [
       {
         name: "Koala",
@@ -2566,7 +2566,7 @@ export const worldPrompts: Prompt[] = [
     id: "world-pasta-shapes",
     category: "Food",
     prompt: "Name an Italian pasta shape.",
-    note: "Dried, fresh and filled pasta shapes count. Sauces and complete dishes do not. This is a curated list, with common spelling variants accepted.",
+    note: "Named Italian pasta shapes qualify, including dried, fresh, and filled pasta. Common Italian or English shape names are accepted; sauces and complete dishes do not qualify.",
     answers: [
       {
         name: "Spaghetti",
@@ -2721,7 +2721,7 @@ export const worldPrompts: Prompt[] = [
     id: "world-cheeses",
     category: "Food",
     prompt: "Name a cheese variety.",
-    note: "A curated list of named cheese varieties. Both cow and non-cow milk cheeses count; generic categories like blue cheese are excluded.",
+    note: "Use the name of a cheese variety, made from cow milk or another milk. Generic categories such as blue cheese alone do not identify a variety.",
     answers: [
       {
         name: "Cheddar",
@@ -2882,7 +2882,7 @@ export const worldPrompts: Prompt[] = [
     id: "world-culinary-fruits",
     category: "Food",
     prompt: "Name a fruit commonly eaten as fruit.",
-    note: "Use a fruit type commonly served sweet or tart, fresh, cooked or dried. Botanical fruits usually treated as vegetables are excluded. This is a curated list.",
+    note: "Use a fruit type commonly served sweet or tart, whether fresh, cooked, or dried. Botanical fruits usually treated as vegetables, such as tomato, do not qualify.",
     answers: [
       {
         name: "Apple",
@@ -3049,7 +3049,7 @@ export const worldPrompts: Prompt[] = [
     id: "world-vegetables",
     category: "Food",
     prompt: "Name a culinary vegetable.",
-    note: "A curated list of plant foods generally used in savory vegetable dishes, including roots, leaves and botanical fruits. Herbs, grains and mushrooms are excluded.",
+    note: "Plant foods generally used as savory vegetables qualify, including roots, leaves, stems, and botanical fruits. Culinary herbs, grains, and mushrooms are excluded.",
     answers: [
       {
         name: "Carrot",
@@ -3223,7 +3223,7 @@ export const worldPrompts: Prompt[] = [
     id: "world-culinary-herbs",
     category: "Food",
     prompt: "Name a culinary herb used for its leaves.",
-    note: "Fresh or dried leafy seasonings used in food count. Seeds, bark, roots and medicinal-only uses are outside this curated bank.",
+    note: "Fresh or dried plant leaves used to season food qualify. Seeds, bark, roots, and plants used only medicinally do not qualify.",
     answers: [
       {
         name: "Basil",
@@ -3339,7 +3339,7 @@ export const worldPrompts: Prompt[] = [
     id: "world-culinary-spices",
     category: "Food",
     prompt: "Name a culinary spice.",
-    note: "A curated list of non-leafy plant seasonings, including seeds, fruit, bark, roots and flower parts. Blended seasonings such as garam masala are excluded.",
+    note: "A non-leafy plant seasoning qualifies, including seeds, fruit, bark, roots, flower parts, and resins. Spice blends such as garam masala do not qualify.",
     answers: [
       {
         name: "Cinnamon",
@@ -3485,7 +3485,7 @@ export const worldPrompts: Prompt[] = [
     id: "world-breads",
     category: "Food",
     prompt: "Name a traditional type of bread.",
-    note: "A curated bank of bread styles, including flatbreads and yeast breads. Named styles count; a filling or topping alone does not.",
+    note: "Named bread styles qualify, including flatbreads, loaves, and rolls. A filling or topping alone does not identify a type of bread.",
     answers: [
       {
         name: "Baguette",
@@ -3646,7 +3646,7 @@ export const worldPrompts: Prompt[] = [
     id: "world-edible-legumes",
     category: "Food",
     prompt: "Name an edible bean, pea or lentil.",
-    note: "A curated list of legumes eaten as seeds or seed pods. Common culinary types count, even when they are varieties of the same species. Nuts other than peanut are excluded.",
+    note: "Legumes eaten as seeds or seed pods qualify. Familiar culinary types count even when they are varieties of the same species; nuts other than peanut are excluded.",
     answers: [
       {
         name: "Chickpea",

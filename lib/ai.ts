@@ -1,3 +1,4 @@
+import { checkPromptConstraints } from "./engine.ts";
 import type { Answer, Prompt, Score } from "./types";
 
 export const LEARNED_BANK_KEY = "krillion-ai-bank-v1";
@@ -25,7 +26,21 @@ export type AIJudgment = {
   confidence: number;
   elapsedMs: number;
 };
-export type AIStatus = { enabled: boolean; model: string; version: 1 };
+export type AIStatus = {
+  enabled: boolean;
+  model: string;
+  version: 1;
+  configured?: boolean;
+};
+export type AIErrorCode =
+  | "rate_limited"
+  | "unavailable"
+  | "timeout"
+  | "network"
+  | "invalid_response"
+  | "invalid_input"
+  | "endpoint_missing"
+  | "access_denied";
 
 function object(value: unknown): Record<string, unknown> {
   if (!value || typeof value !== "object" || Array.isArray(value))
@@ -170,12 +185,24 @@ export function withLearnedAnswers(prompt: Prompt, bank: LearnedBank): Prompt {
       [answer.name, ...(answer.aliases ?? [])].map(normalize),
     ),
   );
-  const additions = learned.filter((answer) => {
-    const names = [answer.name, ...(answer.aliases ?? [])].map(normalize);
-    if (names.some((value) => seen.has(value))) return false;
-    names.forEach((value) => seen.add(value));
-    return true;
-  });
+  const additions = learned
+    .filter((answer) => !checkPromptConstraints(prompt, answer.name))
+    .map((answer) => ({
+      ...answer,
+      ...(answer.aliases
+        ? {
+            aliases: answer.aliases.filter(
+              (alias) => !checkPromptConstraints(prompt, alias),
+            ),
+          }
+        : {}),
+    }))
+    .filter((answer) => {
+      const names = [answer.name, ...(answer.aliases ?? [])].map(normalize);
+      if (names.some((value) => seen.has(value))) return false;
+      names.forEach((value) => seen.add(value));
+      return true;
+    });
   return additions.length
     ? { ...prompt, answers: [...prompt.answers, ...additions] }
     : prompt;
@@ -217,10 +244,61 @@ export function parseAIJudgment(value: unknown): AIJudgment {
 }
 
 export class AIUnavailableError extends Error {
-  constructor() {
-    super("The answer checking service is unavailable.");
+  readonly status: number | null;
+  readonly code: AIErrorCode;
+  readonly retryable: boolean;
+  readonly retryAfterMs: number;
+  constructor(
+    options: {
+      status?: number | null;
+      code?: AIErrorCode;
+      retryable?: boolean;
+      retryAfterMs?: number;
+    } = {},
+  ) {
+    super(
+      options.code === "rate_limited"
+        ? "AI check limit reached."
+        : "The answer checking service is unavailable.",
+    );
     this.name = "AIUnavailableError";
+    this.status = options.status ?? null;
+    this.code = options.code ?? "unavailable";
+    this.retryable = options.retryable ?? true;
+    this.retryAfterMs = Math.max(
+      0,
+      Math.min(300_000, options.retryAfterMs ?? 0),
+    );
   }
+}
+export class AIRateLimitError extends AIUnavailableError {
+  constructor(retryAfterMs = 60_000) {
+    super({ status: 429, code: "rate_limited", retryable: true, retryAfterMs });
+    this.name = "AIRateLimitError";
+  }
+}
+export function describeAIError(error: unknown): string {
+  if (!(error instanceof AIUnavailableError))
+    return "AI checking is unavailable. You can retry or use a known answer.";
+  if (error.code === "rate_limited")
+    return `AI check limit reached. Try again in ${Math.max(1, Math.ceil(error.retryAfterMs / 1000))} seconds.`;
+  if (error.code === "timeout")
+    return "The AI check took too long. Please retry; this is not an invalid-answer judgment.";
+  if (error.code === "invalid_input")
+    return "Enter an answer containing letters or numbers.";
+  if (error.code === "endpoint_missing")
+    return "AI checking is not set up at this address. Known answers still work locally.";
+  if (error.code === "access_denied")
+    return "The AI checking endpoint could not be accessed. Known answers still work locally.";
+  return "AI checking is temporarily unavailable. Please retry; this is not an invalid-answer judgment.";
+}
+function retryDelay(header: string | null, now: number): number {
+  if (!header) return 0;
+  const seconds = Number(header);
+  const delay = Number.isFinite(seconds)
+    ? seconds * 1000
+    : Date.parse(header) - now;
+  return Number.isFinite(delay) ? Math.max(0, Math.min(300_000, delay)) : 0;
 }
 export function aiEndpoint(
   location?: { hostname: string; origin: string },
@@ -262,11 +340,17 @@ export function createAIClient(
     now?: () => number;
   } = {},
 ) {
-  const checks = new Map<
-    string,
-    { promise: Promise<AIJudgment>; expiresAt: number }
-  >();
+  type Entry = {
+    promise: Promise<AIJudgment>;
+    expiresAt: number;
+    pending: boolean;
+    accepted: boolean;
+    rejected: boolean;
+    retryAt: number;
+  };
+  const checks = new Map<string, Entry>();
   const now = options.now ?? Date.now;
+  let rateLimitedUntil = 0;
   async function request(
     query: string,
     init?: RequestInit,
@@ -279,30 +363,68 @@ export function createAIClient(
         `${options.endpoint ?? aiEndpoint()}${query}`,
         { ...init, signal: controller.signal, credentials: "omit" },
       );
-      if (!response.ok) throw new AIUnavailableError();
-      return await response.json();
-    } catch {
-      throw new AIUnavailableError();
+      if (!response.ok) {
+        const delay = retryDelay(response.headers.get("Retry-After"), now());
+        if (response.status === 429)
+          throw new AIRateLimitError(delay || 60_000);
+        const code: AIErrorCode =
+          response.status === 404
+            ? "endpoint_missing"
+            : [401, 403].includes(response.status)
+              ? "access_denied"
+              : "unavailable";
+        throw new AIUnavailableError({
+          status: response.status,
+          code,
+          retryable: response.status >= 500 || response.status === 408,
+          retryAfterMs: delay,
+        });
+      }
+      try {
+        return await response.json();
+      } catch {
+        throw new AIUnavailableError({
+          status: response.status,
+          code: "invalid_response",
+        });
+      }
+    } catch (error) {
+      if (error instanceof AIUnavailableError) throw error;
+      throw new AIUnavailableError({
+        code: controller.signal.aborted ? "timeout" : "network",
+      });
     } finally {
       clearTimeout(timer);
     }
   }
   return {
     async status(): Promise<AIStatus> {
-      const data = object(await request("?action=status", undefined, 1200));
+      const data = object(await request("?action=status", undefined, 2500));
       if (
         typeof data.enabled !== "boolean" ||
         typeof data.model !== "string" ||
         data.model.length > 100 ||
-        data.version !== 1
+        data.version !== 1 ||
+        (data.configured !== undefined && typeof data.configured !== "boolean")
       )
-        throw new AIUnavailableError();
-      return { enabled: data.enabled, model: data.model, version: 1 };
+        throw new AIUnavailableError({ code: "invalid_response" });
+      return {
+        enabled: data.enabled,
+        model: data.model,
+        version: 1,
+        ...(typeof data.configured === "boolean"
+          ? { configured: data.configured }
+          : {}),
+      };
     },
     async bank(prompts: Prompt[]): Promise<LearnedBank> {
-      const selected = prompts
-        .filter((prompt) => !prompt.id.startsWith("custom-"))
-        .slice(0, 7);
+      const selected = [
+        ...new Map(
+          prompts
+            .filter((prompt) => !prompt.id.startsWith("custom-"))
+            .map((prompt) => [prompt.id, prompt]),
+        ).values(),
+      ].slice(0, 7);
       if (!selected.length) return {};
       const data = object(
         await request(
@@ -313,23 +435,72 @@ export function createAIClient(
       const result: LearnedBank = {};
       for (const prompt of selected) {
         const values = raw[prompt.id];
-        if (values === undefined) continue;
-        if (!Array.isArray(values) || values.length > 300)
-          throw new AIUnavailableError();
-        result[promptSemanticKey(prompt)] = values.map(validateLearnedAnswer);
+        if (!Array.isArray(values)) continue;
+        // The server may include its entire curated bank before learned additions.
+        // Do not discard a growing bank because that combined list exceeds 300.
+        const manual = new Set(
+          prompt.answers.flatMap((answer) =>
+            [answer.name, ...(answer.aliases ?? [])].map(normalize),
+          ),
+        );
+        const learned: Answer[] = [];
+        const seen = new Set<string>();
+        for (const value of values.slice(-10_000)) {
+          try {
+            const answer = validateLearnedAnswer(value);
+            if (checkPromptConstraints(prompt, answer.name)) continue;
+            if (answer.aliases)
+              answer.aliases = answer.aliases.filter(
+                (alias) => !checkPromptConstraints(prompt, alias),
+              );
+            const names = [answer.name, ...(answer.aliases ?? [])].map(
+              normalize,
+            );
+            if (names.some((name) => manual.has(name) || seen.has(name)))
+              continue;
+            names.forEach((name) => seen.add(name));
+            learned.push(answer);
+          } catch {
+            /* One malformed server entry cannot hide other valid discoveries. */
+          }
+        }
+        result[promptSemanticKey(prompt)] = learned.slice(-300);
       }
       return validateLearnedBank(exportLearnedBank(result));
     },
-    judge(prompt: Prompt, input: string): Promise<AIJudgment> {
+    judge(
+      prompt: Prompt,
+      input: string,
+      controls: { retry?: boolean } = {},
+    ): Promise<AIJudgment> {
       const answer = input.trim();
-      if (!answer || answer.length > 200)
-        return Promise.reject(new AIUnavailableError());
+      if (
+        !answer ||
+        answer.length > 200 ||
+        !normalize(answer) ||
+        /[\u0000-\u001f\u007f]/.test(answer)
+      )
+        return Promise.reject(
+          new AIUnavailableError({ code: "invalid_input", retryable: false }),
+        );
       const key = `${promptSemanticKey(prompt)}:${normalize(answer)}`;
       const prior = checks.get(key);
-      if (prior && prior.expiresAt > now()) return prior.promise;
+      if (prior?.pending || prior?.accepted) return prior.promise;
+      if (rateLimitedUntil > now())
+        return Promise.reject(new AIRateLimitError(rateLimitedUntil - now()));
+      if (
+        prior &&
+        (prior.retryAt > now() || (prior.expiresAt > now() && (!controls.retry || prior.rejected)))
+      )
+        return prior.promise;
+      // Expired failures and negative judgments never accumulate indefinitely.
+      for (const [cachedKey, entry] of checks)
+        if (!entry.pending && !entry.accepted && entry.expiresAt <= now())
+          checks.delete(cachedKey);
       const body = {
         promptId: prompt.id,
         answer,
+        ...(controls.retry ? { retry: true } : {}),
         ...(prompt.id.startsWith("custom-")
           ? {
               prompt: {
@@ -344,23 +515,47 @@ export function createAIClient(
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
-      }).then(parseAIJudgment);
-      const entry = { promise: pending, expiresAt: Infinity };
+      }).then((value) => {
+        try {
+          return parseAIJudgment(value);
+        } catch {
+          throw new AIUnavailableError({ code: "invalid_response" });
+        }
+      });
+      const entry: Entry = {
+        promise: pending,
+        expiresAt: Infinity,
+        pending: true,
+        accepted: false,
+        rejected: false,
+        retryAt: 0,
+      };
       checks.set(key, entry);
-      // Deduplicate speculative checks and submissions, while allowing recovery
-      // from a transient outage without asking the player to reload the game.
       void pending.then(
         (result) => {
-          entry.expiresAt =
-            result.status === "accepted"
-              ? Infinity
-              : now() + (result.status === "uncertain" ? 30_000 : 3_600_000);
+          entry.pending = false;
+          entry.accepted = result.status === "accepted";
+          entry.rejected = result.status === "rejected";
+          entry.expiresAt = entry.accepted
+            ? Infinity
+            : now() + (result.status === "uncertain" ? 3000 : 60_000);
         },
-        () => {
-          entry.expiresAt = now() + 8_000;
+        (error) => {
+          entry.pending = false;
+          entry.retryAt =
+            now() +
+            (error instanceof AIUnavailableError ? error.retryAfterMs : 0);
+          if (error instanceof AIRateLimitError)
+            rateLimitedUntil = entry.retryAt;
+          entry.expiresAt = Math.max(entry.retryAt, now() + 1000);
         },
       );
-      if (checks.size > 1000) checks.delete(checks.keys().next().value!);
+      // Keep in-flight submissions deduplicated even at the memory bound.
+      while (checks.size > 500) {
+        const settled = [...checks].find(([, candidate]) => !candidate.pending);
+        if (!settled) break;
+        checks.delete(settled[0]);
+      }
       return pending;
     },
   };

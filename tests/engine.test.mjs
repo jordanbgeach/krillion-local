@@ -1,8 +1,13 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { culturePrompts } from "../lib/data/culture.ts";
+import { worldPrompts } from "../lib/data/world.ts";
 import {
   normalizeAnswer,
   matchAnswer,
+  matchExactAnswer,
+  checkPromptConstraints,
+  suggestAnswerCorrections,
   seededShuffle,
   selectPrompts,
   validateCustomPrompts,
@@ -47,6 +52,21 @@ test("fuzzy matching accepts a unique small typo but rejects short or ambiguous 
   assert.equal(matchAnswer(ambiguous, "crame").answer, null);
   assert.equal(matchAnswer(ambiguous, "crame").suggestions.length, 2);
   assert.equal(matchAnswer(prompt, "").answer, null);
+});
+
+test("exact scoring does not silently replace a valid unlisted animal with a nearby known one", () => {
+  const animals = { ...prompt, answers: [{ name: "Mole", score: 30 }] };
+  // Vole is a real animal, and must reach independent validation with its own name.
+  assert.equal(matchExactAnswer(animals, "Vole"), null);
+  assert.equal(suggestAnswerCorrections(animals, "Vole")[0].name, "Mole");
+  assert.equal(matchExactAnswer(animals, "MOLE!")?.name, "Mole");
+  assert.equal(
+    matchExactAnswer(prompt, "Mexican walking fish")?.name,
+    "Axolotl",
+  );
+  assert.equal(matchExactAnswer(prompt, "axolot"), null);
+  assert.equal(suggestAnswerCorrections(prompt, "axolot")[0].name, "Axolotl");
+  assert.deepEqual(suggestAnswerCorrections(prompt, "Crab"), []);
 });
 
 test("shuffle is deterministic and does not mutate source; selection balances and avoids repeats", () => {
@@ -182,4 +202,98 @@ test("save import validates totals, types, and unsupported versions", () => {
 
 test("date key uses the supplied date local calendar components", () => {
   assert.equal(localDateKey(new Date(2026, 0, 2, 23, 50)), "2026-01-02");
+});
+
+test("literal word restrictions reject a real word that does not satisfy the prompt", () => {
+  assert.match(
+    checkPromptConstraints({ id: "culture-less-words" }, "carelessness"),
+    /end with/,
+  );
+  assert.equal(
+    checkPromptConstraints({ id: "culture-less-words" }, "colorless"),
+    null,
+  );
+  assert.equal(
+    checkPromptConstraints({ id: "culture-less-words" }, "Colourless!"),
+    null,
+  );
+  assert.equal(
+    checkPromptConstraints({ id: "culture-qu-words" }, "questioning"),
+    null,
+  );
+  assert.match(
+    checkPromptConstraints({ id: "culture-qu-words" }, "squeak"),
+    /begin with/,
+  );
+  assert.equal(
+    checkPromptConstraints({ id: "culture-double-e" }, "beekeeping"),
+    null,
+  );
+  assert.match(
+    checkPromptConstraints({ id: "culture-double-e" }, "e-elf"),
+    /adjacent/,
+  );
+  assert.match(
+    checkPromptConstraints({ id: "culture-qu-words" }, "q-uestion"),
+    /begin with/,
+  );
+  assert.equal(
+    checkPromptConstraints({ id: "culture-sciences" }, "marine biology"),
+    null,
+  );
+  assert.match(
+    checkPromptConstraints({ id: "culture-silent-initials" }, "honest person"),
+    /one word/,
+  );
+  assert.match(
+    checkPromptConstraints({ id: "culture-double-e" }, "carelessness"),
+    /adjacent/,
+  );
+  assert.match(
+    checkPromptConstraints({ id: "culture-double-o" }, "ocean"),
+    /adjacent/,
+  );
+  assert.match(
+    checkPromptConstraints({ id: "culture-ph-words" }, "photo frame"),
+    /one word/,
+  );
+  assert.match(
+    checkPromptConstraints({ id: "culture-palindromes" }, "palindrome"),
+    /forwards/,
+  );
+  assert.equal(
+    checkPromptConstraints({ id: "culture-palindromes" }, "Racecar!"),
+    null,
+  );
+  assert.match(
+    checkPromptConstraints({ id: "culture-five-letter-animals" }, "rabbit"),
+    /5 letters/,
+  );
+  assert.equal(
+    checkPromptConstraints({ id: "culture-five-letter-animals" }, "Civet"),
+    null,
+  );
+  assert.equal(
+    checkPromptConstraints({ id: "world-sharks" }, "Great white shark"),
+    null,
+  );
+});
+
+test("structural guards preserve every curated canonical answer and accepted alias", () => {
+  for (const prompt of [...culturePrompts, ...worldPrompts]) {
+    for (const answer of prompt.answers) {
+      for (const variant of [answer.name, ...(answer.aliases ?? [])]) {
+        assert.equal(
+          checkPromptConstraints(prompt, variant),
+          null,
+          `${prompt.id}: ${variant}`,
+        );
+        assert.equal(
+          matchExactAnswer(prompt, variant)?.name,
+          answer.name,
+          `${prompt.id}: exact alias ${variant}`,
+        );
+      }
+    }
+  }
 });

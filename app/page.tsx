@@ -25,9 +25,12 @@ import {
   X,
 } from "lucide-react";
 import { builtInPrompts } from "../lib/data";
+import { Ocean, DepthRuler, useDepthAnimation } from "../components/ocean";
 import {
   localDateKey,
-  matchAnswer,
+  matchExactAnswer,
+  suggestAnswerCorrections,
+  checkPromptConstraints,
   randomSeed,
   scoreColor,
   scoreLabel,
@@ -38,6 +41,7 @@ import {
 import { mergeCustomPrompts, validateSession } from "../lib/session";
 import {
   createAIClient,
+  describeAIError,
   exportLearnedBank,
   isLearnedAnswer,
   learnAnswer,
@@ -48,7 +52,13 @@ import {
 } from "../lib/ai";
 import type { AIStatus, LearnedBank } from "../lib/ai";
 import type { Session } from "../lib/session";
-import type { Category, DiveRecord, Prompt, RoundResult } from "../lib/types";
+import type {
+  Answer,
+  Category,
+  DiveRecord,
+  Prompt,
+  RoundResult,
+} from "../lib/types";
 
 const CATEGORIES: Category[] = [
   "Geography",
@@ -96,92 +106,6 @@ function Submarine({ small = false }: { small?: boolean }) {
       />
       <path fill="#f7d7a1" d="M126 43h15v13h-15z" />
     </svg>
-  );
-}
-
-function Ocean({ depth = 0 }: { depth?: number }) {
-  return (
-    <div
-      className={`ocean-scene ${depth > 2000 ? "deep" : ""} ${depth > 4500 ? "abyss" : ""}`}
-      aria-hidden="true"
-    >
-      <div className="sky">
-        <div className="cloud c1" />
-        <div className="cloud c2" />
-        <div className="sun" />
-      </div>
-      <div className="sea-surface" />
-      <div className="light-beam b1" />
-      <div className="light-beam b2" />
-      <div className="ocean-grid" />
-      {Array.from({ length: 14 }, (_, i) => (
-        <i
-          key={i}
-          className="bubble"
-          style={{
-            left: `${(i * 37 + 8) % 100}%`,
-            top: `${35 + ((i * 17) % 62)}%`,
-            animationDelay: `${i * -1.7}s`,
-            width: i % 3 === 0 ? 4 : 2,
-            height: i % 3 === 0 ? 4 : 2,
-          }}
-        />
-      ))}
-      <div className="fish-school f1">
-        <b />
-        <b />
-        <b />
-      </div>
-      <div className="fish-school f2">
-        <b />
-        <b />
-      </div>
-      <div className="jelly j1">
-        <span />
-        <i />
-        <i />
-        <i />
-      </div>
-      <svg
-        className="sea-floor"
-        viewBox="0 0 1400 200"
-        preserveAspectRatio="none"
-      >
-        <path
-          fill="#062b3a"
-          d="M0 200V140h30v-20h30v27h22v-35h13v40h20v-23h27v38h30v-14h20v22h180v-10h52v-21h34v18h34v-8h30v28h500v-22h39v10h55v-22h40v13h29v-40h30v-20h22v33h21v-20h30v50h35V97h30V65h24v30h15v52h17v-22h25v75z"
-        />
-        <path
-          fill="#04212e"
-          d="M0 200V166h49v15h79v-8h69v17h104v-12h186v10h98v-19h45v14h159v-13h59v16h136v-9h84v-15h71v15h56v-21h31v-32h17v-32h10v32h14v42h12v-25h11v-22h8v24h10v31h87v20z"
-        />
-      </svg>
-      <div className="scanlines" />
-    </div>
-  );
-}
-
-function DepthRuler({ depth }: { depth: number }) {
-  return (
-    <aside
-      className="depth-ruler"
-      aria-label={`Current depth ${depth.toLocaleString()} meters`}
-    >
-      <div className="depth-track">
-        <span
-          className="depth-marker"
-          style={{ top: `${Math.min(100, depth / 70)}%` }}
-        >
-          YOU <ArrowRight size={12} />
-        </span>
-        {[0, 1000, 2000, 3000, 4000, 5000, 6000, 7000].map((n) => (
-          <div className="ruler-tick" key={n} style={{ top: `${n / 70}%` }}>
-            <span>{n === 0 ? "SURFACE" : `${n / 1000}k m`}</span>
-          </div>
-        ))}
-      </div>
-      <span className="ruler-caption">THE TRENCH</span>
-    </aside>
   );
 }
 
@@ -234,8 +158,9 @@ function AnswerBank({
           </div>
           {!answers.length && <p className="muted">No matching answers.</p>}
           <p className="bank-foot">
-            Scores are curated or AI familiarity estimates, not live popularity
-            data.
+            This is the known-answer list, not a limit on what you can submit.
+            Other valid answers can be checked by Jev. Scores are familiarity
+            estimates.
           </p>
           {prompt.source && (
             <a
@@ -283,6 +208,8 @@ export default function Home() {
   const [learnedStorageBlocked, setLearnedStorageBlocked] = useState(false);
   const [aiStatus, setAIStatus] = useState<AIStatus | null>(null);
   const [aiWaiting, setAIWaiting] = useState(false);
+  const [corrections, setCorrections] = useState<Answer[]>([]);
+  const [canRetryAI, setCanRetryAI] = useState(false);
   const aiClientRef = useRef(createAIClient());
   const sessionRef = useRef(session);
   sessionRef.current = session;
@@ -293,7 +220,7 @@ export default function Home() {
     round: number;
   } | null>(null);
   // null deadline freezes only the short submitted-answer check. A rejected or
-  // unavailable judgment restores the exact unused time; background prechecks do not pause.
+  // unavailable judgment restores the exact unused time.
   const pausedClock = useRef<{ key: string; deadline: number | null } | null>(
     null,
   );
@@ -319,6 +246,9 @@ export default function Home() {
     : undefined;
   const totalScore = session?.results.reduce((s, r) => s + r.score, 0) ?? 0;
   const depth = totalScore * 10;
+  const descent = useDepthAnimation(depth, session?.id, ready, reducedMotion);
+  const isDescending = descent.moving;
+  const lastDrop = (session?.results.at(-1)?.score ?? 0) * 10;
   const best = Math.max(0, ...history.map((h) => h.score));
   const availableCount = allPrompts.filter((p) =>
     categories.includes(p.category),
@@ -492,32 +422,6 @@ export default function Home() {
     // Prefetch once per dive, independently of its clock and answer submissions.
   }, [session?.id, aiStatus?.enabled]);
   useEffect(() => {
-    if (
-      !aiStatus?.enabled ||
-      !session ||
-      session.stage !== "question" ||
-      !currentPrompt ||
-      aiWaiting ||
-      guess.trim().length < 3 ||
-      matchAnswer(currentPrompt, guess).answer
-    )
-      return;
-    const id = setTimeout(() => {
-      // A speculative result does not change UI or score. Submission reuses this
-      // promise, including an already completed judgment, without another request.
-      void aiClientRef.current.judge(currentPrompt, guess).catch(() => {});
-    }, 350);
-    return () => clearTimeout(id);
-  }, [
-    guess,
-    currentPrompt,
-    session?.id,
-    session?.round,
-    session?.stage,
-    aiStatus?.enabled,
-    aiWaiting,
-  ]);
-  useEffect(() => {
     if (!ready || storageBlocked) return;
     try {
       localStorage.setItem(
@@ -567,8 +471,8 @@ export default function Home() {
   useEffect(() => {
     if (view !== "dive" || modal) return;
     if (session?.stage === "question" && !aiWaiting) answerRef.current?.focus();
-    if (session?.stage === "reveal") nextRef.current?.focus();
-  }, [session?.round, session?.stage, view, modal, aiWaiting]);
+    if (session?.stage === "reveal" && !isDescending) nextRef.current?.focus();
+  }, [session?.round, session?.stage, view, modal, aiWaiting, isDescending]);
 
   const landAnswer = useCallback(
     (result: RoundResult, expected?: { sessionId: string; round: number }) => {
@@ -723,10 +627,12 @@ export default function Home() {
     setSeconds(nextTimer);
     setGuess("");
     setError("");
+    setCorrections([]);
+    setCanRetryAI(false);
     setView("dive");
     setModal(null);
   }
-  async function submitGuess(event: React.FormEvent) {
+  async function submitGuess(event: React.FormEvent, retry = false) {
     event.preventDefault();
     if (
       !currentPrompt ||
@@ -755,8 +661,15 @@ export default function Home() {
       setError("Name something first, or skip this prompt.");
       return;
     }
-    const match = matchAnswer(currentPrompt, input);
-    if (match.answer) {
+    const constraintError = checkPromptConstraints(currentPrompt, input);
+    if (constraintError) {
+      setError(constraintError);
+      setCorrections(suggestAnswerCorrections(currentPrompt, input));
+      setCanRetryAI(false);
+      return;
+    }
+    const exact = matchExactAnswer(currentPrompt, input);
+    if (exact) {
       const original = basePrompts.find(
         (prompt) => prompt.id === currentPrompt.id,
       )!;
@@ -764,24 +677,20 @@ export default function Home() {
         {
           promptId: currentPrompt.id,
           input,
-          answer: match.answer.name,
-          score: match.answer.score,
+          answer: exact.name,
+          score: exact.score,
           timedOut: false,
-          corrected: match.corrected,
-          ...(isLearnedAnswer(original, match.answer.name) ? { ai: true } : {}),
+          corrected: false,
+          ...(isLearnedAnswer(original, exact.name) ? { ai: true } : {}),
         },
         expected,
       );
       return;
     }
-    if (!aiStatus?.enabled) {
-      setError(
-        match.suggestions.length
-          ? "That spelling could mean more than one answer. Try a more exact name."
-          : "Not in this local answer bank. AI checking is offline; try a bank answer or skip this prompt.",
-      );
-      return;
-    }
+    // Availability badges are advisory. A stale status must never turn the
+    // local bank into a whitelist: every submitted unlisted answer reaches Jev.
+    setCorrections([]);
+    setCanRetryAI(false);
     const token = ++submissionSequence.current;
     pendingSubmission.current = { token, ...expected };
     const waitStarted = Date.now();
@@ -828,7 +737,14 @@ export default function Home() {
       answerRef.current?.focus();
     };
     try {
-      const result = await aiClientRef.current.judge(currentPrompt, input);
+      const result = await aiClientRef.current.judge(currentPrompt, input, {
+        retry,
+      });
+      setAIStatus({
+        enabled: true,
+        model: aiStatus?.model || "Jev",
+        version: 1,
+      });
       if (!stillCurrent()) return;
       if (result.status === "accepted" && result.answer) {
         const canonical = result.answer;
@@ -854,20 +770,31 @@ export default function Home() {
           expected,
         );
       } else {
+        setCorrections(suggestAnswerCorrections(currentPrompt, input));
+        setCanRetryAI(result.status === "uncertain");
         allowAnotherAnswer(
           result.status === "rejected"
             ? "Jev judged that answer outside this prompt’s scope. Try another answer. Your unused time is preserved."
             : "Jev couldn’t verify that answer confidently. It wasn’t marked wrong; try another answer. Your unused time is preserved.",
         );
       }
-    } catch {
+    } catch (failure) {
+      if (!stillCurrent()) return;
+      setCorrections(suggestAnswerCorrections(currentPrompt, input));
+      setCanRetryAI(true);
       allowAnotherAnswer(
-        "AI checking is unavailable. Your answer wasn’t marked wrong and your unused time is preserved. Try a bank answer or skip.",
+        `${describeAIError(failure)} Your unused time is preserved.`,
       );
     }
   }
   function nextRound() {
-    if (!session || session.stage !== "reveal") return;
+    if (
+      !session ||
+      session.stage !== "reveal" ||
+      isDescending ||
+      descent.depth < depth
+    )
+      return;
     cancelPendingCheck();
     if (session.round === 6) {
       const record: DiveRecord = {
@@ -895,6 +822,8 @@ export default function Home() {
     }
     setGuess("");
     setError("");
+    setCorrections([]);
+    setCanRetryAI(false);
   }
   function goTo(next: View) {
     if (session && session.stage !== "finished" && next !== "dive") {
@@ -1108,25 +1037,32 @@ export default function Home() {
 
       {view === "dive" && (
         <main
-          className={`dive-world ${session ? "in-session" : ""} ${session?.stage === "finished" ? "completed" : ""}`}
+          className={`dive-world ${session ? "in-session" : ""} ${session?.stage === "finished" ? "completed" : ""} ${descent.depth > 100 ? "submerged" : ""} ${isDescending ? "is-descending" : ""}`}
         >
-          <Ocean depth={depth} />
-          <DepthRuler depth={depth} />
+          <Ocean
+            depth={descent.depth}
+            moving={isDescending}
+            active={!!session}
+            vehicle={<Submarine />}
+          />
+          <DepthRuler depth={descent.depth} />
           <div className="hud">
             <div className="hud-box">
               <span>DEPTH</span>
               <strong>
-                {depth.toLocaleString()}
+                {descent.depth.toLocaleString()}
                 <em>m</em>
               </strong>
               <small>
-                {depth < 1000
+                {descent.depth < 200
                   ? "SUNLIGHT ZONE"
-                  : depth < 4000
-                    ? "MIDNIGHT ZONE"
-                    : depth < 6000
-                      ? "ABYSSAL ZONE"
-                      : "THE TRENCH"}
+                  : descent.depth < 1000
+                    ? "TWILIGHT ZONE"
+                    : descent.depth < 4000
+                      ? "MIDNIGHT ZONE"
+                      : descent.depth < 6000
+                        ? "ABYSSAL ZONE"
+                        : "THE TRENCH"}
               </small>
             </div>
             <div className="hud-center">
@@ -1160,9 +1096,11 @@ export default function Home() {
                     ))}
                   </div>
                   <span>
-                    {session.stage === "finished"
-                      ? "DIVE COMPLETE"
-                      : `PROMPT ${session.round + 1} OF 7`}
+                    {isDescending
+                      ? `DESCENDING · +${lastDrop.toLocaleString()}m`
+                      : session.stage === "finished"
+                        ? "DIVE COMPLETE"
+                        : `PROMPT ${session.round + 1} OF 7`}
                   </span>
                 </>
               ) : (
@@ -1451,6 +1389,8 @@ export default function Home() {
                     onChange={(e) => {
                       setGuess(e.target.value);
                       setError("");
+                      setCorrections([]);
+                      setCanRetryAI(false);
                     }}
                     placeholder="Something less obvious…"
                     aria-describedby={error ? "answer-error" : "answer-tip"}
@@ -1470,11 +1410,41 @@ export default function Home() {
                     </p>
                   ) : (
                     <p className="answer-tip" id="answer-tip">
-                      {aiStatus?.enabled
-                        ? "Unlisted answers can be checked by AI. "
-                        : "Local spelling help is on. "}
+                      Known answers are instant. Jev checks other submitted
+                      answers. Your spelling is never changed automatically.{" "}
                       Press <kbd>Enter ↵</kbd> to lock it in.
                     </p>
+                  )}
+                  {!aiWaiting && error && corrections.length > 0 && (
+                    <div className="answer-corrections">
+                      <span>Spelling suggestions — choose one to use:</span>
+                      <div>
+                        {corrections.map((answer) => (
+                          <button
+                            type="button"
+                            key={answer.name}
+                            onClick={() => {
+                              setGuess(answer.name);
+                              setError("");
+                              setCorrections([]);
+                              setCanRetryAI(false);
+                              answerRef.current?.focus();
+                            }}
+                          >
+                            {answer.name}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {!aiWaiting && error && canRetryAI && (
+                    <button
+                      type="button"
+                      className="ai-retry"
+                      onClick={(event) => void submitGuess(event, true)}
+                    >
+                      Retry AI check
+                    </button>
                   )}
                   <button
                     type="submit"
@@ -1564,11 +1534,21 @@ export default function Home() {
                   className="primary-button next-button"
                   ref={nextRef}
                   onClick={nextRound}
+                  disabled={isDescending || descent.depth < depth}
+                  aria-busy={isDescending}
                 >
-                  {session.round === 6 ? "SEE YOUR DIVE" : "KEEP DESCENDING"}{" "}
+                  {isDescending
+                    ? `DESCENDING · +${lastDrop.toLocaleString()}m`
+                    : session.round === 6
+                      ? "SEE YOUR DIVE"
+                      : "KEEP DESCENDING"}{" "}
                   <ArrowDown size={18} />
                 </button>
-                <p className="keyboard-hint">Press Enter to continue</p>
+                <p className="keyboard-hint" role="status">
+                  {isDescending
+                    ? "Hold tight. The ocean is moving past you."
+                    : "Press Enter to continue"}
+                </p>
               </section>
             )}
 

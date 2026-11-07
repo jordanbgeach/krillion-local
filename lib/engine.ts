@@ -42,6 +42,100 @@ function editDistance(a: string, b: string): number {
   return row[b.length];
 }
 
+/** Deterministic word-shape restrictions are checked before rarity or model judgment. */
+export function checkPromptConstraints(
+  prompt: Pick<Prompt, "id">,
+  input: string,
+): string | null {
+  const rules: Record<
+    string,
+    {
+      prefix?: string;
+      suffix?: string;
+      contains?: string;
+      palindrome?: boolean;
+      letters?: number;
+      allowPhrase?: boolean;
+    }
+  > = {
+    "culture-qu-words": { prefix: "qu" },
+    "culture-z-words": { prefix: "z" },
+    "culture-less-words": { suffix: "less" },
+    "culture-double-e": { contains: "ee" },
+    "culture-double-o": { contains: "oo" },
+    "culture-ph-words": { contains: "ph" },
+    "culture-palindromes": { palindrome: true },
+    "culture-five-letter-animals": { letters: 5 },
+    "culture-sciences": { suffix: "ology", allowPhrase: true },
+    "culture-silent-initials": {},
+  };
+  const rule = rules[prompt.id];
+  if (!rule) return null;
+  const trimmed = input.trim().replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu, "");
+  if (
+    !rule.allowPhrase &&
+    !/^[\p{L}\p{M}]+(?:[-’'][\p{L}\p{M}]+)*$/u.test(trimmed)
+  )
+    return "Use one word for this prompt.";
+  const value = normalizeAnswer(trimmed);
+  const literal = trimmed
+    .normalize("NFKD")
+    .replace(/\p{M}/gu, "")
+    .toLowerCase();
+  if (rule.prefix && !literal.startsWith(rule.prefix))
+    return `This answer must begin with “${rule.prefix}”.`;
+  if (rule.suffix && !literal.endsWith(rule.suffix))
+    return `This answer must end with “${rule.suffix}”.`;
+  if (rule.contains && !literal.includes(rule.contains))
+    return `This answer must contain the adjacent letters “${rule.contains}”.`;
+  if (rule.palindrome && value !== [...value].reverse().join(""))
+    return "This word must read the same forwards and backwards.";
+  if (rule.letters && [...value].length !== rule.letters)
+    return `This answer must have exactly ${rule.letters} letters.`;
+  return null;
+}
+
+/** Exact normalized names and aliases only. Never changes one valid word into another. */
+export function matchExactAnswer(prompt: Prompt, input: string): Answer | null {
+  const value = normalizeAnswer(input);
+  if (!value) return null;
+  const matches = prompt.answers.filter((answer) =>
+    [answer.name, ...(answer.aliases ?? [])].some(
+      (name) => normalizeAnswer(name) === value,
+    ),
+  );
+  return matches.length === 1 ? matches[0] : null;
+}
+
+/** Nearby spellings are suggestions for an explicit choice, not accepted answers. */
+export function suggestAnswerCorrections(
+  prompt: Prompt,
+  input: string,
+): Answer[] {
+  const value = normalizeAnswer(input);
+  if (value.length < 4 || value.length > 200 || matchExactAnswer(prompt, input))
+    return [];
+  const limit = value.length < 8 ? 1 : 2;
+  return prompt.answers
+    .map((answer) => ({
+      answer,
+      distance: Math.min(
+        ...[answer.name, ...(answer.aliases ?? [])]
+          .map(normalizeAnswer)
+          .filter((name) => Math.abs(name.length - value.length) <= limit)
+          .map((name) => editDistance(value, name)),
+        Infinity,
+      ),
+    }))
+    .filter((candidate) => candidate.distance <= limit)
+    .sort(
+      (a, b) =>
+        a.distance - b.distance || a.answer.name.localeCompare(b.answer.name),
+    )
+    .slice(0, 5)
+    .map((candidate) => candidate.answer);
+}
+
 export function matchAnswer(
   prompt: Prompt,
   input: string,

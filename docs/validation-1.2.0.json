@@ -1,0 +1,228 @@
+{
+  "verifiedAt": "2026-11-07T18:57:58.253006+00:00",
+  "url": "https://jordangeach.com/krillion/",
+  "version": "1.2.0",
+  "assets": [
+    {
+      "file": "assets/index-Ci7ae-LT.js",
+      "matches": true,
+      "sha256": "b00b4de516c6cc240db0ac12278dc7b0ed94434797baa0c6141f0c40833acf3f"
+    },
+    {
+      "file": "assets/index-DFFUi9VW.css",
+      "matches": true,
+      "sha256": "9be595de7b8cc786222b35ad180607038d11ceb3c2a945e25439e91edfc599df"
+    }
+  ],
+  "aiStatus": {
+    "enabled": true,
+    "model": "jev-1.14.0",
+    "version": 1
+  },
+  "liveChecks": [
+    {
+      "promptId": "world-african-countries",
+      "input": "Gambia",
+      "expected": "accepted",
+      "passed": true,
+      "wallMs": 173,
+      "response": {
+        "status": "accepted",
+        "answer": "Gambia",
+        "score": 60,
+        "source": "cache",
+        "confidence": 0.98,
+        "elapsedMs": 2
+      }
+    },
+    {
+      "promptId": "culture-less-words",
+      "input": "Powerless",
+      "expected": "accepted",
+      "passed": true,
+      "wallMs": 164,
+      "response": {
+        "status": "accepted",
+        "answer": "Powerless",
+        "score": 15,
+        "source": "cache",
+        "confidence": 0.99,
+        "elapsedMs": 2
+      }
+    },
+    {
+      "promptId": "culture-double-o",
+      "input": "bookshelves",
+      "expected": "accepted",
+      "passed": true,
+      "wallMs": 256,
+      "response": {
+        "status": "accepted",
+        "answer": "bookshelves",
+        "score": 30,
+        "source": "ai",
+        "confidence": 0.95,
+        "elapsedMs": 86
+      }
+    },
+    {
+      "promptId": "culture-double-e",
+      "input": "Needlessly",
+      "expected": "accepted",
+      "passed": true,
+      "wallMs": 247,
+      "response": {
+        "status": "accepted",
+        "answer": "Needlessly",
+        "score": 30,
+        "source": "ai",
+        "confidence": 0.92,
+        "elapsedMs": 71
+      }
+    },
+    {
+      "promptId": "culture-qu-words",
+      "input": "Quintessentially",
+      "expected": "accepted",
+      "passed": true,
+      "wallMs": 299,
+      "response": {
+        "status": "accepted",
+        "answer": "Quintessentially",
+        "score": 30,
+        "source": "ai",
+        "confidence": 0.98,
+        "elapsedMs": 115
+      }
+    },
+    {
+      "promptId": "culture-less-words",
+      "input": "carelessness",
+      "expected": "rejected",
+      "passed": true,
+      "wallMs": 215,
+      "response": {
+        "status": "rejected",
+        "answer": null,
+        "score": 0,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 3
+      }
+    },
+    {
+      "promptId": "culture-less-words",
+      "input": "Hopelessly",
+      "expected": "rejected",
+      "passed": true,
+      "wallMs": 183,
+      "response": {
+        "status": "rejected",
+        "answer": null,
+        "score": 0,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 3
+      }
+    },
+    {
+      "promptId": "culture-double-e",
+      "input": "Dear",
+      "expected": "rejected",
+      "passed": true,
+      "wallMs": 164,
+      "response": {
+        "status": "rejected",
+        "answer": null,
+        "score": 0,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 2
+      }
+    },
+    {
+      "promptId": "culture-qu-words",
+      "input": "Squirrel",
+      "expected": "rejected",
+      "passed": true,
+      "wallMs": 166,
+      "response": {
+        "status": "rejected",
+        "answer": null,
+        "score": 0,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 2
+      }
+    },
+    {
+      "promptId": "culture-five-letter-animals",
+      "input": "Tigers",
+      "expected": "rejected",
+      "passed": true,
+      "wallMs": 168,
+      "response": {
+        "status": "rejected",
+        "answer": null,
+        "score": 0,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 2
+      }
+    },
+    {
+      "promptId": "culture-five-letter-animals",
+      "input": "Whales",
+      "expected": "rejected",
+      "passed": true,
+      "wallMs": 170,
+      "response": {
+        "status": "rejected",
+        "answer": null,
+        "score": 0,
+        "source": "bank",
+        "confidence": 1,
+        "elapsedMs": 2
+      }
+    },
+    {
+      "promptId": "culture-double-o",
+      "input": "Zxqoozvplm",
+      "expected": "no-score",
+      "passed": true,
+      "wallMs": 257,
+      "response": {
+        "status": "rejected",
+        "answer": null,
+        "score": 0,
+        "source": "ai",
+        "confidence": 0.97,
+        "elapsedMs": 94
+      }
+    }
+  ],
+  "localUI": {
+    "fullDive": "Seven 100-point answers animated progressively from 0 to 7,000m",
+    "nextTimedPromptSeconds": 25,
+    "reducedMotion": "Snaps to depth without travel",
+    "phoneViewport": {
+      "width": 390,
+      "height": 844,
+      "horizontalOverflow": false
+    }
+  },
+  "automatedChecks": {
+    "nodeTests": 30,
+    "php72Assertions": 75,
+    "typecheck": "passed",
+    "builds": [
+      "local",
+      "Hostinger"
+    ]
+  },
+  "liveUI": [
+    "Gambia accepted unchanged for 60 points via Jev, animated 600m descent",
+    "carelessness rejected immediately for suffix-less prompt, no points",
+    "Powerless accepted unchanged for 15 points via Jev, animated 150m descent"
+  ]
+}

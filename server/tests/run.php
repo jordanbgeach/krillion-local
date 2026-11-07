@@ -109,6 +109,8 @@ try {
     check($exit1 === 0 && $exit2 === 0 && $error1 === '' && $error2 === '', 'Concurrent fixture workers succeed.');
     check((int) file_get_contents($root . '/calls.txt') === 1, 'Duplicate concurrent requests make exactly one upstream call.');
     check(json_decode($body1, true)['body']['status'] === 'accepted' && json_decode($body2, true)['body']['status'] === 'accepted', 'Both duplicate visitors receive accepted result.');
+    require __DIR__ . '/word-rules.php';
+    require __DIR__ . '/retry.php';
     echo 'PASS: ' . $tests . " backend assertions; no network or real credential used.\n";
 } finally {
     foreach ($roots as $root) remove_test($root);

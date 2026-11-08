@@ -4,7 +4,7 @@ An unofficial, independently built local recreation of [Krillion](https://krilli
 
 **Play online:** [jordangeach.com/krillion](https://jordangeach.com/krillion/).
 
-![Krillion live on jordangeach.com](docs/krillion-1.5.0-live.jpg)
+![Krillion live on jordangeach.com](docs/krillion-1.6.0-live.jpg)
 
 Players can run this recreation with no ads, account, or per-run limits. The bundled game works offline; optional Jev AI checking uses the website owner’s server-side TypeSafe key. Its artwork, interface, and curated question bank were built independently. It does not connect to the official game's servers or unlock paid content.
 
@@ -12,7 +12,7 @@ Source repository: [jordanbgeach/krillion-local](https://github.com/jordanbgeach
 
 108 bundled prompts • 7,507 curated canonical answers • 1,601 aliases • Unlimited runs
 
-**Version 1.5.0 is live.** A richer underwater scene, score reveals, rolling counters, and smaller interface transitions make each dive feel more alive. The catalog remains 108 prompts with exactly **30,000 dictionary forms**. See the [1.5.0 release notes](docs/release-notes-1.5.0.md) and [per-prompt coverage audit](docs/word-bank-coverage-1.4.0.json).
+**Version 1.6.0 is live.** A longer, synchronized descent gives the submarine a short charge, sustained acceleration, and a smooth arrival while the ocean rushes upward around it. The catalog remains 108 prompts with exactly **30,000 dictionary forms**; scoring and AI checking are unchanged. See the [1.6.0 release notes](docs/release-notes-1.6.0.md) and [per-prompt coverage audit](docs/word-bank-coverage-1.4.0.json).
 
 ## Run locally
 
@@ -56,11 +56,13 @@ The development address is [http://127.0.0.1:5173](http://127.0.0.1:5173). Devel
 
 The default timed format is seven prompts with 25 seconds each. Type one answer and submit it before time runs out. Exact curated names, aliases, and matching dictionary forms score immediately. Other submitted answers are checked against the prompt by Jev when the backend is available; they do not have to appear in the bundled list. The game never replaces your answer with a nearby spelling automatically. If it offers spelling suggestions, select one and submit it yourself.
 
-After an accepted answer, the ocean camera descends through layers of parallax, waves, shifting caustic light, fish, and deeper water. The submarine pitches under thrust and settles as the depth counter and ruler reach their destination. Soft sonar rings mark accepted answers; rare 85- and 100-point finds add a small gem constellation. Skipping a prompt adds no depth or celebration. **Keep descending** becomes available when the movement finishes, and the next prompt starts with its full timer.
+After an accepted answer, the submarine charges briefly, accelerates into a sustained descent, then brakes and settles at the new depth. The camera, depth counter, ruler, submarine pitch, and peripheral upward streaks follow the same timeline. A 100m descent takes about 1.85 seconds and a 1,000m descent takes 2.5 seconds. Larger parallax movement, passing landmarks and sea life, and continuously deepening water make the whole 7,000m journey visible. The submarine leans into its thrust while the central answer and controls stay stable; on phones it sits in a side gutter.
+
+Soft sonar rings mark accepted answers, pressure glows stay at the edges, and a ripple marks arrival. Rare 85- and 100-point finds add a small gem constellation. Skipping a prompt adds no depth or celebration. **Keep descending** becomes available when the movement finishes, receives keyboard focus when ready, and starts the next prompt with its full timer. Restoring a saved reveal shows its completed depth without replaying the descent.
 
 HUD, reveal, result, and logbook numbers roll into place, and a completed dive gets a soft underwater sparkle bloom. Prompts, page changes, buttons, dialogs, and toasts have smaller entrance and interaction transitions. Screen readers receive stable final counter values while visual digits animate.
 
-Use **Reduce background motion** in Settings, or your system’s reduced-motion preference, to snap depth and counters directly into place and suppress decorative waves and effects. Keyboard focus and controls remain available. After the reveal, inspect the answer bank to see what else you could have named.
+Use **Reduce background motion** in Settings, or your system’s reduced-motion preference, to snap depth and counters directly into place and suppress decorative waves and effects. Turning it on during a descent immediately finishes that movement. Keyboard focus and controls remain available. After the reveal, inspect the answer bank to see what else you could have named.
 
 | Score | Tier       |
 | ----: | ---------- |
@@ -162,6 +164,8 @@ Then rebuild with `npm run build:local`. Without an endpoint override, local pla
 
 ## Recorded verification
 
+Version 1.6.0 browser checks completed a perfect seven-round dive with 700 points and a final depth of 7,000m. The world reached its expected −14,000px offset, with the ocean floor visible at the end. A 100m `Alps` descent at a 390px phone width had no horizontal overflow, and all 24 peripheral tracks were present. The next prompt began with its full 25 seconds and the input focused. Enabling reduced motion during a descent snapped from 3,212m to the 4,200m target with no active effects or camera/craft animation. Reloading a saved 2,100m reveal focused **Keep descending** without replaying movement. The 49 Node tests include six new timeline checks. See the [descent validation record](docs/descent-validation-1.6.0.json). Type checking, all 49 Node tests, and both production builds passed. Published assets and dictionary data match the build. Live browser checks verified a 1,000m descent with all 24 foreground tracks, landing at 4,000m with Next focused and the rush effects removed. The local build also serves the matching updated assets.
+
 Version 1.5.0 browser checks completed a seven-round, 700-point dive to 7,000m. A 10-point `Koala` answer produced seven particles without rare-answer stars; a skipped answer produced no effects or depth change. Reduced motion snapped directly to 4,000m with no effect particles or wave animation. The next prompt retained its full 25 seconds with the answer input focused. A 390px phone layout had no horizontal overflow or focus jump, and logbook numbers retained their 27px display size. See the [animation validation record](docs/animation-validation-1.5.0.json). All 43 Node tests, type checking, and both production builds passed. Published assets and dictionary data match the build; live checks verified the moving submarine, sonar and eight-star rare reveal, landing at 2,000m, and full-bank search.
 
 Version 1.4.0 passed 43 Node tests, 120 PHP 7.2 assertions, type checking, and both production builds. Checks preserved the original 17,705 dictionary scores and 2,557 legacy curated name/score pairs. All 225 live server checks passed, including two curated answers from every one of the 108 prompts, dictionary variants, and spelling-rule failures. Published assets and data match the builds. Live browser checks verified immediate 30-point scoring of `backpedaling`, pagination from 80 to 160 rows, and full-bank search retaining `back-pedaling` at 60 points alongside `backpedaling` at 30. See the [deployment validation](docs/validation-1.4.0.json) and [browser checks](docs/validation-1.4.0-live-browser.json).
@@ -187,7 +191,7 @@ npm run audit:bank
 npm run build:local
 ```
 
-The standalone browser entry is `local-main.tsx`; the UI lives in `app/page.tsx` and `app/globals.css`. The ocean scene and depth-animation hook live in `components/ocean.tsx`. Reusable counters, reveal effects, completion effects, and the checking sonar live in `components/game-motion.tsx` and `components/game-motion.css`. Memoized ocean groups and answer banks avoid rebuilding large scene and list trees on every animation frame. Counter frames update only their own visual digit spans. Exact matching, structural rules, scoring, seeded selection, and import validation live in `lib/engine.ts`. The AI client and learned-bank validation live in `lib/ai.ts`. Saved rotation and compact replay codes live in `lib/rotation.ts`; dictionary matching lives in `lib/lexicon.ts`. Original question banks live in `lib/data/`.
+The standalone browser entry is `local-main.tsx`; the UI lives in `app/page.tsx` and `app/globals.css`. The ocean scene and depth-animation hook live in `components/ocean.tsx`; the synchronized descent timeline lives in `lib/descent.ts`. Reusable counters, reveal effects, completion effects, and the checking sonar live in `components/game-motion.tsx` and `components/game-motion.css`. Memoized ocean groups and answer banks avoid rebuilding large scene and list trees on every animation frame. Counter frames update only their own visual digit spans. Exact matching, structural rules, scoring, seeded selection, and import validation live in `lib/engine.ts`. The AI client and learned-bank validation live in `lib/ai.ts`. Saved rotation and compact replay codes live in `lib/rotation.ts`; dictionary matching lives in `lib/lexicon.ts`. Original question banks live in `lib/data/`.
 
 A [prebuilt local package](https://github.com/jordanbgeach/krillion-local/releases/latest) includes the browser game, Python server, and macOS launcher. Download and extract the whole package together; Python 3 is still needed, but Node.js is unnecessary to play the prebuilt copy. An optional GitHub Actions configuration lives in `.github/examples/check.yml`; move it to `.github/workflows/check.yml` if you enable workflow publishing on your GitHub credential.
 

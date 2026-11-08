@@ -1,0 +1,171 @@
+{
+  "version": "1.6.0",
+  "checkedOn": "2026-11-07",
+  "scope": "Dramatic depth transition, scene scale, lighting, foreground flow, and restored-reveal focus. No scoring, bank, or AI changes.",
+  "checks": {
+    "typecheck": "passed",
+    "nodeTests": {
+      "passed": 49,
+      "failed": 0,
+      "newDescentTimelineTests": 6
+    },
+    "productionBuilds": ["local", "Hostinger /krillion/"],
+    "timeline": {
+      "duration100mMs": 1850,
+      "duration1000mMs": 2500,
+      "phases": ["charge", "dive", "brake", "landed"],
+      "monotonicCameraAndForeground": true,
+      "endpointOvershoot": false,
+      "testedSamples": 10001
+    },
+    "sceneScale": {
+      "worldPixelsPerMetre": 2,
+      "previousWorldPixelsPerMetre": 0.62,
+      "farPixelsPerMetre": 0.9,
+      "nearPixelsPerMetre": 2.75,
+      "worldHeightPixelsAtTestViewport": 16180,
+      "worldTravelAt7000mPixels": 14000
+    },
+    "largeDescent": {
+      "answer": "Gogyohka",
+      "points": 100,
+      "startMetres": 1100,
+      "targetMetres": 2100,
+      "observedPhase": "brake",
+      "observedMetres": 1960,
+      "worldTransform": "translate3d(0px, -3920px, 0px)",
+      "speed": 0.9894255257773579,
+      "craftTransform": "matrix(0.877468, 0.479636, -0.479636, 0.877468, 11.8731, 27.7039)",
+      "cameraZoom": 1.03463,
+      "upwardTracks": 24,
+      "nextDisabled": true
+    },
+    "smallDescentMobile": {
+      "answer": "Alps",
+      "points": 10,
+      "startMetres": 2100,
+      "targetMetres": 2200,
+      "observedMetres": 2186,
+      "worldTransform": "translate3d(0px, -4372px, 0px)",
+      "upwardTracks": 24,
+      "viewport": "390x844",
+      "documentWidth": 390,
+      "scrollWidth": 390,
+      "scrollTop": 0,
+      "centralResultUnobscured": true
+    },
+    "timedNextPrompt": {
+      "seconds": 25,
+      "focusedElementId": "answer-input"
+    },
+    "reducedMotionDuringDescent": {
+      "before": {
+        "phase": "dive",
+        "depthMetres": 3212
+      },
+      "after": {
+        "phase": "landed",
+        "depthMetres": 4200,
+        "effectLayers": 0,
+        "cameraTransform": "none",
+        "craftTransform": "none"
+      },
+      "preferenceRestored": true
+    },
+    "restoredReveal": {
+      "depthMetres": 2100,
+      "phase": "landed",
+      "focusedControl": "primary-button next-button",
+      "descentReplayed": false
+    },
+    "perfectDive": {
+      "seed": "motion-v2",
+      "rounds": 7,
+      "pointsEach": 100,
+      "score": 700,
+      "depthMetres": 7000,
+      "worldTransform": "translate3d(0px, -14000px, 0px)",
+      "phase": "landed",
+      "trenchFloorViewportTop": 478,
+      "trenchGroundViewportTop": 678
+    },
+    "performance": {
+      "memoizedStaticScene": true,
+      "boundedForegroundTracks": 24,
+      "foregroundUsesSharedCameraProgress": true,
+      "additionalRafLoops": 0,
+      "centralInterfaceDoesNotMoveWithCamera": true
+    }
+  },
+  "deployment": {
+    "status": "verified",
+    "url": "https://jordangeach.com/krillion/",
+    "files": [
+      {
+        "file": "index.html",
+        "bytes": 730,
+        "sha256": "d0b546923aa6eb714abce76901fc0e66cd08be1e4b6059bcf021fbe534645062",
+        "matchesBuild": true
+      },
+      {
+        "file": "favicon.svg",
+        "bytes": 311,
+        "sha256": "5d394d9ed6df3e91c42a029f168464192ddbff0e0fb8cd10cfe0615f66b757f9",
+        "matchesBuild": true
+      },
+      {
+        "file": "assets/index-BWK2CEHw.js",
+        "bytes": 951873,
+        "sha256": "e72cdfdc4a64b9407445cfaf774bc5102c1c6a7d0315847706753d1d5440c4fb",
+        "matchesBuild": true
+      },
+      {
+        "file": "assets/index-8hR3vV14.css",
+        "bytes": 85988,
+        "sha256": "0b13f179e7a3deca2721ba1fb1bd5ebed9e2cffc57205e7aedce2d62f07e3547",
+        "matchesBuild": true
+      },
+      {
+        "file": "dictionary/words.json",
+        "bytes": 490158,
+        "sha256": "8347e1d322717de03777c339450379e206509d46059be2013dbf06ee3de76211",
+        "matchesBuild": true
+      },
+      {
+        "file": "dictionary/SCOWL-LICENSE.txt",
+        "bytes": 4863,
+        "sha256": "090575a131b4260926c7a6b30a90aca0f5db5fbb5c46778e0c5855227bf6ebc3",
+        "matchesBuild": true
+      },
+      {
+        "file": "prompt-bank.json",
+        "bytes": 326282,
+        "sha256": "06b865a29254a4dc785d66d0de84832fe58a47c7587a28d892b62aabb7b3f8b1",
+        "matchesBuild": true
+      }
+    ],
+    "browser": {
+      "answer": "Gogyohka",
+      "points": 100,
+      "targetMetres": 4000,
+      "duringDescentMetres": 3859,
+      "worldTransform": "translate3d(0px, -7718px, 0px)",
+      "phaseDuringCapture": "brake",
+      "speed": 0.9899980192216379,
+      "upwardTracks": 24,
+      "landingMetres": 4000,
+      "landingScore": 400,
+      "focusedControlOnLanding": "primary-button next-button",
+      "tracksAfterLanding": 0,
+      "restoredRevealWasFocused": true
+    },
+    "screenshot": "krillion-1.6.0-live.jpg"
+  },
+  "localPackage": {
+    "http4173MatchesBuild": true,
+    "browserVerifiedAssets": [
+      "assets/index-g2KLngCs.css",
+      "assets/index-BHaJuOgq.js"
+    ]
+  }
+}

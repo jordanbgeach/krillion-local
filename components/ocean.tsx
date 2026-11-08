@@ -2,8 +2,16 @@ import { memo, useEffect, useRef, useState } from "react";
 import type { CSSProperties, ReactNode } from "react";
 import { ArrowRight } from "lucide-react";
 import "./ocean-motion.css";
+import {
+  durationForDescent,
+  sampleDescent,
+  type DescentPhase,
+} from "../lib/descent";
+import { DescentEffects } from "./descent-effects";
 
-const METRE_SCALE = 0.62;
+const METRE_SCALE = 2;
+const FAR_SCALE = 0.9;
+const NEAR_SCALE = 2.75;
 const LANDMARKS = [
   [200, "THE TWILIGHT ZONE"],
   [700, "FOLLOW THE GLOW"],
@@ -16,36 +24,58 @@ const LANDMARKS = [
   [7000, "THE TRENCH · A PERFECT DIVE"],
 ] as const;
 
+type DepthFrame = {
+  depth: number;
+  target: number;
+  moving: boolean;
+  progress: number;
+  speed: number;
+  phase: DescentPhase;
+  duration: number;
+  distance: number;
+  eventKey: string;
+};
+
 export function useDepthAnimation(
   target: number,
   sessionId: string | undefined,
   ready: boolean,
   reduced: boolean,
 ) {
-  const [depth, setDepth] = useState(target);
-  const [moving, setMoving] = useState(false);
-  const [systemReduced, setSystemReduced] = useState(false);
+  const [frame, setFrame] = useState<DepthFrame>({
+    depth: target,
+    target,
+    moving: false,
+    progress: 1,
+    speed: 0,
+    phase: "landed",
+    duration: 0,
+    distance: 0,
+    eventKey: "initial",
+  });
   const displayed = useRef(target);
   const lastSession = useRef<string | undefined>(undefined);
   useEffect(() => {
-    const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const update = () => setSystemReduced(preference.matches);
-    update();
-    preference.addEventListener("change", update);
-    return () => preference.removeEventListener("change", update);
-  }, []);
-  useEffect(() => {
-    let frame = 0;
+    let animationFrame = 0;
+    const eventKey = `${sessionId ?? "surface"}:${target}`;
     const snap = () => {
       displayed.current = target;
-      setDepth(target);
-      setMoving(false);
+      setFrame({
+        depth: target,
+        target,
+        moving: false,
+        progress: 1,
+        speed: 0,
+        phase: "landed",
+        duration: 0,
+        distance: 0,
+        eventKey,
+      });
     };
     if (
       !ready ||
       lastSession.current !== sessionId ||
       reduced ||
-      systemReduced ||
       target <= displayed.current
     ) {
       lastSession.current = sessionId;
@@ -54,29 +84,47 @@ export function useDepthAnimation(
     }
     const from = displayed.current;
     const distance = target - from;
-    const duration = Math.min(1750, 1050 + distance * 0.45);
+    const duration = durationForDescent(distance);
+    const base = { target, distance, duration, eventKey };
     let start: number | null = null;
-    setMoving(true);
+    setFrame({ ...base, depth: from, moving: true, ...sampleDescent(0) });
     const tick = (time: number) => {
       if (start === null) start = time;
-      const progress = Math.min(1, (time - start) / duration);
-      const eased =
-        progress < 0.5
-          ? 4 * progress * progress * progress
-          : 1 - Math.pow(-2 * progress + 2, 3) / 2;
-      displayed.current = from + distance * eased;
-      setDepth(Math.round(displayed.current));
-      if (progress < 1) frame = requestAnimationFrame(tick);
-      else snap();
+      const elapsed = Math.min(1, (time - start) / duration);
+      const sample = sampleDescent(elapsed);
+      displayed.current = from + distance * sample.progress;
+      setFrame({
+        ...base,
+        depth: Math.round(displayed.current),
+        moving: elapsed < 1,
+        ...sample,
+      });
+      if (elapsed < 1) animationFrame = requestAnimationFrame(tick);
     };
-    frame = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frame);
-  }, [target, sessionId, ready, reduced, systemReduced]);
-  return {
-    depth,
-    moving:
-      moving || (ready && lastSession.current === sessionId && depth < target),
-  };
+    animationFrame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(animationFrame);
+  }, [target, sessionId, ready, reduced]);
+
+  // The answer reveal and the first animation frame must agree immediately.
+  // Restored sessions snap to their saved depth rather than replaying a dive.
+  if (
+    ready &&
+    !reduced &&
+    lastSession.current === sessionId &&
+    target > frame.target
+  ) {
+    const distance = target - displayed.current;
+    return {
+      ...frame,
+      target,
+      moving: true,
+      ...sampleDescent(0),
+      distance,
+      duration: durationForDescent(distance),
+      eventKey: `${sessionId}:${target}`,
+    };
+  }
+  return frame;
 }
 
 function Reef({ trench = false }: { trench?: boolean }) {
@@ -161,7 +209,7 @@ const WorldScenery = memo(function WorldScenery({
           key={`school-${index}`}
           className={`ocean-fish motion-school ${index % 2 ? "reverse" : ""}`}
           style={{
-            top: `calc(var(--surface) + ${180 + index * (reduced ? 1000 : 285)}px)`,
+            top: `calc(var(--surface) + ${(100 + index * (reduced ? 1900 : 450)) * METRE_SCALE}px)`,
             left: `${index % 2 ? 75 + (index % 11) : 4 + (index % 12)}%`,
             animationDelay: `${index * -2.7}s`,
             animationDuration: `${16 + (index % 7)}s`,
@@ -177,7 +225,7 @@ const WorldScenery = memo(function WorldScenery({
           key={`jelly-${index}`}
           className="deep-jelly motion-jelly"
           style={{
-            top: `calc(var(--surface) + ${520 + index * 810}px)`,
+            top: `calc(var(--surface) + ${(600 + index * 1450) * METRE_SCALE}px)`,
             left: `${index % 2 ? 10 : 85}%`,
             animationDelay: `${index * -2.4}s`,
           }}
@@ -189,12 +237,12 @@ const WorldScenery = memo(function WorldScenery({
         </div>
       ))}
       {!reduced &&
-        Array.from({ length: 12 }, (_, index) => (
+        Array.from({ length: 28 }, (_, index) => (
           <i
             key={`glow-${index}`}
             className="ocean-glow motion-plankton"
             style={{
-              top: `calc(var(--surface) + ${980 + index * 285}px)`,
+              top: `calc(var(--surface) + ${(180 + index * 255) * METRE_SCALE}px)`,
               left: `${5 + ((index * 37) % 90)}%`,
               animationDelay: `${index * -1.3}s`,
             }}
@@ -281,7 +329,7 @@ const FarWater = memo(function FarWater({ reduced }: { reduced: boolean }) {
         <div
           className={`ocean-current current-${index % 2}`}
           key={top}
-          style={{ top, animationDelay: `${index * -3.1}s` }}
+          style={{ top: top * 1.65, animationDelay: `${index * -3.1}s` }}
         />
       ))}
       {(
@@ -296,7 +344,7 @@ const FarWater = memo(function FarWater({ reduced }: { reduced: boolean }) {
           className={`sea-silhouette silhouette-${kind}`}
           key={kind}
           style={{
-            top,
+            top: top * 1.65,
             left,
             animationDuration: duration,
             animationDelay: delay,
@@ -316,13 +364,13 @@ const SuspendedParticles = memo(function SuspendedParticles({
 }) {
   return (
     <>
-      {Array.from({ length: reduced ? 16 : 52 }, (_, index) => (
+      {Array.from({ length: reduced ? 16 : 96 }, (_, index) => (
         <i
           key={`speck-${index}`}
           className="ocean-speck motion-speck"
           style={{
             left: `${(index * 37 + 8) % 100}%`,
-            top: `${230 + ((index * 137) % 6500)}px`,
+            top: `${230 + ((index * 239) % 20300)}px`,
             width: index % 5 === 0 ? 3 : 2,
             height: index % 5 === 0 ? 3 : 2,
             animationDelay: `${index * -0.7}s`,
@@ -336,7 +384,7 @@ const SuspendedParticles = memo(function SuspendedParticles({
             className="water-bubble"
             style={{
               left: `${(index * 43 + 7) % 100}%`,
-              top: `${360 + index * 610}px`,
+              top: `${360 + index * 1950}px`,
               animationDelay: `${index * -1.4}s`,
               width: index % 3 === 0 ? 7 : 4,
               height: index % 3 === 0 ? 7 : 4,
@@ -350,32 +398,20 @@ const SuspendedParticles = memo(function SuspendedParticles({
 const NearReef = memo(function NearReef() {
   return <Reef />;
 });
-const SpeedStreaks = memo(function SpeedStreaks() {
-  return (
-    <div className="descent-streaks motion-streaks">
-      {[5, 14, 25, 75, 86, 95].map((left, index) => (
-        <i
-          key={left}
-          style={{ left: `${left}%`, animationDelay: `${index * -0.13}s` }}
-        />
-      ))}
-    </div>
-  );
-});
 
 export function Ocean({
-  depth,
-  moving,
+  descent,
   active,
   vehicle,
   reducedMotion = false,
 }: {
-  depth: number;
-  moving: boolean;
+  descent: DepthFrame;
   active: boolean;
   vehicle: ReactNode;
   reducedMotion?: boolean;
 }) {
+  const { depth, moving, progress, speed, duration, eventKey, phase } = descent;
+  const visualSpeed = reducedMotion ? 0 : speed;
   const [settling, setSettling] = useState(false);
   const wasMoving = useRef(false);
   useEffect(() => {
@@ -392,31 +428,46 @@ export function Ocean({
     <div
       className={`ocean-scene depth-scene motion-ocean ${depth > 500 ? "deep" : ""} ${depth > 4000 ? "abyss" : ""} ${moving ? "travelling" : ""} ${reducedMotion ? "motion-reduced" : ""}`}
       aria-hidden="true"
+      data-descent-phase={phase}
+      style={
+        {
+          "--dive-speed": visualSpeed,
+          "--dive-pitch": `${-3 + visualSpeed * 32}deg`,
+          "--dive-sink": `${visualSpeed * 28}px`,
+          "--dive-zoom": 1 + visualSpeed * 0.035,
+          "--depth-darkness": Math.min(0.28, depth / 26000),
+          "--depth-light": Math.max(0, 1 - depth / 5500),
+        } as MotionStyle
+      }
     >
-      <div
-        className="ocean-world"
-        style={{ transform: `translate3d(0, ${-depth * METRE_SCALE}px, 0)` }}
-      >
-        <WorldScenery reduced={reducedMotion} />
+      <div className="ocean-camera">
+        <div
+          className="ocean-world"
+          style={{ transform: `translate3d(0, ${-depth * METRE_SCALE}px, 0)` }}
+        >
+          <WorldScenery reduced={reducedMotion} />
+        </div>
+        <div
+          className="ocean-far-water"
+          style={{ transform: `translate3d(0, ${-depth * FAR_SCALE}px, 0)` }}
+        >
+          <FarWater reduced={reducedMotion} />
+        </div>
+        <div
+          className="ocean-particles"
+          style={{ transform: `translate3d(0, ${-depth * NEAR_SCALE}px, 0)` }}
+        >
+          <SuspendedParticles reduced={reducedMotion} />
+        </div>
+        <div
+          className="reef-parallax"
+          style={{ transform: `translate3d(0, ${-depth * 2.4}px, 0)` }}
+        >
+          <NearReef />
+        </div>
       </div>
-      <div
-        className="ocean-far-water"
-        style={{ transform: `translate3d(0, ${-depth * 0.46}px, 0)` }}
-      >
-        <FarWater reduced={reducedMotion} />
-      </div>
-      <div
-        className="ocean-particles"
-        style={{ transform: `translate3d(0, ${-depth * 0.85}px, 0)` }}
-      >
-        <SuspendedParticles reduced={reducedMotion} />
-      </div>
-      <div
-        className="reef-parallax"
-        style={{ transform: `translate3d(0, ${-depth * 0.9}px, 0)` }}
-      >
-        <NearReef />
-      </div>
+      <div className="depth-water-tone" />
+      <div className="depth-light-falloff" />
       {active && (
         <div
           className={`descent-craft motion-craft ${moving ? "diving" : ""} ${settling ? "settling" : ""}`}
@@ -466,7 +517,14 @@ export function Ocean({
           </div>
         </div>
       )}
-      {!reducedMotion && <SpeedStreaks />}
+      <DescentEffects
+        active={active && moving}
+        reducedMotion={reducedMotion}
+        intensity={visualSpeed}
+        progress={progress}
+        duration={duration}
+        eventKey={eventKey}
+      />
       <div className="ocean-edge-shade" />
       <div className="scanlines" />
     </div>

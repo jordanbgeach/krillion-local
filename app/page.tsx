@@ -330,6 +330,7 @@ export default function Home() {
     prefersReducedMotion,
   );
   const isDescending = descent.moving;
+  const descentComplete = !isDescending && descent.depth >= depth;
   const lastDrop = (session?.results.at(-1)?.score ?? 0) * 10;
   const best = Math.max(0, ...history.map((h) => h.score));
   const availableCount = allPrompts.filter((p) =>
@@ -576,9 +577,9 @@ export default function Home() {
   useEffect(() => {
     if (view !== "dive" || modal) return;
     if (session?.stage === "question" && !aiWaiting) answerRef.current?.focus();
-    if (session?.stage === "reveal" && !isDescending)
+    if (session?.stage === "reveal" && descentComplete)
       nextRef.current?.focus({ preventScroll: true });
-  }, [session?.round, session?.stage, view, modal, aiWaiting, isDescending]);
+  }, [session?.round, session?.stage, view, modal, aiWaiting, descentComplete]);
 
   const landAnswer = useCallback(
     (result: RoundResult, expected?: { sessionId: string; round: number }) => {
@@ -1189,8 +1190,7 @@ export default function Home() {
           className={`dive-world ${session ? "in-session" : ""} ${session?.stage === "finished" ? "completed" : ""} ${descent.depth > 100 ? "submerged" : ""} ${isDescending ? "is-descending" : ""}`}
         >
           <Ocean
-            depth={descent.depth}
-            moving={isDescending}
+            descent={descent}
             active={!!session}
             vehicle={<Submarine />}
             reducedMotion={prefersReducedMotion}
@@ -1726,7 +1726,7 @@ export default function Home() {
                   className="primary-button next-button"
                   ref={nextRef}
                   onClick={nextRound}
-                  disabled={isDescending || descent.depth < depth}
+                  disabled={!descentComplete}
                   aria-busy={isDescending}
                 >
                   {isDescending
